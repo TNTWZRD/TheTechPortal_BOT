@@ -7,7 +7,8 @@ const fs = require('fs');
 // Get all commands from ./Commands/
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
-const { prefix, token } = require('./config.json');
+const { PERMISSIONS, prefix, token } = require('./config.json');
+Bot.PERMS = PERMISSIONS;                // << Permissions Visible Anywhere
 const LOGSystem = require('LOGSystem'); // << Custom Log Module
 const Utilities = require('Utilities'); // << Custom Utilities Module
 const pFilter = require('banbuilder');  // << Custom Profanity FIlter Module
@@ -38,6 +39,8 @@ function parseMessage(msg) {
             })
             .catch(err => { if(err) LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'censorString'); });
         
+
+        // Handle each command seperately
         commandsArray.forEach(commandsArrayObj => {
             // Get CMD Args
             const args = Utilities.getArgs(commandsArrayObj);
@@ -61,7 +64,7 @@ function parseMessage(msg) {
 
             const now = Date.now();
             const timestamps = cooldowns.get(commandOBJ.name);
-            const cooldownAmount = (commandOBJ.cooldown || 1) * 1000;
+            const cooldownAmount = (commandOBJ.cooldown || 0) * 1000;
             
             if(timestamps.has(msg.author.id)){
                 const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
@@ -85,6 +88,7 @@ function parseMessage(msg) {
                     return reject("No Arguments Provided");
             }}
 
+            // Check if command is guild only and message was sent from DM
             if(commandOBJ.guildOnly && msg.channel.type !== 'text'){
                 msg.reply('I can\'t execute that command inside of DMs!');
                 return reject('Tried to run inside of a DM.');
