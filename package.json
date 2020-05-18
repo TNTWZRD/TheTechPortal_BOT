@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/TNTWZRD/TheTechPortal_BOT#readme",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "LOGSystem": "file:CustomModules/LOGSystem",
+    "discord.js": "^12.2.0",
+    "eslint": "^7.0.0"
   }
 }
