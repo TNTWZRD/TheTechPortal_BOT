@@ -41,8 +41,10 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO) => {
         LOGCONTENTS += "[" + getDate() + "]:: ";
         LOGCONTENTS += CONTENTS;
 
+        if(LOGCONTENTS) console.log(LOGCONTENTS);
+
         if(!LOGCONTENTS) reject("No Log Contents");
-        else resolve(LOGCONTENTS);
+        else resolve();
     });
 };
 
