@@ -5,7 +5,7 @@ module.exports = {
 	description: 'List all of my commands or info about a specific command',
 	aliases: ['commands'],
 	usage: '<COMMAND>',
-	cooldown: 5,
+	cooldown: 0,
 	execute(Bot, msg, args) {
         return new Promise((resolve, reject) => {
             const data = [];

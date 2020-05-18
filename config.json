@@ -1,4 +1,11 @@
 {
     "prefix":"!",
-    "token":"NzA5NDExNzAwNzM0MTY1MDcy.XrtvCw.puyBwx6IVTmql3fqOOx9uWMM4ZY"
+    "token":"NzA5NDExNzAwNzM0MTY1MDcy.XrtvCw.puyBwx6IVTmql3fqOOx9uWMM4ZY",
+    "PERMISSIONS":{
+		"EVERYONE": 0,
+		"GENERAL_USER": 1,
+		"MODERATOR": 2,
+		"ADMIN": 4,
+		"OWNER": 8
+    }
 }
