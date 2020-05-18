@@ -1,7 +1,11 @@
 {
     "cSpell.ignoreWords": [
+        "banbuilder",
         "cmds",
         "dayn",
         "logcontents"
+    ],
+    "cSpell.words": [
+        "cooldowns"
     ]
 }
