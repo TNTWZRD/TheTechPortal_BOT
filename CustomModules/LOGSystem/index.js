@@ -13,31 +13,34 @@ exports.LEVEL = {
 };
 
 
-exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO) => {
+exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
     return new Promise((resolve, reject) => {
         var LOGCONTENTS = "";
 
         switch(LVL) {
             case this.LEVEL.INFO:
-                LOGCONTENTS += "[INFO]";
+                LOGCONTENTS += "[INFO-----]";
             break;
             case this.LEVEL.WARNING:
-                LOGCONTENTS += "[WARNING]";
+                LOGCONTENTS += "[WARNING--]";
             break;
             case this.LEVEL.ERROR:
-                LOGCONTENTS += "[ERROR]";
+                LOGCONTENTS += "[ERROR----]";
             break;
             case this.LEVEL.PROFANITY:
                 LOGCONTENTS += "[PROFANITY]";
             break;
             case this.LEVEL.MUSIC:
-                LOGCONTENTS += "[MUSIC]";
+                LOGCONTENTS += "[MUSIC----]";
             break;
             default:
-                LOGCONTENTS += "[NULL]";
+                LOGCONTENTS += "[NULL-----]";
             break;
         }
-
+        var v = funcName.split(''); 
+        for(i = 0; i < 20; i++) if(!v[i])v[i] = '-'; 
+        funcName = v.join('');
+        if(funcName) LOGCONTENTS += `[${funcName}]`;
         LOGCONTENTS += "[" + getDate() + "]:: ";
         LOGCONTENTS += CONTENTS;
 
