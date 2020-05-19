@@ -17,15 +17,15 @@ module.exports = {
                 msg.channel.send(`**${msg.author.username}**, Please mention the person who you want to kick`)
                 return reject("No Mention"); }
             
-            if(!(Utilities.hasPermission(Bot, msg.author.id, "MODERATOR"))) { 
+            if(!(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))) { 
                 msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`)
                 return reject("Insufficient Permissions") }
 
-            if(!msg.guild.me.hasPermission("KICK_MEMBERS")) { 
+            if(!msg.guild.me.hasPermissions("KICK_MEMBERS")) { 
                 msg.channel.send(`**${msg.author.username}**, I do not have enough permission to use this command`)
                 return reject("No Mention") }
 
-            if(Utilities.hasPermission(Bot, target.id, "MODERATOR")){ 
+            if(Utilities.hasPermissions(Bot, target.id, "MODERATOR")){ 
                 msg.channel.send(`**${msg.author.username}**, CANNOT KICK AN OPERATOR`)
                 return reject("Cant Kick Operator") }
 

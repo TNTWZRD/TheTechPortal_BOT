@@ -81,5 +81,5 @@ function play(Bot, guild, song){
         .on("error", error => console.error(error));
     dispatcher.setVolumeLogarithmic(Bot.MusicQueue.get(guild.id).volume / 5);
     Bot.MusicQueue.get(guild.id).textChannel.send(`Start playing: **${song.title}**`);
-    LOGSystem.LOG(JSON.stringify(Bot.MusicQueue.get(guild.id).songs), LOGSystem.LEVEL.MUSIC)
+    LOGSystem.LOG(JSON.stringify(Bot.MusicQueue.get(guild.id).songs), LOGSystem.LEVEL.MUSIC, 'PLAY')
 }

@@ -11,7 +11,7 @@ module.exports = {
                 delete require.cache[require.resolve(`./${obj.name}.js`)];
             });
             for (const file of commandFiles) {
-                const command = require(`../commands/${file}`);
+                const command = require(`../Commands/${file}`);
                 // Add command to collection as name:command()
                 msg.client.commands.set(command.name, command);
             }
