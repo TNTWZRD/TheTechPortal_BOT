@@ -1,4 +1,5 @@
 {
+	"ServerName": "AverageNewbs",
 	"SETTINGS": {
 		"WarningsBeforeKick": 3,
 		"WarningsBeforeBan": 6,
@@ -10,12 +11,6 @@
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 50,
-			"Warnings": 0
-		},
-		"323311467984322570": {
-			"Username": "Kingx2000#8383",
-			"PermissionsLevel": 0,
 			"EXP": 1,
 			"Warnings": 0
 		}

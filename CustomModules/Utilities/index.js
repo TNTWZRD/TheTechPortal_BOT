@@ -50,8 +50,10 @@ exports.addUsers = (Bot, msg) => {
     });
 };
 
-exports.getServerData = (guildId) => {
-    var loc = ServerDirectory+guildId+"_server.json"
+var base = 36;
+
+exports.getServerData = (guild) => {
+    var loc = ServerDirectory+guild.id+"_server.json"
     var toReturn = null;
     if(fs.existsSync(loc)){
         toReturn = fs.readFileSync(loc, 'utf8', function(err, contents){
@@ -63,8 +65,8 @@ exports.getServerData = (guildId) => {
             }
         });
     }else{
-        this.SetServerData(guildId, { "SETTINGS": config.BasicSettings, "USERS": {} } );
-        toReturn = this.getServerData(guildId);
+        this.SetServerData(guild.id, { "ServerName": guild.name, "SETTINGS": config.BasicSettings, "USERS": {} } );
+        toReturn = this.getServerData(guild);
     }
     return toReturn;
 }

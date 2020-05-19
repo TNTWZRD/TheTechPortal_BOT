@@ -33,9 +33,14 @@ async function parseMessage(msg) {
         pFilter.censorString(msg.content)
             .then(value => { 
                 if(value.CurseCount > 0){
-                    LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString'); 
-                    Utilities.embedMessage(Bot, msg, undefined, "Action: Original Message Deleted", msg.author.tag + " : " + value.NewString, "#ff0000", "BotName", false)
-                        .catch((err) => {LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'EmbedMessage'); });
+                    LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString');
+                    
+                    Utilities.embedMessage(Bot, msg, undefined, "Original Message Deleted", `${msg.author.tag}: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.name, false);
+
+                    if(Bot.ServerData.SETTINGS.ProfanityFilterKickBan) {
+                        msg.channel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`)
+                    }
+
                     msg.delete();
                 }
             })
@@ -123,7 +128,7 @@ Bot.on('message', async msg => {
     if(msg.author.bot) return;
 
     // get data for current server: Settings / Users
-    if(msg.channel.type === 'text') Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild.id));
+    if(msg.channel.type === 'text') Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
     else Bot.ServerData = null;
 
     Utilities.addUsers(Bot, msg)
