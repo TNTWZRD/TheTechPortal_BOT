@@ -21,7 +21,7 @@ module.exports = {
                 msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`)
                 return reject("Insufficient Permissions") }
 
-            if(!msg.guild.me.hasPermissions("BAN_MEMBERS")) { 
+            if(!msg.guild.me.hasPermission("BAN_MEMBERS")) { 
                 msg.channel.send(`**${msg.author.username}**, I do not have enough permission to use this command`)
                 return reject("No Mention") }
 
