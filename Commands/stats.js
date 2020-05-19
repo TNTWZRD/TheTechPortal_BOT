@@ -19,7 +19,7 @@ module.exports = {
             }
 
             if(target in USERS){
-                if(USERS[msg.author.id].PermissionsLevel & Bot.PERMS.GENERAL_USER || target == msg.author.id){ // Must at least be a general user
+                if(Utilities.hasPermission(Bot, msg.author.id, "MODERATOR") || target == msg.author.id){ // Must at least be a general user
                     Utilities.embedMessage(Bot, msg, args, `Stats For: ${USERS[target].Username}`, `${JSON.stringify(USERS[target], null, `\t`)}`, "#3cc900", `Requested by ${msg.author.username}`, !OPTIONS.STAY);
                 }else{
                     msg.reply("Im sorry you do not have permissions to view other peoples stats.")
