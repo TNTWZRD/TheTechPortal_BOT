@@ -92,6 +92,8 @@ async function parseMessage(msg) {
             if(!args.OPTIONS.HELP) commandOBJ.execute(Bot, msg, args, commandName)
                 .then(value => { if(value) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
+
+            if(Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
         
         });
         
