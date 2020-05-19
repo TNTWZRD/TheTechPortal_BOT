@@ -23,6 +23,7 @@
     "banbuilder": "file:CustomModules/BanBuilder.js",
     "discord.js": "^12.2.0",
     "eslint": "^7.0.0",
+    "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.2.1",
     "ytdl-core": "^2.1.2"
   }
