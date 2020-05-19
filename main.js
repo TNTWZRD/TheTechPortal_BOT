@@ -29,23 +29,7 @@ async function parseMessage(msg) {
         const err = null;
         var commandsArray = Utilities.splitCommands(msg.content);
 
-        // Profanity Check
-        pFilter.censorString(msg.content)
-            .then(value => { 
-                if(value.CurseCount > 0){
-                    LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString');
-                    
-                    Utilities.embedMessage(Bot, msg, undefined, "Original Message Deleted", `${msg.author.tag}: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.name, false);
-
-                    if(Bot.ServerData.SETTINGS.ProfanityFilterKickBan) {
-                        msg.channel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`)
-                    }
-
-                    msg.delete();
-                }
-            })
-            .catch(err => { if(err) LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'censorString'); });
-        
+        Utilities.PFFilter(Bot, msg, pFilter);
 
         // Handle each command seperately
         commandsArray.forEach(commandsArrayObj => {
@@ -111,7 +95,7 @@ async function parseMessage(msg) {
         
         });
         
-        if(msg.channel.type === 'text') Utilities.SetServerData(msg.guild.id, Bot.ServerData);
+        if(!msg.guild) Utilities.SetServerData(msg.guild.id, Bot.ServerData);
    
         if(err) reject(err);
         else resolve();
