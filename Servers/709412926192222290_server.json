@@ -3,7 +3,7 @@
 	"SETTINGS": {
 		"WarningsBeforeKick": 3,
 		"WarningsBeforeBan": 6,
-		"ProfanityFilterKickBan": 1,
+		"ProfanityFilterKickBan": 0,
 		"DeleteCommandsAfterSent": 0,
 		"MaxChainedCommands": 3
 	},
@@ -11,13 +11,13 @@
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 126,
+			"EXP": 165,
 			"Warnings": 0
 		},
 		"709453324054954133": {
 			"Username": "TNTWZRD_TEST#8671",
-			"PermissionsLevel": 0,
-			"EXP": 22,
+			"PermissionsLevel": 1,
+			"EXP": 500,
 			"Warnings": 3
 		}
 	}

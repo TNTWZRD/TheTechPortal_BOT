@@ -7,12 +7,17 @@ module.exports = {
     help: '!clear <NUMBER>: clear number of messages',
     usage: `<NUMBER>`,
     args: false,
+    guildOnly: false,
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
 
+            // Condition
+            if(false){
+                msg.reply("MESSAGE");
+                return reject("MESSAGE") }
 
             resolve("!Clear Executed, No Errors");
         });
