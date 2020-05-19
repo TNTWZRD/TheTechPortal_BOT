@@ -31,7 +31,9 @@ async function getSong(Bot, msg, args, options, serverQueue){
 
 async function execute(Bot, msg, args, options, serverQueue, song){
     const voiceChannel = msg.member.voice.channel;
-    if (!voiceChannel) return msg.channel.send("You need to be in a voice channel to play music!");
+    if (!voiceChannel) {
+        msg.channel.send("You need to be in a voice channel to play music!");
+        LOGSystem.LOG("You need to be in a voice channel to play music!", LOGSystem.LEVEL.ERROR, 'Play - Execute') }
 
     if(!Bot.MusicQueue.get(msg.guild.id)){
         const queueConstruct = {
