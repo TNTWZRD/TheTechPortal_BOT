@@ -154,3 +154,51 @@ exports.readOptions = (Bot, msg, args, OPTIONS, CMD_NAME, HelpMsg) => { // <<---
     }
     return RETURN;
 }
+
+exports.PFFilter = (Bot, msg, pFilter) => {
+    return new Promise((resolve) => {
+        // Profanity Check
+        pFilter.censorString(msg.content)
+        .then(value => { 
+            if(value.CurseCount > 0){
+                LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString');
+                
+                this.embedMessage(Bot, msg, undefined, "Original Message Deleted", `${msg.author.tag}: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.name, false);
+
+                USERS = Bot.ServerData.USERS;
+                SETTINGS = Bot.ServerData.SETTINGS;
+                if(Bot.ServerData.SETTINGS.ProfanityFilterKickBan) {
+                    msg.channel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`)
+                    
+                    if(USERS[msg.author.id].Warnings >= SETTINGS.WarningsBeforeKick && USERS[msg.author.id].Warnings < SETTINGS.WarningsBeforeBan ){
+                        this.embedMessage(Bot, msg, undefined, "Kicked User For Profanity", `Kicked ${msg.author} (${msg.author.id})`, "#ff6600", `Kicked by ${Bot.user.name}`, false)
+                        msg.guild.members.fetch(msg.author.id)
+                            .then(user => {
+                                user.createDM()
+                                    .then(dmChannel => { dmChannel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`); });
+                                user.kick();
+                            });
+                        USERS[msg.author.id].Warnings += 1
+                    }else if(USERS[msg.author.id].Warnings >= SETTINGS.WarningsBeforeBan){
+                        this.embedMessage(Bot, msg, undefined, "Banned User For Profanity", `Banned ${msg.author} (${msg.author.id})`, "#ff0000", `Banned by ${Bot.user.name}`, false)
+                        msg.guild.members.fetch(msg.author.id)
+                            .then(user => {
+                                user.createDM()
+                                    .then(dmChannel => { dmChannel.send(`${msg.author}, Racism will not be tolerated in this server. You have been **BANNED**.`); });
+                                user.ban();
+                            });
+                        USERS[msg.author.id].Warnings += 1
+                    }else USERS[msg.author.id].Warnings += 1
+                }
+                Bot.ServerData.USERS = USERS;
+                Bot.ServerData.SETTINGS = SETTINGS;
+
+                this.SetServerData(msg.guild.id, Bot.ServerData)
+
+                msg.delete();
+            }
+        })
+        .catch(err => { if(err) LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'censorString'); });
+        resolve();
+    });
+}
