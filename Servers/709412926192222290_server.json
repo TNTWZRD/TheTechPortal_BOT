@@ -1,0 +1,35 @@
+{
+	"SETTINGS": {
+		"WarningsBeforeKick": 3,
+		"WarningsBeforeBan": 6,
+		"ProfanityFilterKickBan": 1,
+		"DeleteCommandsAfterSent": 0,
+		"MaxChainedCommands": 3
+	},
+	"USERS": {
+		"290685395509837827": {
+			"Username": "TNTWZRD#5338",
+			"PermissionsLevel": 15,
+			"EXP": 22,
+			"Warnings": 0
+		},
+		"709973946275201024": {
+			"Username": "The Guru#9663",
+			"PermissionsLevel": 0,
+			"EXP": 1,
+			"Warnings": 0
+		},
+		"445952809368551434": {
+			"Username": "MaverickStevens#5148",
+			"PermissionsLevel": 0,
+			"EXP": 3,
+			"Warnings": 0
+		},
+		"709453324054954133": {
+			"Username": "TNTWZRD_TEST#8671",
+			"PermissionsLevel": 0,
+			"EXP": 1,
+			"Warnings": 0
+		}
+	}
+}

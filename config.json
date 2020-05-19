@@ -7,5 +7,12 @@
 		"MODERATOR": 2,
 		"ADMIN": 4,
 		"OWNER": 8
+    },
+    "BasicSettings":{
+        "WarningsBeforeKick": 3,
+        "WarningsBeforeBan": 6,
+        "ProfanityFilterKickBan": 1,
+        "DeleteCommandsAfterSent": 0,
+        "MaxChainedCommands": 3
     }
 }
