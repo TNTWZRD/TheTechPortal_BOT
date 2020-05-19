@@ -2,7 +2,7 @@ const Utilities = require('Utilities')
 
 module.exports = {
     name: 'addroles',
-    aliases: ['+role', '+roles', 'addrole', 'addroles'],
+    aliases: ['+role', '+roles', 'addrole'],
     description: 'Add role to user/self',
     help: '!+role (@USER) <@ROLE>: Add role to user/self',
     usage: `(@USER) <@ROLE>`,

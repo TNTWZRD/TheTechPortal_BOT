@@ -19,7 +19,7 @@ const cooldowns = new Discord.Collection();
 
 // Load All Commands:
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(`./Commands/${file}`);
     // Add command to collection as name:command()
     Bot.commands.set(command.name, command);
 }
