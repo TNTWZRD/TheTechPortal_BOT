@@ -13,12 +13,12 @@ module.exports = {
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
 
-            if(Utilities.hasPermission(Bot, msg.author.id, "MODERATOR")){
+            if(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
                 if (!args[0]) {
                     msg.reply("Error please define second arg") 
                     return reject("Didn't Supply Enough Arguments") }
                 
-                if(parseInt(args[0]) >= 99) {
+                if(parseInt(args[0]) >= 100) {
                     msg.reply("Cannot Delete More Than 99 Messages At A Time")
                     return reject("Tried to delete to many messages")
                 }else{
