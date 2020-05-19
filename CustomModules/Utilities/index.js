@@ -5,27 +5,75 @@
 */
 
 const Discord = require('discord.js');
+const LOGSystem = require('LOGSystem')
+var fs = require('fs');
+var config = require('../../config.json');
 
-exports.getFileData = (file) => {
-    var toReturn = null;
-    var fs = require('fs');
-    toReturn = fs.readFileSync(file, 'utf8', function(err, contents){
-        if(!err) {
-            return contents;
-        }else {
-            console.log(err);
-            return false;
-        }
+const ServerDirectory = "./Servers/";
+
+exports.addUsers = (Bot, msg) => {
+    return new Promise(resolve => {
+        var guildId = msg.guild.id;
+        var UsersAdded = [];
+        var err = "";
+        
+        // Check for @Mentions
+
+        msg.mentions.members.forEach(e => {
+            // Check Every Message Author to see if is in database
+            if (!(e.user.id in Bot.ServerData.USERS)){
+                Bot.ServerData.USERS[e.user.id] = {
+                    "Username":e.user.tag,
+                    "PermissionsLevel":0, // Default to EVERYONE
+                    "EXP":1,
+                    "Warnings":0
+                }
+                if(msg.guild.ownerID == e.user.id) Bot.ServerData.USERS[e.user.id].PermissionsLevel = 15 // Make Owner
+                UsersAdded.push(e.user.tag);
+            }
+        });
+    
+        // Check Every Message Author to see if is in database
+        if (!(msg.author.id in Bot.ServerData.USERS)){
+            Bot.ServerData.USERS[msg.author.id] = {
+                "Username":msg.author.tag,
+                "PermissionsLevel":0, // Default to EVERYONE
+                "EXP":1,
+                "Warnings":0
+            }
+            if(msg.guild.ownerID == msg.author.id) Bot.ServerData.USERS[msg.author.id].PermissionsLevel = 15 // Make Owner
+            UsersAdded.push(msg.author.tag);
+        }else Bot.ServerData.USERS[msg.author.id].EXP += 1;
+
+        if(UsersAdded.length) resolve("Added Users: " + JSON.stringify(UsersAdded));
+        else if(err == '') resolve()
     });
+};
+
+exports.getServerData = (guildId) => {
+    var loc = ServerDirectory+guildId+"_server.json"
+    var toReturn = null;
+    if(fs.existsSync(loc)){
+        toReturn = fs.readFileSync(loc, 'utf8', function(err, contents){
+            if(!err) {
+                return contents;
+            }else {
+                LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'getServerData');
+                return false;
+            }
+        });
+    }else{
+        var USERS = { "EMPTY":null };
+        this.SetServerData(guildId, { "SETTINGS": config.BasicSettings, "USERS": new Object } );
+    }
     return toReturn;
 }
 
-exports.updateFile = (file, NewData) => {
+exports.SetServerData = (guildId, NewData) => {
     success = true;
-    var fs = require('fs');
-    fs.writeFileSync(file, JSON.stringify(NewData, null, "\t"), function(err){
+    fs.writeFileSync(ServerDirectory+guildId+"_server.json", JSON.stringify(NewData, null, "\t"), function(err){
         if(err) {
-            console.log(err);
+            LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'getServerData');
             success = false;
         }
     });

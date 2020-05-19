@@ -21,6 +21,7 @@
     "Utilities": "file:CustomModules/Utilities",
     "banbuilder": "file:CustomModules/BanBuilder.js",
     "discord.js": "^12.2.0",
-    "eslint": "^7.0.0"
+    "eslint": "^7.0.0",
+    "keyv": "^4.0.1"
   }
 }

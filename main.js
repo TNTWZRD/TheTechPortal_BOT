@@ -32,7 +32,7 @@ function parseMessage(msg) {
             .then(value => { 
                 if(value.CurseCount > 0){
                     LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString'); 
-                    Utilities.embedMessage(Bot, msg, args, "Action: Original Message Deleted", msg.author.tag + " : " + value.NewString, "#ff0000", "BotName", false)
+                    Utilities.embedMessage(Bot, msg, undefined, "Action: Original Message Deleted", msg.author.tag + " : " + value.NewString, "#ff0000", "BotName", false)
                         .catch((err) => {LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'EmbedMessage'); });
                     msg.delete();
                 }
@@ -50,7 +50,7 @@ function parseMessage(msg) {
 
             // remove Prefix if is command
             if(commandName[0] == prefix) commandName = commandName.replace('!', '');
-            else return resolve(`${commandName}: Not a command`);
+            else return resolve();
 
             // Run command
             const commandOBJ = Bot.commands.get(commandName)
@@ -103,7 +103,9 @@ function parseMessage(msg) {
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
         
         });
-
+        
+        if(msg.channel.type === 'text') Utilities.SetServerData(msg.guild.id, Bot.ServerData);
+   
         if(err) reject(err);
         else resolve();
     });
@@ -117,6 +119,14 @@ Bot.once('ready', () => {
 Bot.on('message', msg => {
     // Ignore messages sent by the bot
     if(msg.author.bot) return;
+
+    // get data for current server: Settings / Users
+    if(msg.channel.type === 'text') Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild.id));
+    else Bot.ServerData = null;
+
+    Utilities.addUsers(Bot, msg)
+        .then(value => { if(value) LOGSystem.LOG(value, undefined, 'Add Users'); })
+        .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
 
     // For Testing log every message to the console
     LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')
