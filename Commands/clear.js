@@ -13,7 +13,7 @@ module.exports = {
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
 
-            if(USERS[msg.author.id].PermissionsLevel & Bot.PERMS.MODERATOR){
+            if(Utilities.hasPermission(Bot, msg.author.id, "MODERATOR")){
                 if (!args[0]) {
                     msg.reply("Error please define second arg") 
                     return reject("Didn't Supply Enough Arguments") }

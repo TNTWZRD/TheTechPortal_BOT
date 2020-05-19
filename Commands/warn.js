@@ -19,11 +19,11 @@ module.exports = {
                 msg.channel.send(`**${msg.author.username}**, Please mention the person who you want to warn`)
                 return reject("No Mention"); }
             
-            if(!(USERS[msg.author.id].PermissionsLevel & Bot.PERMS.MODERATOR)) { 
+            if(!(Utilities.hasPermission(Bot, msg.author.id, "MODERATOR"))) { 
                 msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`)
                 return reject("Insufficient Permissions") }
 
-            if(USERS[target.id].PermissionsLevel & 2){ 
+            if(Utilities.hasPermission(Bot, target.id, "MODERATOR")){ 
                 msg.channel.send(`**${msg.author.username}**, CANNOT WARN AN OPERATOR`)
                 return reject("Cant WARN Operator") }
 
