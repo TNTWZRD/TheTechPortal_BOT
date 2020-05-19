@@ -12,6 +12,7 @@ exports.LEVEL = {
     MUSIC: 'music',
 };
 
+exports.logChannel = null;
 
 exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
     return new Promise((resolve, reject) => {
@@ -47,6 +48,8 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
         LOGCONTENTS += CONTENTS;
 
         if(LOGCONTENTS) console.log(LOGCONTENTS);
+
+        if(this.logChannel) this.logChannel.send(LOGCONTENTS)
 
         if(!LOGCONTENTS) reject("No Log Contents");
         else resolve();

@@ -4,7 +4,7 @@ const LOGSystem = require('LOGSystem')
 
 module.exports = {
     name: 'skip',
-    aliases: ['s'],
+    aliases: ['s', '>'],
     description: 'Skip currently playing song',
     help: '!skip : Skip Song',
     execute(Bot, msg, _args) {
