@@ -1,4 +1,5 @@
 {
+	"ServerName": "Agents of Chaos",
 	"SETTINGS": {
 		"WarningsBeforeKick": 3,
 		"WarningsBeforeBan": 6,
@@ -9,19 +10,19 @@
 	"USERS": {
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
-			"PermissionsLevel": 15,
-			"EXP": 8,
-			"Warnings": 0
-		},
-		"709453324054954133": {
-			"Username": "TNTWZRD_TEST#8671",
 			"PermissionsLevel": 0,
 			"EXP": 1,
 			"Warnings": 0
 		},
-		"643656981588082698": {
-			"Username": "Lunar_Doom#7233",
-			"PermissionsLevel": 15,
+		"283259653494669322": {
+			"Username": "λίκο♡#8002",
+			"PermissionsLevel": 0,
+			"EXP": 1,
+			"Warnings": 0
+		},
+		"265914949916819458": {
+			"Username": "𝑇𝑜𝑥𝑖c#2016",
+			"PermissionsLevel": 0,
 			"EXP": 1,
 			"Warnings": 0
 		}
