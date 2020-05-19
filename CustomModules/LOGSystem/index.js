@@ -49,7 +49,7 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
 
         if(LOGCONTENTS) console.log(LOGCONTENTS);
 
-        if(this.logChannel) this.logChannel.send(LOGCONTENTS)
+        if(this.logChannel) this.logChannel.send(`\`\`${LOGCONTENTS}\`\``)
 
         if(!LOGCONTENTS) reject("No Log Contents");
         else resolve();

@@ -3,15 +3,15 @@
 	"SETTINGS": {
 		"WarningsBeforeKick": 3,
 		"WarningsBeforeBan": 6,
-		"ProfanityFilterKickBan": 1,
-		"DeleteCommandsAfterSent": 0,
+		"ProfanityFilterKickBan": 0,
+		"DeleteCommandsAfterSent": 1,
 		"MaxChainedCommands": 3
 	},
 	"USERS": {
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 3,
+			"EXP": 9,
 			"Warnings": 0
 		},
 		"283259653494669322": {
@@ -30,6 +30,12 @@
 			"Username": "TNTWZRD_TEST#8671",
 			"PermissionsLevel": 0,
 			"EXP": 2,
+			"Warnings": 0
+		},
+		"275472529663983616": {
+			"Username": "M𝒶𝓇𝒾 ~#7771",
+			"PermissionsLevel": 15,
+			"EXP": 1,
 			"Warnings": 0
 		}
 	}
