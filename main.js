@@ -112,8 +112,14 @@ Bot.on('message', async msg => {
     if(msg.author.bot) return;
 
     // get data for current server: Settings / Users
-    if(msg.channel.type === 'text') Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
-    else Bot.ServerData = null;
+    if(msg.channel.type === 'text') {
+        Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
+        LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
+    }
+    else {
+        Bot.ServerData = null;
+        LOGSystem.logChannel = null;
+    }
 
     if(msg.guild)Utilities.addUsers(Bot, msg)
         .then(value => { if(value) LOGSystem.LOG(value, undefined, 'Add Users'); })
