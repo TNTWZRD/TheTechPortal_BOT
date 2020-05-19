@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const Bot = new Discord.Client();
 Bot.commands = new Discord.Collection();
+Bot.MusicQueue = new Map();
+Bot.MusicStreams = new Map();
 
 const fs = require('fs');
 
@@ -22,7 +24,7 @@ for (const file of commandFiles) {
     Bot.commands.set(command.name, command);
 }
 
-function parseMessage(msg) {
+async function parseMessage(msg) {
     return new Promise((resolve, reject) => {
         const err = null;
         var commandsArray = Utilities.splitCommands(msg.content);
@@ -116,7 +118,7 @@ Bot.once('ready', () => {
     pFilter.filterType(0, 1);
 });
 
-Bot.on('message', msg => {
+Bot.on('message', async msg => {
     // Ignore messages sent by the bot
     if(msg.author.bot) return;
 

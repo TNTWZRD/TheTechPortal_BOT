@@ -17,11 +17,14 @@
   },
   "homepage": "https://github.com/TNTWZRD/TheTechPortal_BOT#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "LOGSystem": "file:CustomModules/LOGSystem",
     "Utilities": "file:CustomModules/Utilities",
     "banbuilder": "file:CustomModules/BanBuilder.js",
     "discord.js": "^12.2.0",
     "eslint": "^7.0.0",
-    "keyv": "^4.0.1"
+    "ffmpeg-static": "^4.2.1",
+    "keyv": "^4.0.1",
+    "ytdl-core": "^2.1.2"
   }
 }

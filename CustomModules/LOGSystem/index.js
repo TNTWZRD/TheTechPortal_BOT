@@ -37,10 +37,12 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
                 LOGCONTENTS += "[NULL-----]";
             break;
         }
-        var v = funcName.split(''); 
-        for(i = 0; i < 20; i++) if(!v[i])v[i] = '-'; 
-        funcName = v.join('');
-        if(funcName) LOGCONTENTS += `[${funcName}]`;
+        if(funcName){
+            var v = funcName.split(''); 
+            for(i = 0; i < 20; i++) if(!v[i])v[i] = '-'; 
+            funcName = v.join('');
+            LOGCONTENTS += `[${funcName}]`;
+        }
         LOGCONTENTS += "[" + getDate() + "]:: ";
         LOGCONTENTS += CONTENTS;
 
