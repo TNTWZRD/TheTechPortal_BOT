@@ -63,8 +63,8 @@ exports.getServerData = (guildId) => {
             }
         });
     }else{
-        var USERS = { "EMPTY":null };
-        this.SetServerData(guildId, { "SETTINGS": config.BasicSettings, "USERS": new Object } );
+        this.SetServerData(guildId, { "SETTINGS": config.BasicSettings, "USERS": {} } );
+        toReturn = this.getServerData(guildId);
     }
     return toReturn;
 }
