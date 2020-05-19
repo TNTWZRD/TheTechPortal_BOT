@@ -11,6 +11,8 @@ var config = require('../../config.json');
 
 const ServerDirectory = "./Servers/";
 
+exports.hasPermissions = (Bot, USERID, LEVEL) => { return (Bot.ServerData.USERS[USERID].PermissionsLevel & Bot.PERMS[LEVEL]); }
+
 exports.addUsers = (Bot, msg) => {
     return new Promise(resolve => {
         var guildId = msg.guild.id;

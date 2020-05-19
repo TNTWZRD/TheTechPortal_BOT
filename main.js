@@ -29,7 +29,7 @@ async function parseMessage(msg) {
         const err = null;
         var commandsArray = Utilities.splitCommands(msg.content);
 
-        Utilities.PFFilter(Bot, msg, pFilter);
+        if(msg.guild) Utilities.PFFilter(Bot, msg, pFilter);
 
         // Handle each command seperately
         commandsArray.forEach(commandsArrayObj => {
@@ -89,13 +89,13 @@ async function parseMessage(msg) {
             args.OPTIONS = Utilities.readOptions(Bot, msg, args, args.OPTIONS, commandOBJ.name, commandOBJ.help);
             
             // Run command if not asking for help ('-h')
-            if(!args.OPTIONS.HELP) commandOBJ.execute(Bot, msg, args)
+            if(!args.OPTIONS.HELP) commandOBJ.execute(Bot, msg, args, commandName)
                 .then(value => { if(value) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
         
         });
         
-        if(!msg.guild) Utilities.SetServerData(msg.guild.id, Bot.ServerData);
+        if(msg.guild) Utilities.SetServerData(msg.guild.id, Bot.ServerData);
    
         if(err) reject(err);
         else resolve();
@@ -115,7 +115,7 @@ Bot.on('message', async msg => {
     if(msg.channel.type === 'text') Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
     else Bot.ServerData = null;
 
-    Utilities.addUsers(Bot, msg)
+    if(msg.guild)Utilities.addUsers(Bot, msg)
         .then(value => { if(value) LOGSystem.LOG(value, undefined, 'Add Users'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
 

@@ -61,8 +61,6 @@ module.exports = {
                 target.createDM()
                     .then(dmChannel => { dmChannel.send(`${target}, You are being warned for: ${args[1]}.`); });
             }
-            
-            Utilities.SetServerData(msg.guild.id, Bot.ServerData);
 
             resolve("!Warn Executed, No Errors");
         });
