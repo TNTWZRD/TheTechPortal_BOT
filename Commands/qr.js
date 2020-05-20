@@ -33,7 +33,7 @@ module.exports = {
 
             msg.channel.send(embed);
 
-            resolve("!Urban Executed, No Errors");
+            resolve("!Qr Executed, No Errors");
         });
 	},
 };

@@ -29,7 +29,7 @@ module.exports = {
                 title: `Current Weather In ${Weather.location.name} ${Weather.location.tz_id}`,
                 description: `Current Temperature: ${Weather.current.temp_f} F/ ${Weather.current.temp_c} C - ${Weather.current.condition.text}\nWind: ${Weather.current.wind_dir} at ${Weather.current.wind_mph}mph - Pressure: ${Weather.current.pressure_in}in - Precipitation:  ${Weather.current.precip_in}in\nUV: ${Weather.current.uv} - Visibility: ${Weather.current.vis_miles}miles`,
                 footer: {
-                  text: `Last Updated: ${Weather.current.last_updated}`,
+                  text: `Last Updated: ${Weather.current.last_updated}, Info Provided By: weatherapi.com`,
                 },
               })
               .setThumbnail(Weather.current.condition.icon.replace('//', 'https://'))
