@@ -20,7 +20,7 @@ module.exports = {
             const URL = "http://api.weatherapi.com/v1/current.json?key=9fcdb42eb7d4451ca76232839201905&";
 
             const query = querystring.stringify( { 
-                q:args[0]
+                q:args.join(' ')
             });
             var Weather = await fetch(`${URL}${query}`)
                 .then(response => response.json());
@@ -36,7 +36,7 @@ module.exports = {
 
             msg.channel.send({embed: embedMsg});
 
-            resolve("!Urban Executed, No Errors");
+            resolve("!Weather Executed, No Errors");
         });
 	},
 };
