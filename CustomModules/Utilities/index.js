@@ -11,6 +11,8 @@ var config = require('../../config.json');
 
 const ServerDirectory = "./Servers/";
 
+exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
+
 exports.hasPermissions = (Bot, USERID, LEVEL) => { return (Bot.ServerData.USERS[USERID].PermissionsLevel & Bot.PERMS[LEVEL]); }
 
 exports.addUsers = (Bot, msg) => {
