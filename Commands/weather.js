@@ -10,12 +10,11 @@ module.exports = {
     help: '!Weather <LOATION>: Get The Weather, US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name',
     usage: `<LOCATION>`,
     args: true,
-    guildOnly: true,
+    guildOnly: false,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             const URL = "http://api.weatherapi.com/v1/current.json?key=9fcdb42eb7d4451ca76232839201905&";
 

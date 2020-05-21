@@ -13,7 +13,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             // Remove D From String
             args[0] = args[0].replace(/d/i, '');
