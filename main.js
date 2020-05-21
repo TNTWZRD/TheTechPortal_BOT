@@ -93,7 +93,7 @@ async function parseMessage(msg) {
                 .then(value => { if(value) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
 
-            if(Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
+            if(msg.guild && Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
         
         });
         

@@ -10,12 +10,11 @@ module.exports = {
     help: '!urban (TERM): Lookup a term in UrbanDictionary, or fetch a random one',
     usage: `(TERM)`,
     args: false,
-    guildOnly: true,
+    guildOnly: false,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             const query = querystring.stringify( { term: args.join(' ') } );
             if(args[0]) var {list} = await fetch(`https://api.urbandictionary.com/v0/define?${query}`)
