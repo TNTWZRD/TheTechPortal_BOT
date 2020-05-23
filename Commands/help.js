@@ -14,8 +14,6 @@ module.exports = {
             const data = [];
             const { commands } = msg.client;
 
-            console.log(JSON.stringify(args))
-
             commands.each(e => { 
                 if(!e.usage) e.usage = ''; 
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
@@ -23,8 +21,8 @@ module.exports = {
             });
 
             if(!args.ARGS.length){
-                if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\`\``);
-                else data.push('Here\'s a list of all my commands:\`\`');
+                if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\n\`\``);
+                else data.push('Here\'s a list of all my commands:\n\`\`');
 
                 data.push(commands.map(command => `${prefix}${command.name} ${command.usage} :: ${command.description}`).join(',\n'));
                 data.push(`\`\`\nYou can send \`${prefix}help <COMMAND>\` to get info on a specific command!`);

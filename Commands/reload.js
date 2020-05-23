@@ -9,10 +9,11 @@ module.exports = {
     minPermissions: "MODERATOR",
 	execute(Bot, msg, args) {
         return new Promise((resolve) => {
-            
-            if(!(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))) { 
-                msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`)
-                return reject("Insufficient Permissions") }
+            if(msg.guild){
+                if(!(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))) { 
+                    msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`)
+                    return reject("Insufficient Permissions") }
+            }
 
             Bot.commands.each(obj => {
                 delete require.cache[require.resolve(`./${obj.name}.js`)];
