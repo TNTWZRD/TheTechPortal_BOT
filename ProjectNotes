@@ -33,7 +33,7 @@ USER : {
 !stop												<<--- DONE
 !next												<<--- DONE
 !back												
-!que												
+!queue|q												
 !pause												
 -----Bot commands--------
 !logoff												<<--- Unnecessary & Difficult regarding the fact that it is in many servers
@@ -78,7 +78,6 @@ The guru will sell bardDrinks based on peoples points in the server
 	"The Forests Woke" A drink of the grasslands, rich in fruity flavor and enough to get a horse drunk for a day
 	"CellDweller" A mixture drink of refined fermented and carbonated fruit juice, mana and chaos to kill any high-god for a day.
 	
-	
 The guru will lastly give out people based Achievements
 	"A man of his/her drink" - use the guru to drink the "CellDweller" despite his warning about being muted for a day.
 	"A sponsor of many" - Given support to the creator and helped him throughout his journey!
@@ -91,38 +90,37 @@ The guru will lastly give out people based Achievements
 	"The Book Keeper" Search up 20 cards
 
 Notes:
-ARGS:
-!ping  daniel zack   jesus
-arg[0] arg[1] arg[2] arg[3]
-NOTE: IN NEW CODE ARG[0] = daniel as i have removed the command from the args list.
+	ARGS:
+	!ping  daniel zack   jesus
+	arg[0] arg[1] arg[2] arg[3]
+	NOTE: IN NEW CODE ARG[0] = daniel as i have removed the command from the args list.
 
 
 ====================== CURRENT !HELP ========================
-Here's a list of all my commands:
-!addroles (@USER) <@ROLE> :: Add role to user/self,
-!args-info <ARGUMENT> (OPTIONS) :: Information about the arguments provided,
-!ban <@USER> <REASON> :: Ban User From Server,
-!clear <NUMBER> :: Clear messages in channel,
-!dice <DICE> (COUNT) :: Roll Dice,
-!help <COMMAND> :: List all of my commands or info about a specific command,
-!kick <@USER> <REASON> :: Kick User From Server,
-!modifyuser <@USER> <PARAMETER> <NEWVALUE> :: Modify User Data,
-!mute <@USER> :: Mute a user,
-!perms <@USER> <EVERYONE|GENERAL_USER|MODERATOR|ADMIN> :: Modify Permissions for @USER,
-!ping  :: Ping!,
-!play <URL> :: Play music or YT Audio,
-!qr <"Code Data"> :: Generate a qr code,
-!reload  :: Reloads all commands,
-!removeroles (@USER) <@ROLE> :: Remove role to user/self,
-!settings <SETTING> <NEW VALUE> :: Change Bot Settings for this server,
-!skip  :: Skip currently playing song,
-!stats (@USER) :: Information about Author, or provided user,
-!stop  :: Stop currently playing song,
-!urban (TERM) :: Lookup a term in UrbanDictionary, or fetch a random one,
-!warn <@USER> <WARNING> <WarningCounter(bool)> :: Warn User,
-!weather <LOCATION> :: Get The Weather
-
-You can send !help <COMMAND> to get info on a specific command!
+	Here's a list of all my commands:
+	!addroles (@USER) <@ROLE> :: Add role to user/self,
+	!args-info <ARGUMENT> (OPTIONS) :: Information about the arguments provided,
+	!ban <@USER> <REASON> :: Ban User From Server,
+	!clear <NUMBER> :: Clear messages in channel,
+	!dice <DICE> (COUNT) :: Roll Dice,
+	!help <COMMAND> :: List all of my commands or info about a specific command,
+	!kick <@USER> <REASON> :: Kick User From Server,
+	!modifyuser <@USER> <PARAMETER> <NEWVALUE> :: Modify User Data,
+	!mute <@USER> :: Mute a user,
+	!perms <@USER> <EVERYONE|GENERAL_USER|MODERATOR|ADMIN> :: Modify Permissions for @USER,
+	!ping  :: Ping!,
+	!play <URL> :: Play music or YT Audio,
+	!qr <"Code Data"> :: Generate a qr code,
+	!reload  :: Reloads all commands,
+	!removeroles (@USER) <@ROLE> :: Remove role to user/self,
+	!settings <SETTING> <NEW VALUE> :: Change Bot Settings for this server,
+	!skip  :: Skip currently playing song,
+	!stats (@USER) :: Information about Author, or provided user,
+	!stop  :: Stop currently playing song,
+	!urban (TERM) :: Lookup a term in UrbanDictionary, or fetch a random one,
+	!warn <@USER> <WARNING> <WarningCounter(bool)> :: Warn User,
+	!weather <LOCATION> :: Get The Weather
+	You can send !help <COMMAND> to get info on a specific command!
 ===================== END CURRENT HELP =====================
 
 
