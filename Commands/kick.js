@@ -6,6 +6,7 @@ module.exports = {
     description: 'Kick User From Server',
     help: '!Kick <@USER> <REASON>: Kick user',
     usage: `<@USER> <REASON>`,
+    minPermissions: "MODERATOR",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

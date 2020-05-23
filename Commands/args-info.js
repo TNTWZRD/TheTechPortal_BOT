@@ -7,6 +7,7 @@ module.exports = {
     description: 'Information about the arguments provided',
     help: '!args <ARGUMENTS>: used test to see if but is receiving arguments',
     usage: `<ARGUMENT> (OPTIONS)`,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise((resolve) => {
             const options = _args.OPTIONS;

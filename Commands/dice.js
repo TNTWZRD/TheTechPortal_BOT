@@ -9,6 +9,7 @@ module.exports = {
     usage: `<DICE> (COUNT)`,
     args: true,
     guildOnly: false,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

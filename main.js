@@ -9,7 +9,7 @@ const fs = require('fs');
 // Get all commands from ./Commands/
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
-const { PERMISSIONS, prefix, token } = require('./config.json');
+const { PERMISSIONS, prefix, token, DEBUG } = require('./config.json');
 Bot.PERMS = PERMISSIONS;                // << Permissions Visible Anywhere
 const LOGSystem = require('LOGSystem'); // << Custom Log Module
 const Utilities = require('Utilities'); // << Custom Utilities Module
@@ -90,7 +90,7 @@ async function parseMessage(msg) {
             
             // Run command if not asking for help ('-h')
             if(!args.OPTIONS.HELP) commandOBJ.execute(Bot, msg, args, commandName)
-                .then(value => { if(value) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
+                .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
 
             if(msg.guild && Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
@@ -124,14 +124,14 @@ Bot.on('message', async msg => {
     }
 
     if(msg.guild)Utilities.addUsers(Bot, msg)
-        .then(value => { if(value) LOGSystem.LOG(value, undefined, 'Add Users'); })
+        .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'Add Users'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
 
     // For Testing log every message to the console
-    LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')
+    if(DEBUG) LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')
 
     parseMessage(msg)
-        .then(value => { if(value) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
+        .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
 
 });

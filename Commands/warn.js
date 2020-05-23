@@ -7,6 +7,7 @@ module.exports = {
     help: '!Warn <@USER> <WARNING> (WarningCounter(bool) = 0): Warn user, Warning counter will add to their server warnings(Default false)',
     usage: `<@USER> <WARNING> <WarningCounter(bool)>`,
     args: true,
+    minPermissions: "MODERATOR",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

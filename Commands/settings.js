@@ -8,6 +8,7 @@ module.exports = {
     usage: `<SETTING> <NEW VALUE>`,
     args: true,
     guildOnly: true,
+    minPermissions: "ADMIN",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
