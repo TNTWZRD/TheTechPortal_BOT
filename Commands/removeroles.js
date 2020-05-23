@@ -3,10 +3,11 @@ const Utilities = require('Utilities')
 module.exports = {
     name: 'removeroles',
     aliases: ['-role', '-roles', 'removerole'],
-    description: 'Rmove role to user/self',
+    description: 'Remove role to user/self',
     help: '!+role (@USER) <@ROLE>: Remove role to user/self',
     usage: `(@USER) <@ROLE>`,
     args: true,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

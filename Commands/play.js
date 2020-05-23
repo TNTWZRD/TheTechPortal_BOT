@@ -8,6 +8,7 @@ module.exports = {
     description: 'Play music or YT Audio',
     help: '!play <URL> (OPTIONS): Used to play audio streams',
     usage: `<URL>`,
+    minPermissions: "GENERAL_USER",
     execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

@@ -11,6 +11,7 @@ module.exports = {
     usage: `(TERM)`,
     args: false,
     guildOnly: false,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

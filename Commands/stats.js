@@ -6,6 +6,7 @@ module.exports = {
     description: 'Information about Author, or provided user',
     help: '!stats (@USER): Used to get user info',
     usage: `(@USER)`,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

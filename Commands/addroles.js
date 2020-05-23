@@ -7,6 +7,7 @@ module.exports = {
     help: '!+role (@USER) <@ROLE>: Add role to user/self',
     usage: `(@USER) <@ROLE>`,
     args: true,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

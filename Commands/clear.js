@@ -7,6 +7,7 @@ module.exports = {
     help: '!clear <NUMBER>: clear number of messages',
     args: true,
     usage: `<NUMBER>`,
+    minPermissions: "MODERATOR",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

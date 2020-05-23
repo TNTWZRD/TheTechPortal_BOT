@@ -4,10 +4,11 @@ module.exports = {
     name: 'modifyuser',
     aliases: ['moduser', 'edituser'],
     description: 'Modify User Data',
-    help: '!modifyuser <@USER> <PARAMETER> <NNEWVALUE>: Change @User Paramter to NewValue',
-    usage: `<@USER> <PARAMETER> <NNEWVALUE>`,
+    help: '!modifyuser <@USER> <PARAMETER> <NEWVALUE>: Change @User Paramter to NewValue',
+    usage: `<@USER> <PARAMETER> <NEWVALUE>`,
     args: true,
     guildOnly: true,
+    minPermissions: "ADMIN",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

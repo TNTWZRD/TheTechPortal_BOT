@@ -6,6 +6,7 @@ module.exports = {
     description: 'Ban User From Server',
     help: '!Ban <@USER> <REASON>: Ban user',
     usage: `<@USER> <REASON>`,
+    minPermissions: "ADMIN",
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

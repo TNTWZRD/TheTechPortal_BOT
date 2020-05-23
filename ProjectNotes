@@ -1,0 +1,160 @@
+PERMISSIONS LEVELS: (BitWise)
+	Everyone: 		&0   // No commands for use
+	GeneralUsers: 	&1 <- 1 // !stats < self only, add role self only no orange permission roles able to be added., 
+	Moderators: 	&2 <- 3 //  !mute @user, !kick, !move @user, !disable video, !change nickname // cant mute, kick, move, change nickname of admin/owner
+	Admin: 			&4 <- 7 // kick/ban, all of the above, cant use on owner
+	Owner: 			&8 <- 15 // can execute all commands 
+
+USER : {
+	Username: <author.tag>,
+	PermissionsLevels: <PERMISSIONS> <<--- See PermissionsLevels Above
+	EXP: INT                      <<--- Goes up over time with each comment
+    Warnings: 0                   <<--- Indicates how many warning the bot has given the user
+}
+
+------- TO DO -----------
+1. Use regex to recognize options in a message no matter the position and remove them from the string. 		<< --- DONE
+2. FIX ERROR > Muting a user while in voice channel does not work unless they disconnect and rejoin 	   	<< --- DONE
+
+--------moderator commands-------
+!ban <user> -bans a user from the discord           <<--- DONE
+!kick <user> -kicks a user from the discord         <<--- DONE
+!+role <@user> <role> - gives a user a role			<<--- DONE
+!-role <@user> <role> -removes a role from a user	<<--- DONE
+!warning <user> <WARNING> gives a user a warning    <<--- DONE
+!mute <user> toggles mute on user 					<<--- DONE
+!modifyuser <user> <variable> <newvalue>			<<--- DONE
+
+------Role Exp and ability commands-------
+!levelup
+!leveldown
+------Music commands-------
+!play												<<--- DONE
+!stop												<<--- DONE
+!next												<<--- DONE
+!back												
+!que												
+!pause												
+-----Bot commands--------
+!logoff												<<--- Unnecessary & Difficult regarding the fact that it is in many servers
+!cardlookup											<<--- NEED TO KNOW WHAT KIND OF CARDS or EXACT API to use
+!wikifind											<<--- I have already Implemented !urban <TERM> witch will return an urban dictionary result
+!joke												<<--- Random Joke?
+!yaoi												<<--- IDK
+!yuri												<<--- IDK
+!tentacle											<<--- WTF
+!sapolings											<<--- IDK
+!question											<<--- No Idea
+!achievements										<<--- Not Implemented Yet
+
+
+------------Bot Init---------------
+
+The guru bot will give everyone who joins the channel "Sapoling" role upon joining If they react to the rules and "The Legion" role if they answer the !question command given to all "Sapoling" role people. (the Sapoling role is removed after)
+
+The guru will filter the following words an issue a !warning @player who said the word(s) in question: <<-- DONE
+	# List of racist words
+	Array = [Nigger, n-word, chink, cracker]
+	tmp = "Nigger"
+	Array.has(tmp) ? True : False
+
+the guru will respond to chat messages and will randomly say things in chat
+	"Hello, How are you today?"
+	"All is for my lord"
+	"Indeed"
+	"It will be done"
+	"I am afraid i cannot do such a thing"
+	"Chaos is free but binding, does anything make sense anymore?"
+	"I am so terribly sorry, but you must be coming with me to my dungeon"
+	"It seems the chaos is stirring once again my friends"
+	"Ah, such a fine delight of intellectual property"
+	"I only wish i could fine you more my dear"
+	"I am a phantom of a non-existent creature from a game, made real by the desires of the world and my lord of chaos!"
+	
+The guru will sell bardDrinks based on peoples points in the server
+	"Banished Heaven" A drink of the lightheaded, slightly sweet and tastes of warmth with colors of white and gold.
+	"Graveyard Hell" A drink for the pirates, nightmares and elk.
+	"Chaos Brew" A drink of Power and ambition, It can drive people crazy or determined 
+	"The Forests Woke" A drink of the grasslands, rich in fruity flavor and enough to get a horse drunk for a day
+	"CellDweller" A mixture drink of refined fermented and carbonated fruit juice, mana and chaos to kill any high-god for a day.
+	
+	
+The guru will lastly give out people based Achievements
+	"A man of his/her drink" - use the guru to drink the "CellDweller" despite his warning about being muted for a day.
+	"A sponsor of many" - Given support to the creator and helped him throughout his journey!
+	"Max Level?!?!" - Reach level 100 
+	"VIP" Helped the creator on his twitch and or YouTube channel.
+	"A Inhuman Truth?" Designated a race for yourself in this discord.
+	"Back to the hand" Get muted by the guru 
+	"A Gentleman/Lady" Get the NSFW tag on your discord.
+	"Song Breaker" Play more then 200 songs using the guru.
+	"The Book Keeper" Search up 20 cards
+
+Notes:
+ARGS:
+!ping  daniel zack   jesus
+arg[0] arg[1] arg[2] arg[3]
+NOTE: IN NEW CODE ARG[0] = daniel as i have removed the command from the args list.
+
+
+====================== CURRENT !HELP ========================
+Here's a list of all my commands:
+!addroles (@USER) <@ROLE> :: Add role to user/self,
+!args-info <ARGUMENT> (OPTIONS) :: Information about the arguments provided,
+!ban <@USER> <REASON> :: Ban User From Server,
+!clear <NUMBER> :: Clear messages in channel,
+!dice <DICE> (COUNT) :: Roll Dice,
+!help <COMMAND> :: List all of my commands or info about a specific command,
+!kick <@USER> <REASON> :: Kick User From Server,
+!modifyuser <@USER> <PARAMETER> <NEWVALUE> :: Modify User Data,
+!mute <@USER> :: Mute a user,
+!perms <@USER> <EVERYONE|GENERAL_USER|MODERATOR|ADMIN> :: Modify Permissions for @USER,
+!ping  :: Ping!,
+!play <URL> :: Play music or YT Audio,
+!qr <"Code Data"> :: Generate a qr code,
+!reload  :: Reloads all commands,
+!removeroles (@USER) <@ROLE> :: Remove role to user/self,
+!settings <SETTING> <NEW VALUE> :: Change Bot Settings for this server,
+!skip  :: Skip currently playing song,
+!stats (@USER) :: Information about Author, or provided user,
+!stop  :: Stop currently playing song,
+!urban (TERM) :: Lookup a term in UrbanDictionary, or fetch a random one,
+!warn <@USER> <WARNING> <WarningCounter(bool)> :: Warn User,
+!weather <LOCATION> :: Get The Weather
+
+You can send !help <COMMAND> to get info on a specific command!
+===================== END CURRENT HELP =====================
+
+
+REACT CODE:::{
+	var embed = new Discord.MessageEmbed()
+		.setTitle(`${BotName} : Commands`)
+		.setDescription(MESSAGES.Help.all)
+		.setColor("#00ff00")
+		.setFooter(BotName)
+	msg.channel.send(embed)
+		.then(async msg => {
+			for (emoji of ['❌']) await msg.react(emoji);
+
+			var filter = (reaction, user) => reaction.emoji.name === '❌' && user.id != bot.user.id;
+			var collector = msg.createReactionCollector(filter, { time: 15000 });
+			collector.on('collect', r => msg.delete());
+		})
+		.catch(console.error)
+}
+
+MUSIC: 
+-> OPTIONS:
+	-> -s SHUFFLE
+	-> -n NEXT
+	-> -> SKIP
+	-> -< PREVIOUS
+	-> -c CLEAR
+
+-> COMMANDS:
+	-> !play|p (URL) (OPTIONS)
+	-> !queue|q (URL) (OPTIONS)
+	-> !pause
+	-> !stop|x
+	-> !skip|s|>
+	-> !playlist save|load|delete (PlaylistName) (URL) <<-- ONLY 10 Playlists per server

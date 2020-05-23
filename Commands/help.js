@@ -1,4 +1,6 @@
 const { prefix } = require('../config.json');
+const Utilities = require('Utilities');
+
 
 module.exports = {
 	name: 'help',
@@ -6,14 +8,24 @@ module.exports = {
 	aliases: ['commands'],
 	usage: '<COMMAND>',
 	cooldown: 0,
+    minPermissions: "GENERAL_USER",
 	execute(Bot, msg, args) {
         return new Promise((resolve, reject) => {
             const data = [];
             const { commands } = msg.client;
-            commands.each(e => { if(!e.usage) e.usage = ''; });
+
+            console.log(JSON.stringify(args))
+
+            commands.each(e => { 
+                if(!e.usage) e.usage = ''; 
+                if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
+                if(msg.guild) if(!Utilities.hasPermissions(Bot, msg.author.id, e.minPermissions)) commands.delete(e.name);
+            });
 
             if(!args.ARGS.length){
-                data.push('Here\'s a list of all my commands:\`\`');
+                if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\`\``);
+                else data.push('Here\'s a list of all my commands:\`\`');
+
                 data.push(commands.map(command => `${prefix}${command.name} ${command.usage} :: ${command.description}`).join(',\n'));
                 data.push(`\`\`\nYou can send \`${prefix}help <COMMAND>\` to get info on a specific command!`);
 
@@ -43,7 +55,7 @@ module.exports = {
             if (command.description) data.push(`**Description:** ${command.description}`);
             if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
 
-            data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
+            data.push(`**Cooldown:** ${(command.cooldown) ? 3 : command.cooldown } second(s)`);
 
             msg.channel.send(data, { split: true });
 
