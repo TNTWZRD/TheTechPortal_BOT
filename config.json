@@ -1,6 +1,6 @@
 {
     "prefix":"!",
-    "token":"NzA5NDExNzAwNzM0MTY1MDcy.XrtvCw.puyBwx6IVTmql3fqOOx9uWMM4ZY",
+    "token":"NzEyODY5MzgyMjc1MDcyMDUx.XsYM5Q.REl6mkV14lVWLFxgiyWy6Pyu1VI",
     "PERMISSIONS":{
       "EVERYONE": 0,
       "GENERAL_USER": 1,
@@ -13,7 +13,8 @@
         "WarningsBeforeBan": 6,
         "ProfanityFilterKickBan": 1,
         "DeleteCommandsAfterSent": 0,
-        "MaxChainedCommands": 3
+        "MaxChainedCommands": 3,
+        "ServerRole_GENERAL_USER":null
     },
     "DEBUG":true
 }

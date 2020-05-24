@@ -62,6 +62,12 @@ module.exports = {
                     msg.reply("Settings Updated")
                     break;
 
+                case "GENERAL_USER":
+                    var role = msg.mentions.roles.first();
+                    Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER = role;
+                    msg.reply("Settings Updated")
+                    break;
+
                 case "CURRENT":
                     keys = Object.keys(Bot.ServerData.SETTINGS)
                     newSettings = {};
