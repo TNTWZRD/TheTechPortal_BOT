@@ -132,16 +132,22 @@ Bot.on('message', async msg => {
         // see if GENERAL_USER role set in settings
         
         if(msg.content.includes(":rules:")) {
+            var tmpData = Bot.ServerData;
+            var USERS = tmpData.USERS;
             
             if(!Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER) {
                 msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
                 return false; }
 
-            var tmpData = Bot.ServerData;
-            var USERS = tmpData.USERS;
+            var userRoles = msg.guild.member(msg.author).roles
+            if((userRoles.cache && userRoles.cache.has(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)) || Utilities.hasPermissions(Bot, msg.author.id, "GENERAL_USER") ){
+                msg.delete();
+                LOGSystem.LOG("User already has role, or has permissions", LOGSystem.LEVEL.ERROR, 'Welcome/:rules:')
+                return false; }
+
             await msg.guild.member(msg.author).roles.add(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)
                 .then(e => {
-                    //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome everyone, ${msg.author} to ${msg.guild.name}!!`);
+                    msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
                     if(USERS[msg.author.id].PermissionsLevel == 0){ // Only set permissions if set to 0 already
                         console.log(USERS[msg.author.id].PermissionsLevel)
                         USERS[msg.author.id].PermissionsLevel = 1; 
