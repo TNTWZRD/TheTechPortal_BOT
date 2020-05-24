@@ -36,7 +36,7 @@ async function parseMessage(msg) {
             // Get CMD Args
             const args = Utilities.getArgs(commandsArrayObj);
 
-            // Get First Command 
+            // Get First Command
             var commandName = args.ARGS.shift().toLowerCase();
 
             // remove Prefix if is command
@@ -46,7 +46,7 @@ async function parseMessage(msg) {
             // Run command
             const commandOBJ = Bot.commands.get(commandName)
                 || Bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
-                
+
             // Command Check
             if(!commandOBJ) return reject(`${commandName}: Not a valid command`);
 
@@ -56,7 +56,7 @@ async function parseMessage(msg) {
             const now = Date.now();
             const timestamps = cooldowns.get(commandOBJ.name);
             const cooldownAmount = (commandOBJ.cooldown || 0) * 1000;
-            
+
             if(timestamps.has(msg.author.id)){
                 const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
                 if(now < expirationTime) {
@@ -74,7 +74,7 @@ async function parseMessage(msg) {
                 if(!args.OPTIONS.length){
                     let reply = `You didn't provide any arguments, ${msg.author}!`;
                     if(commandOBJ.usage) reply += `\nThe proper usage would be: \`${commandOBJ.name} ${commandOBJ.usage}\``;
-                
+
                     msg.channel.send(reply);
                     return reject("No Arguments Provided");
             }}
@@ -87,18 +87,18 @@ async function parseMessage(msg) {
 
             // Convert options into { "LIST":false, "HELP": false, "STAY":false }
             args.OPTIONS = Utilities.readOptions(Bot, msg, args, args.OPTIONS, commandOBJ.name, commandOBJ.help);
-            
+
             // Run command if not asking for help ('-h')
             if(!args.OPTIONS.HELP) commandOBJ.execute(Bot, msg, args, commandName)
                 .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
 
             if(msg.guild && Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
-        
+
         });
-        
+
         if(msg.guild) Utilities.SetServerData(msg.guild.id, Bot.ServerData);
-   
+
         if(err) reject(err);
         else resolve();
     });
@@ -126,6 +126,28 @@ Bot.on('message', async msg => {
     if(msg.guild)Utilities.addUsers(Bot, msg)
         .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'Add Users'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
+
+    // See if message was in welcome channel
+    if(msg.channel.name == "welcome"){
+        // see if GENERAL_USER role set in settings
+        if(!Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER) {
+            msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
+            return false; }
+        
+        if(msg.content.includes(":rules:")) {
+            msg.guild.member(msg.author).roles.add(Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER.id)
+                .then(e => {
+                    msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome everyone, ${msg.author} to ${msg.guild.name}!!`);
+                    Bot.ServerData.USERS.PermissionsLevel = 1; // Set to general user instead of EVERYONE
+                    LOGSystem.LOG(`${msg.author.tag} Added as GENERAL_USER of ${msg.guild.name}`);
+                })
+                .catch(console.error);
+        }
+        msg.delete();
+        // Don't run regular code in welcome
+        Utilities.SetServerData(msg.guild.id, Bot.ServerData)
+        return true;
+    }
 
     // For Testing log every message to the console
     if(DEBUG) LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')

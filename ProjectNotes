@@ -1,9 +1,9 @@
 PERMISSIONS LEVELS: (BitWise)
 	Everyone: 		&0   // No commands for use
-	GeneralUsers: 	&1 <- 1 // !stats < self only, add role self only no orange permission roles able to be added., 
+	GeneralUsers: 	&1 <- 1 // !stats < self only, add role self only no orange permission roles able to be added.,
 	Moderators: 	&2 <- 3 //  !mute @user, !kick, !move @user, !disable video, !change nickname // cant mute, kick, move, change nickname of admin/owner
 	Admin: 			&4 <- 7 // kick/ban, all of the above, cant use on owner
-	Owner: 			&8 <- 15 // can execute all commands 
+	Owner: 			&8 <- 15 // can execute all commands
 
 USER : {
 	Username: <author.tag>,
@@ -32,12 +32,12 @@ USER : {
 !play												<<--- DONE
 !stop												<<--- DONE
 !next												<<--- DONE
-!back												
-!queue|q												
-!pause												
+!back
+!queue|q
+!pause
 -----Bot commands--------
 !logoff												<<--- Unnecessary & Difficult regarding the fact that it is in many servers
-!cardlookup											<<--- NEED TO KNOW WHAT KIND OF CARDS or EXACT API to use
+!cardlookup											<<--- DONE?
 !wikifind											<<--- I have already Implemented !urban <TERM> witch will return an urban dictionary result
 !joke												<<--- Random Joke?
 !yaoi												<<--- IDK
@@ -47,6 +47,28 @@ USER : {
 !question											<<--- No Idea
 !achievements										<<--- Not Implemented Yet
 
+
+CONFIG.json
+{
+    "prefix":"!",
+    "token":"NzEyODY5MzgyMjc1MDcyMDUx.XsYM5Q.REl6mkV14lVWLFxgiyWy6Pyu1VI", 	// Bot Token
+    "PERMISSIONS":{  														// PERMISSIONS SCHEME
+      "EVERYONE": 0,
+      "GENERAL_USER": 1,
+      "MODERATOR": 2,
+      "ADMIN": 4,
+      "OWNER": 8
+    },
+    "BasicSettings":{														// STARTING SERVER SETTINGS
+        "WarningsBeforeKick": 3,
+        "WarningsBeforeBan": 6,
+        "ProfanityFilterKickBan": 1,
+        "DeleteCommandsAfterSent": 0,
+        "MaxChainedCommands": 3,
+        "ServerRole_GENERAL_USER":null										// ROLL TO GIVE PEOPLE ON ACCEPT RULES
+    },
+    "DEBUG":true
+}
 
 ------------Bot Init---------------
 
@@ -70,21 +92,21 @@ the guru will respond to chat messages and will randomly say things in chat
 	"Ah, such a fine delight of intellectual property"
 	"I only wish i could fine you more my dear"
 	"I am a phantom of a non-existent creature from a game, made real by the desires of the world and my lord of chaos!"
-	
+
 The guru will sell bardDrinks based on peoples points in the server
 	"Banished Heaven" A drink of the lightheaded, slightly sweet and tastes of warmth with colors of white and gold.
 	"Graveyard Hell" A drink for the pirates, nightmares and elk.
-	"Chaos Brew" A drink of Power and ambition, It can drive people crazy or determined 
+	"Chaos Brew" A drink of Power and ambition, It can drive people crazy or determined
 	"The Forests Woke" A drink of the grasslands, rich in fruity flavor and enough to get a horse drunk for a day
 	"CellDweller" A mixture drink of refined fermented and carbonated fruit juice, mana and chaos to kill any high-god for a day.
-	
+
 The guru will lastly give out people based Achievements
 	"A man of his/her drink" - use the guru to drink the "CellDweller" despite his warning about being muted for a day.
 	"A sponsor of many" - Given support to the creator and helped him throughout his journey!
-	"Max Level?!?!" - Reach level 100 
+	"Max Level?!?!" - Reach level 100
 	"VIP" Helped the creator on his twitch and or YouTube channel.
 	"A Inhuman Truth?" Designated a race for yourself in this discord.
-	"Back to the hand" Get muted by the guru 
+	"Back to the hand" Get muted by the guru
 	"A Gentleman/Lady" Get the NSFW tag on your discord.
 	"Song Breaker" Play more then 200 songs using the guru.
 	"The Book Keeper" Search up 20 cards
@@ -97,7 +119,6 @@ Notes:
 
 
 ====================== CURRENT !HELP ========================
-	Here's a list of all my commands:
 	!addroles (@USER) <@ROLE> :: Add role to user/self,
 	!args-info <ARGUMENT> (OPTIONS) :: Information about the arguments provided,
 	!ban <@USER> <REASON> :: Ban User From Server,
@@ -110,6 +131,7 @@ Notes:
 	!perms <@USER> <EVERYONE|GENERAL_USER|MODERATOR|ADMIN> :: Modify Permissions for @USER,
 	!ping  :: Ping!,
 	!play <URL> :: Play music or YT Audio,
+	!pokemon <TERM> :: Lookup a Pokemon, Ability, Type, Item, Move, or Berry,
 	!qr <"Code Data"> :: Generate a qr code,
 	!reload  :: Reloads all commands,
 	!removeroles (@USER) <@ROLE> :: Remove role to user/self,
@@ -119,8 +141,8 @@ Notes:
 	!stop  :: Stop currently playing song,
 	!urban (TERM) :: Lookup a term in UrbanDictionary, or fetch a random one,
 	!warn <@USER> <WARNING> <WarningCounter(bool)> :: Warn User,
-	!weather <LOCATION> :: Get The Weather
-	You can send !help <COMMAND> to get info on a specific command!
+	!weather <LOCATION> :: Get The Weather,
+	!yugioh <CARDNAME> :: Lookup Yu-Gi-Oh card
 ===================== END CURRENT HELP =====================
 
 
@@ -141,7 +163,7 @@ REACT CODE:::{
 		.catch(console.error)
 }
 
-MUSIC: 
+MUSIC:
 -> OPTIONS:
 	-> -s SHUFFLE
 	-> -n NEXT
