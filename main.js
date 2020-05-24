@@ -147,15 +147,16 @@ Bot.on('message', async msg => {
 
             await msg.guild.member(msg.author).roles.add(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)
                 .then(e => {
-                    msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
+                    //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
                     if(USERS[msg.author.id].PermissionsLevel == 0){ // Only set permissions if set to 0 already
                         console.log(USERS[msg.author.id].PermissionsLevel)
                         USERS[msg.author.id].PermissionsLevel = 1; 
                         console.log(USERS[msg.author.id].PermissionsLevel); } // Set to general user instead of EVERYONE
+                    tmpData.USERS = USERS;
                     LOGSystem.LOG(`${msg.author.tag} Added as GENERAL_USER of ${msg.guild.name}`);
+                    Utilities.SetServerData(msg.guild.id, tmpData)
                 })
                 .catch(console.error);
-            tmpData.USERS = USERS;
             msg.delete();
             // Don't run regular code in welcome
             return true;
