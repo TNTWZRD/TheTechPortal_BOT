@@ -5,19 +5,32 @@
 		"WarningsBeforeBan": 6,
 		"ProfanityFilterKickBan": 0,
 		"DeleteCommandsAfterSent": 1,
-		"MaxChainedCommands": 3
+		"MaxChainedCommands": 3,
+		"ServerRole_GENERAL_USER": {
+			"guild": "702721863381549146",
+			"id": "704771275217830068",
+			"name": "General User",
+			"color": 3066993,
+			"hoist": false,
+			"rawPosition": 1,
+			"permissions": 104324673,
+			"managed": false,
+			"mentionable": false,
+			"deleted": false,
+			"createdTimestamp": 1588100966029
+		}
 	},
 	"USERS": {
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 62,
+			"EXP": 80,
 			"Warnings": 0
 		},
 		"709453324054954133": {
 			"Username": "TNTWZRD_TEST#8671",
-			"PermissionsLevel": 0,
-			"EXP": 1,
+			"PermissionsLevel": 1,
+			"EXP": 24,
 			"Warnings": 0
 		},
 		"276907099085340673": {

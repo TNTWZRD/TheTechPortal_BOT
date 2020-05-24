@@ -130,23 +130,34 @@ Bot.on('message', async msg => {
     // See if message was in welcome channel
     if(msg.channel.name == "welcome"){
         // see if GENERAL_USER role set in settings
-        if(!Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER) {
-            msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
-            return false; }
         
         if(msg.content.includes(":rules:")) {
-            msg.guild.member(msg.author).roles.add(Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER.id)
+            
+            if(!Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER) {
+                msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
+                return false; }
+
+            var tmpData = Bot.ServerData;
+            var USERS = tmpData.USERS;
+            await msg.guild.member(msg.author).roles.add(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)
                 .then(e => {
-                    msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome everyone, ${msg.author} to ${msg.guild.name}!!`);
-                    Bot.ServerData.USERS.PermissionsLevel = 1; // Set to general user instead of EVERYONE
+                    //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome everyone, ${msg.author} to ${msg.guild.name}!!`);
+                    if(USERS[msg.author.id].PermissionsLevel == 0){ // Only set permissions if set to 0 already
+                        console.log(USERS[msg.author.id].PermissionsLevel)
+                        USERS[msg.author.id].PermissionsLevel = 1; 
+                        console.log(USERS[msg.author.id].PermissionsLevel); } // Set to general user instead of EVERYONE
                     LOGSystem.LOG(`${msg.author.tag} Added as GENERAL_USER of ${msg.guild.name}`);
                 })
                 .catch(console.error);
+            tmpData.USERS = USERS;
+            msg.delete();
+            // Don't run regular code in welcome
+            return true;
         }
-        msg.delete();
-        // Don't run regular code in welcome
-        Utilities.SetServerData(msg.guild.id, Bot.ServerData)
-        return true;
+        else{
+            msg.delete();
+            return false;
+        }
     }
 
     // For Testing log every message to the console
