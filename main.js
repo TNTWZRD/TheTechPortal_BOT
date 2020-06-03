@@ -117,6 +117,8 @@ Bot.on('message', async msg => {
     if(msg.channel.type === 'text') {
         Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
+        pFilter.filterType(!Bot.ServerData.SETTINGS.ProfanityFilterType, Bot.ServerData.SETTINGS.ProfanityFilterFullWords);
+
     }
     else {
         Bot.ServerData = null;

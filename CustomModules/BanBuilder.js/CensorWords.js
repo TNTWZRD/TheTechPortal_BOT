@@ -41,32 +41,32 @@ exports.filterType = (All, fullWords = true) => {
 function generateCensorChecks(fullWords = false){
 
     leet_replace = [];
-    leet_replace['a'] = new RegExp(/(a|a\.|a\-|4|@|Á|á|À|Â|à|Â|â|Ä|ä|Ã|ã|Å|å|α|Δ|Λ|λ)/).source;
-    leet_replace['b'] = new RegExp(/(b|b\.|b\-|8|\|3|ß|Β|β)/).source;
-    leet_replace['c'] = new RegExp(/(c|c\.|c\-|Ç|ç|¢|€|<|\(|\{|©)/).source;
-    leet_replace['d'] = new RegExp(/(d|d\.|d\-|&part;|\|\)|Þ|þ|Ð|ð)/).source;
-    leet_replace['e'] = new RegExp(/(e|e\.|e\-|3|€|È|è|É|é|Ê|ê|∑)/).source;
-    leet_replace['f'] = new RegExp(/(f|f\.|f\-|ƒ)/).source;
-    leet_replace['g'] = new RegExp(/(g|g\.|g\-|6|9)/).source;
-    leet_replace['h'] = new RegExp(/(h|h\.|h\-|Η)/).source;
-    leet_replace['i'] = new RegExp(/(i|i\.|i\-|!|\||\]\[|]|1|∫|Ì|Í|Î|Ï|ì|í|î|ï)/).source;
-    leet_replace['j'] = new RegExp(/(j|j\.|j\-)/).source;
-    leet_replace['k'] = new RegExp(/(k|k\.|k\-|Κ|κ)/).source;
-    leet_replace['l'] = new RegExp(/(l|1\.|l\-|!|\||\]\[|]|£|∫|Ì|Í|Î|Ï)/).source;
-    leet_replace['m'] = new RegExp(/(m|m\.|m\-)/).source;
-    leet_replace['n'] = new RegExp(/(n|n\.|n\-|η|Ν|Π)/).source;
-    leet_replace['o'] = new RegExp(/(o|o\.|o\-|0|Ο|ο|Φ|¤|°|ø)/).source;
-    leet_replace['p'] = new RegExp(/(p|p\.|p\-|ρ|Ρ|¶|þ)/).source;
-    leet_replace['q'] = new RegExp(/(q|q\.|q\-)/).source;
-    leet_replace['r'] = new RegExp(/(r|r\.|r\-|®)/).source;
-    leet_replace['s'] = new RegExp(/(s|s\.|s\-|5|\|§)/).source;
-    leet_replace['t'] = new RegExp(/(t|t\.|t\-|Τ|τ|7)/).source;
-    leet_replace['u'] = new RegExp(/(u|u\.|u\-|υ|µ)/).source;
-    leet_replace['v'] = new RegExp(/(v|v\.|v\-|υ|ν)/).source;
-    leet_replace['w'] = new RegExp(/(w|w\.|w\-|ω|ψ|Ψ)/).source;
-    leet_replace['x'] = new RegExp(/(x|x\.|x\-|Χ|χ)/).source;
-    leet_replace['y'] = new RegExp(/(y|y\.|y\-|¥|γ|ÿ|ý|Ÿ|Ý)/).source;
-    leet_replace['z'] = new RegExp(/(z|z\.|z\-|Ζ)/).source;
+    leet_replace['a'] = new RegExp(/(a|a\.|a\-|4|@|Á|á|À|Â|à|Â|â|Ä|ä|Ã|ã|Å|å|α|Δ|Λ|λ)(-|_|\s|\.)?/).source;
+    leet_replace['b'] = new RegExp(/(b|b\.|b\-|8|\|3|ß|Β|β)(-|_|\s|\.)?/).source;
+    leet_replace['c'] = new RegExp(/(c|c\.|c\-|Ç|ç|¢|€|<|\(|\{|©)(-|_|\s|\.)?/).source;
+    leet_replace['d'] = new RegExp(/(d|d\.|d\-|&part;|\|\)|Þ|þ|Ð|ð)(-|_|\s|\.)?/).source;
+    leet_replace['e'] = new RegExp(/(e|e\.|e\-|3|€|È|è|É|é|Ê|ê|∑)(-|_|\s|\.)?/).source;
+    leet_replace['f'] = new RegExp(/(f|f\.|f\-|ƒ)(-|_|\s|\.)?/).source;
+    leet_replace['g'] = new RegExp(/(g|g\.|g\-|6|9)(-|_|\s|\.)?/).source;
+    leet_replace['h'] = new RegExp(/(h|h\.|h\-|Η)(-|_|\s|\.)?/).source;
+    leet_replace['i'] = new RegExp(/(i|i\.|i\-|!|\||\]\[|]|1|∫|Ì|Í|Î|Ï|ì|í|î|ï)(-|_|\s|\.)?/).source;
+    leet_replace['j'] = new RegExp(/(j|j\.|j\-)(-|_|\s|\.)?/).source;
+    leet_replace['k'] = new RegExp(/(k|k\.|k\-|Κ|κ)(-|_|\s|\.)?/).source;
+    leet_replace['l'] = new RegExp(/(l|1\.|l\-|!|\||\]\[|]|£|∫|Ì|Í|Î|Ï)(-|_|\s|\.)?/).source;
+    leet_replace['m'] = new RegExp(/(m|m\.|m\-)(-|_|\s|\.)?/).source;
+    leet_replace['n'] = new RegExp(/(n|n\.|n\-|η|Ν|Π)(-|_|\s|\.)?/).source;
+    leet_replace['o'] = new RegExp(/(o|o\.|o\-|0|Ο|ο|Φ|¤|°|ø)(-|_|\s|\.)?/).source;
+    leet_replace['p'] = new RegExp(/(p|p\.|p\-|ρ|Ρ|¶|þ)(-|_|\s|\.)?/).source;
+    leet_replace['q'] = new RegExp(/(q|q\.|q\-)(-|_|\s|\.)?/).source;
+    leet_replace['r'] = new RegExp(/(r|r\.|r\-|®)(-|_|\s|\.)?/).source;
+    leet_replace['s'] = new RegExp(/(s|s\.|s\-|5|\|§)(-|_|\s|\.)?/).source;
+    leet_replace['t'] = new RegExp(/(t|t\.|t\-|Τ|τ|7)(-|_|\s|\.)?/).source;
+    leet_replace['u'] = new RegExp(/(u|u\.|u\-|υ|µ)(-|_|\s|\.)?/).source;
+    leet_replace['v'] = new RegExp(/(v|v\.|v\-|υ|ν)(-|_|\s|\.)?/).source;
+    leet_replace['w'] = new RegExp(/(w|w\.|w\-|ω|ψ|Ψ)(-|_|\s|\.)?/).source;
+    leet_replace['x'] = new RegExp(/(x|x\.|x\-|Χ|χ)(-|_|\s|\.)?/).source;
+    leet_replace['y'] = new RegExp(/(y|y\.|y\-|¥|γ|ÿ|ý|Ÿ|Ý)(-|_|\s|\.)?/).source;
+    leet_replace['z'] = new RegExp(/(z|z\.|z\-|Ζ)(-|_|\s|\.)?/).source;
 
     censorChecks = [];
     for (x = 0; x < badwords.length; x++){
@@ -89,6 +89,8 @@ function generateCensorChecks(fullWords = false){
             censorChecks[x] = new RegExp(tmpRegExp, 'i');
         }
     }
+    // So longer words first!
+    censorChecks.reverse();
 }
 
 exports.censorString = (string) => {
