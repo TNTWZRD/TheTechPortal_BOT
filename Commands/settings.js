@@ -14,7 +14,6 @@ module.exports = {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
-
             
             if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
                 msg.reply("You do not have permissions to run this command");
