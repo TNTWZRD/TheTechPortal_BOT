@@ -26,14 +26,26 @@
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 385,
+			"EXP": 403,
 			"Warnings": 0
 		},
 		"709453324054954133": {
 			"Username": "TNTWZRD_TEST#8671",
 			"PermissionsLevel": 3,
-			"EXP": 505,
+			"EXP": 506,
 			"Warnings": 3
+		},
+		"234395307759108106": {
+			"Username": "Groovy#7254",
+			"PermissionsLevel": 0,
+			"EXP": 1,
+			"Warnings": 0
+		},
+		"709973946275201024": {
+			"Username": "The Guru#9663",
+			"PermissionsLevel": 0,
+			"EXP": 1,
+			"Warnings": 0
 		}
 	}
 }
