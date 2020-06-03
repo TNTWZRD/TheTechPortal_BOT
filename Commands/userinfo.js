@@ -5,9 +5,9 @@ module.exports = {
     name: 'userinfo',
     aliases: ['info'],
     description: 'Get User Info',
-    help: '!userinfo <@USER>: Get User Info',
-    usage: `<@USER>`,
-    args: true,
+    help: '!userinfo (@USER): Get User Info',
+    usage: `(@USER)`,
+    args: false,
     guildOnly: true,
     minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
@@ -16,12 +16,15 @@ module.exports = {
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
 
-            var target = msg.mentions.members.first();
-            if(!target){
-                msg.reply("You must mention user you would like information about!!");
-                reject("No mentions."); }
 
-                console.log(JSON.stringify(target.roles.cache, null, `\t`))
+            if(args[0]){
+                var target = msg.mentions.members.first();
+                if(!target){
+                    msg.reply("You must mention user you would like information about!!");
+                    reject("No mentions."); }
+            }else{
+                var target = msg.guild.member(msg.author.id);
+            }
 
             var data = [];
             var embed = new Discord.MessageEmbed();
