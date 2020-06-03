@@ -15,6 +15,9 @@ module.exports = {
                     return reject("Insufficient Permissions") }
             }
 
+            // Maybe?
+            // process.exit(1);
+
             Bot.commands.each(obj => {
                 delete require.cache[require.resolve(`./${obj.name}.js`)];
             });

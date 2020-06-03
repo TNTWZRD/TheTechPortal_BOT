@@ -12,6 +12,8 @@
         "WarningsBeforeKick": 3,
         "WarningsBeforeBan": 6,
         "ProfanityFilterKickBan": 1,
+        "ProfanityFilterType": 1,
+        "ProfanityFilterFullWords": 1,
         "DeleteCommandsAfterSent": 0,
         "MaxChainedCommands": 3,
         "ServerRole_GENERAL_USER":null

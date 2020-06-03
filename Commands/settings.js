@@ -25,6 +25,7 @@ module.exports = {
                 Utilities.embedMessage(Bot, msg, args, "Available Settings", JSON.stringify(keys, null, `\t`), "#660", Bot.user.name, !OPTIONS.STAY)
             }
 
+            console.log(JSON.stringify(args))
             var data = args[1];
             switch(args[0]){
                 case "WarningsBeforeKick":
@@ -60,6 +61,16 @@ module.exports = {
                 case "MaxChainedCommands":
                     Bot.ServerData.SETTINGS.MaxChainedCommands = parseInt(data)
                     msg.reply("Settings Updated")
+                    break;
+                
+                case "ProfanityFilterType":
+                    Bot.ServerData.SETTINGS.ProfanityFilterType = parseInt(data)
+                    msg.reply("Settings Updated")
+                    break;
+                
+                case "ProfanityFilterFullWords":
+                    Bot.ServerData.SETTINGS.ProfanityFilterFullWords = parseInt(data)
+                    msg.reply("Settings Updated");
                     break;
 
                 case "GENERAL_USER":
