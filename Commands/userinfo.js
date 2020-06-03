@@ -40,7 +40,6 @@ module.exports = {
                 data.push(`-- ${e.name}`);
             });
 
-
             embed.setDescription(data);
             embed.setFooter(`Data provided by: ${msg.client.user.username}`);
 
