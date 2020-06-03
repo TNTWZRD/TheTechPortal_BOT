@@ -25,7 +25,6 @@ module.exports = {
                 Utilities.embedMessage(Bot, msg, args, "Available Settings", JSON.stringify(keys, null, `\t`), "#660", Bot.user.name, !OPTIONS.STAY)
             }
 
-            console.log(JSON.stringify(args))
             var data = args[1];
             switch(args[0]){
                 case "WarningsBeforeKick":
@@ -83,7 +82,7 @@ module.exports = {
                     keys = Object.keys(Bot.ServerData.SETTINGS)
                     newSettings = {};
                     for(i = 0; i< keys.length; i++){
-                        if (keys[i] != "PERMISSIONS"){
+                        if (keys[i] != "PERMISSIONS" && keys[i] != "ServerRole_GENERAL_USER"){
                             newSettings[keys[i]] = Bot.ServerData.SETTINGS[keys[i]];
                     }}    
                     Utilities.embedMessage(Bot, msg, args, "Current Bot Settings", JSON.stringify(newSettings, null, `\t`), "#660", Bot.user.name, !OPTIONS.STAY)
