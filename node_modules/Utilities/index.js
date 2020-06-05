@@ -8,8 +8,21 @@ const Discord = require('discord.js');
 const LOGSystem = require('LOGSystem')
 var fs = require('fs');
 var config = require('../../config.json');
+const mysql = require('mysql');
 
 const ServerDirectory = "./Servers/";
+
+var connection = mysql.createConnection({
+    host: config.MYSQL.HOST,
+    user: config.MYSQL.USER,
+    password: config.MYSQL.PASSWORD,
+    database: config.MYSQL.DB
+});
+
+connection.connect(function(err){
+    if(err) throw err;
+    console.log("Connected!!");
+});
 
 exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
 
