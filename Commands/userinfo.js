@@ -37,7 +37,7 @@ module.exports = {
 
             data.push('Has Roles:');
             target.roles.cache.forEach(e => {
-                data.push(`-- ${e.name}`);
+                if(e.name != '@everyone') data.push(`-- \`\`${e.name}\`\``);
             });
 
             embed.setDescription(data);
