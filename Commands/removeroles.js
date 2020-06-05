@@ -52,7 +52,7 @@ module.exports = {
             
             msg.guild.member(target).roles.remove(role)
                 .then(() => { 
-                    msg.channel.send(`${target}, You are no longer a part of \`\`${role}\`\`!`)
+                    msg.channel.send(`${target}, You are no longer a part of \`\`${role.name}\`\`!`)
                  })
                 .catch(err => reject(err));
             
