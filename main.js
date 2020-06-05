@@ -3,6 +3,7 @@ const Bot = new Discord.Client();
 Bot.commands = new Discord.Collection();
 Bot.MusicQueue = new Map();
 Bot.MusicStreams = new Map();
+Bot.Config = require('./config.json');
 
 const fs = require('fs');
 
