@@ -46,7 +46,7 @@ module.exports = {
             
             msg.guild.member(target).roles.add(role)
                 .then(() => { 
-                    msg.channel.send(`${target}, You are now a part of ${role}!`)
+                    msg.channel.send(`${target}, You are now a part of \`\`${role}\`\`!`)
                  })
                 .catch(err => reject(err));
 
