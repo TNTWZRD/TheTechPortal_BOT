@@ -15,7 +15,7 @@ module.exports = {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
             const USERS = Bot.ServerData.USERS
-
+ 
 
             if(args[0]){
                 var target = msg.mentions.members.first();

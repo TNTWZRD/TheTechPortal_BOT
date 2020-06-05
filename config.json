@@ -8,6 +8,12 @@
       "ADMIN": 4,
       "OWNER": 8
     },
+    "MYSQL":{
+      "HOST":"pve.jajliardo.com",
+      "DB":"DiscordBot_TheGuru",
+      "USER":"DiscordBot_TheGuru",
+      "PASSWORD":"powerful_Humor_REVOLUTION+?444"
+    },
     "BasicSettings":{
         "WarningsBeforeKick": 3,
         "WarningsBeforeBan": 6,

@@ -62,7 +62,7 @@ module.exports = {
             if(msg.guild) msg.channel.send(embed);
             else msg.reply(embed)
 
-            resolve("!YuGiOh Executed, No Errors");
+            resolve("!MagicTheGathering Executed, No Errors");
         });
 	},
 }; 
