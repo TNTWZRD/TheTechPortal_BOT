@@ -116,6 +116,10 @@ Bot.on('message', async msg => {
 
     // get data for current server: Settings / Users
     if(msg.channel.type === 'text') {
+
+        await Utilities.GetServer(msg.guild.id, msg.guild.name)
+            .then(e => {console.log(e)});
+
         Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
         pFilter.filterType(!Bot.ServerData.SETTINGS.ProfanityFilterType, Bot.ServerData.SETTINGS.ProfanityFilterFullWords);

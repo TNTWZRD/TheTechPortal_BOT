@@ -24,6 +24,24 @@ connection.connect(function(err){
     console.log("Connected!!");
 });
 
+exports.GetServer = (ServerID, ServerName) => {
+    return new Promise((resolve, reject) => {
+        var query = `SELECT * FROM \`Servers\` WHERE \`SUID\` = '${ServerID}'`;
+        var response = null;
+        connection.query(query, (err, result) => {
+            if(err) reject(err);
+                if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                else{
+                    var query = `INSERT INTO \`Servers\`(\`SUID\`, \`ServerName\`) VALUES ('${ServerID}','${ServerName}')`;
+                    connection.query(query, function(err, result, fields){
+                        if(err) reject(err);
+                        if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                    });
+                }
+            });
+    });
+};
+
 exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
 
 exports.hasPermissions = (Bot, USERID, LEVEL) => { return (Bot.ServerData.USERS[USERID].PermissionsLevel & Bot.PERMS[LEVEL]); }
