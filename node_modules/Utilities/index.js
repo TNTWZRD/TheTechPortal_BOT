@@ -88,7 +88,13 @@ exports.SetUserValue = (ServerID, UserID, Setting, Value) => {
         var query = `UPDATE \`Users\` SET \`${Setting}\`='${Value}' WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
         connection.query(query, (err, result) => {
             if(err) reject(err);
-            if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+            var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
+            connection.query(query, (err, result) => {
+                if(err) reject(err);
+                    console.log(result)
+                    if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                    reject("Error");
+                });
         });
     });
 }
@@ -97,8 +103,8 @@ exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...`
 
 exports.hasPermissions = async (Bot, UserID, LEVEL) => { 
     var perm = await this.GetUser(Bot.SETTINGS.SUID, UserID);
-    console.log(perm.PermissionsLevel + " == " + LEVEL + " <<-- ");
-    console.log((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]);
+    // console.log(perm.PermissionsLevel + " == " + LEVEL + " <<-- ");
+    // console.log((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]);
     return ((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]); 
 }
 

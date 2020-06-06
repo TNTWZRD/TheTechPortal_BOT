@@ -1,6 +1,6 @@
 {
     "prefix":"!",
-    "token":"NzA5NDExNzAwNzM0MTY1MDcy.XrtvCw.puyBwx6IVTmql3fqOOx9uWMM4ZY",
+    "token":"NzEyODY5MzgyMjc1MDcyMDUx.XsYM5Q.REl6mkV14lVWLFxgiyWy6Pyu1VI",
     "github_oauth":"401a3d4180ec8e66a48bb3a175d0377ddc643282",
     "PERMISSIONS":{
       "EVERYONE": 0,
@@ -14,16 +14,6 @@
       "DB":"DiscordBot_TheGuru",
       "USER":"DiscordBot_TheGuru",
       "PASSWORD":"powerful_Humor_REVOLUTION+?444"
-    },
-    "BasicSettings":{
-        "WarningsBeforeKick": 3,
-        "WarningsBeforeBan": 6,
-        "ProfanityFilterKickBan": 1,
-        "ProfanityFilterType": 1,
-        "ProfanityFilterFullWords": 1,
-        "DeleteCommandsAfterSent": 0,
-        "MaxChainedCommands": 3,
-        "ServerRole_GENERAL_USER":null
     },
     "DEBUG":true
 }

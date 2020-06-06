@@ -69,7 +69,6 @@ async function parseMessage(msg) {
             timestamps.set(msg.author.id, now);
             setTimeout(() => timestamps.delete(msg.author.id), cooldownAmount);
 
-
             // Check to see if args are required and that we have no options selected if so
             if((commandOBJ.args && !args.ARGS.length)) {
                 if(!args.OPTIONS.length){
@@ -172,6 +171,7 @@ Bot.on('message', async msg => {
     parseMessage(msg)
         .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
+    if(msg.guild) Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "EXP", ((await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id)).EXP + 1));
 
 });
 
