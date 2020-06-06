@@ -10,12 +10,12 @@ module.exports = {
     guildOnly: true,
     minPermissions: "ADMIN",
 	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
             // Check to see if we have permissions to run this command
-            if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
+            if(!(await Utilities.hasPermissions(Bot, msg.author.id, "ADMIN"))){
                 msg.reply("You do not have the permissions to run this command");
                 return reject("Insufficient Permissions") }
             
@@ -26,7 +26,7 @@ module.exports = {
             
             // Make Sure Admins cant give ADMIN or OWNER, But OWNERS can
             if(args[1] == "ADMIN" || args[1] == "OWNER"){
-                if(!Utilities.hasPermissions(Bot, msg.author.id, "OWNER")){
+                if(!(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
                     msg.reply("You do not have the permissions to give ADMIN or OWNER");
                     return reject("Insufficient Permissions to give ADMIN or OWNER") }
             }

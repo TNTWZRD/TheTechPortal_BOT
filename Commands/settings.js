@@ -16,7 +16,7 @@ module.exports = {
 
             var SETTINGS = await Utilities.GetServer(msg.guild.id);
             
-            if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
+            if(!(await Utilities.hasPermissions(Bot, msg.author.id, "ADMIN"))){
                 msg.reply("You do not have permissions to run this command");
                 return reject("Insufficient permissions.") }
 

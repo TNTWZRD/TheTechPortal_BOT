@@ -122,7 +122,7 @@ Bot.on('message', async msg => {
     // get data for current server: Settings / Users
     if(msg.channel.type === 'text') {
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
-        pFilter.filterType(!Bot.SETTINGS.ProfanityFilterType, Bot.SETTINGS.ProfanityFilterFullWords);
+        pFilter.filterType(!Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
 
     }
     else {

@@ -14,7 +14,7 @@ module.exports = {
             const args = _args.ARGS;
 
             var target = msg.mentions.members.first();
-            if(target && !Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
+            if(target && !(await Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))){
                 msg.reply("You do not have permissions to run this command on other people");
                 return reject("Insufficient permissions to add role to another user."); }
             

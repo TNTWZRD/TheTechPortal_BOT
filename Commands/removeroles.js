@@ -9,12 +9,12 @@ module.exports = {
     args: true,
     minPermissions: "GENERAL_USER",
 	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
             var target = msg.mentions.members.first();
-            if(target && !Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
+            if(target && !(await Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))){
                 msg.reply("You do not have permissions to run this command on other people");
                 return reject("Insufficient permissions to remove role from another user."); }
             
