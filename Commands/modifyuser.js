@@ -10,12 +10,12 @@ module.exports = {
     guildOnly: true,
     minPermissions: "ADMIN",
 	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
             // Condition
-            if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
+            if(!(await Utilities.hasPermissions(Bot, msg.author.id, "ADMIN"))){
                 msg.reply("You do not have the permissions to run this command");
                 return reject("Insufficient Permissions") }
             
