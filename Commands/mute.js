@@ -10,13 +10,12 @@ module.exports = {
     guildOnly: true,
     minPermissions: "MODERATOR",
 	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             // Check for permissions:
-            if(!Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
+            if(! (await Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))){
                 msg.reply("You do not have permissions to run this command")
                 return reject("Insufficient permissions"); }
             
@@ -30,7 +29,7 @@ module.exports = {
                 msg.reply("You Cant Mute Yourself")
                 return reject("Tried to mute self"); }
             // Make sure target isnt OP
-            if(Utilities.hasPermissions(Bot, target.id, "MODERATOR")){
+            if(await Utilities.hasPermissions(Bot, target.id, "MODERATOR")){
                 msg.reply("You Cant Mute MODERATORS")
                 return reject("Tried to mute a moderator"); }
 

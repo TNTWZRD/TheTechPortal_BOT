@@ -13,7 +13,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             // Check to see if we have permissions to run this command
             if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
@@ -45,19 +44,19 @@ module.exports = {
             
             switch(args[1]){
                 case 'EVERYONE':
-                    Bot.ServerData.USERS[target.user.id].PermissionsLevel = 0;
+                    Utilities.SetUserValue(msg.guild.id, target.id, "PermissionsLevel", 0);
                     break;
                 case 'GENERAL':
-                    Bot.ServerData.USERS[target.user.id].PermissionsLevel = 1;
+                    Utilities.SetUserValue(msg.guild.id, target.id, "PermissionsLevel", 1);
                     break;
                 case 'MODERATOR':
-                    Bot.ServerData.USERS[target.user.id].PermissionsLevel = 3;
+                    Utilities.SetUserValue(msg.guild.id, target.id, "PermissionsLevel", 3);
                     break;
                 case 'ADMIN':
-                    Bot.ServerData.USERS[target.user.id].PermissionsLevel = 7;
+                    Utilities.SetUserValue(msg.guild.id, target.id, "PermissionsLevel", 7);
                     break;
                 case 'OWNER':
-                    Bot.ServerData.USERS[target.user.id].PermissionsLevel = 15;
+                    Utilities.SetUserValue(msg.guild.id, target.id, "PermissionsLevel", 15);
                     break;
                 default:
                     msg.reply("ERROR: Check your command syntax, something went wrong")

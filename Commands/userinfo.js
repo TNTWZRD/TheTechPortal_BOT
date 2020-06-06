@@ -14,8 +14,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
- 
 
             if(args[0]){
                 var target = msg.mentions.members.first();

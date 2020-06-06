@@ -16,7 +16,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             const query = querystring.stringify( {
                 key:"EVxSAcDKTO503YBzQa7wL1Js4quZFdoG",

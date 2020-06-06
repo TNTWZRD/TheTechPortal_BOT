@@ -12,7 +12,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             var target = msg.mentions.members.first();
             if(target && !Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
@@ -35,8 +34,8 @@ module.exports = {
             test = [8, 32, 268435456, 16, 2, 4, 536870912, 8162, 128]; // ADMIN PRIVILEGES
             test.forEach(i => { if(role.permissions.has(i)) isAdmin = true; });
 
-            if(Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER){
-                if(role.id == Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER.id && !(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))){
+            if(Bot.SETTINGS.ServerRole_GENERAL_USER){
+                if(role.id == Bot.SETTINGS.ServerRole_GENERAL_USER.id && !(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))){
                     msg.reply("You do not have permission to remove this role.");
                     return reject("User tried to remove: ServerRole_GENERAL_USER");
             }}

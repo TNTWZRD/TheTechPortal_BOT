@@ -13,7 +13,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             getSong(Bot, msg, args, OPTIONS, Bot.MusicQueue.get(msg.guild.id));
 

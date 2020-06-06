@@ -10,14 +10,16 @@ module.exports = {
 	cooldown: 0,
     minPermissions: "GENERAL_USER",
 	execute(Bot, msg, args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const data = [];
             const { commands } = msg.client;
+
+            var usr = await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id);
 
             commands.each(e => { 
                 if(!e.usage) e.usage = ''; 
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
-                if(msg.guild) if(!Utilities.hasPermissions(Bot, msg.author.id, e.minPermissions)) commands.delete(e.name);
+                if(msg.guild) if(!( usr.PermissionsLevel & Bot.PERMS[e.minPermissions] )) commands.delete(e.name);
             });
 
             if(!args.ARGS.length){
@@ -57,7 +59,7 @@ module.exports = {
 
             msg.channel.send(data, { split: true });
 
-            return resolve("!Help Executed, No Errors") 
+            return resolve("!Help Executed, No Errors");
         });
 	},
 };
