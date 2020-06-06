@@ -12,7 +12,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             if (!msg.member.voice.channel)
                 return msg.channel.send(

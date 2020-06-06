@@ -13,7 +13,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             // Condition
             if(!Utilities.hasPermissions(Bot, msg.author.id, "ADMIN")){
@@ -45,11 +44,11 @@ module.exports = {
                     msg.reply("Not Editable By Commands");
                     break;
                 case 'EXP':
-                    Bot.ServerData.USERS[target.user.id].EXP = parseInt(args[2])
+                    Utilities.SetUserValue(msg.guild.id, target.id, "EXP", parseInt(args[2]));
                     msg.reply("Settings Updated")
                 break;
                 case 'WARNINGS':
-                    Bot.ServerData.USERS[target.user.id].Warnings = parseInt(args[2])
+                    Utilities.SetUserValue(msg.guild.id, target.id, "Warnings", parseInt(args[2]));
                     msg.reply("Settings Updated")
                 break;
             }

@@ -27,7 +27,6 @@ connection.connect(function(err){
 exports.GetServer = (ServerID, ServerName) => {
     return new Promise((resolve, reject) => {
         var query = `SELECT * FROM \`Servers\` WHERE \`SUID\` = '${ServerID}'`;
-        var response = null;
         connection.query(query, (err, result) => {
             if(err) reject(err);
                 if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
@@ -35,87 +34,86 @@ exports.GetServer = (ServerID, ServerName) => {
                     var query = `INSERT INTO \`Servers\`(\`SUID\`, \`ServerName\`) VALUES ('${ServerID}','${ServerName}')`;
                     connection.query(query, function(err, result, fields){
                         if(err) reject(err);
-                        if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                        var query = `SELECT * FROM \`Servers\` WHERE \`SUID\` = '${ServerID}'`;
+                        connection.query(query, (err, result) => {
+                            if(err) reject(err);
+                                if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                        });
                     });
                 }
             });
     });
 };
 
+exports.SetServerValue = (ServerID, Setting, Value) => {
+    return new Promise((resolve, reject) => {
+        var query = `UPDATE \`Servers\` SET \`${Setting}\`='${Value}' WHERE \`SUID\` = '${ServerID}'`;
+        connection.query(query, (err, result) => {
+            if(err) reject(err);
+            var query = `SELECT * FROM \`Servers\` WHERE \`SUID\` = '${ServerID}'`;
+            connection.query(query, (err, result) => {
+                if(err) reject(err);
+                    if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+            });
+        });
+    });
+}
+
+exports.GetUser = (ServerID, UserID, UserName = null, IsOwner = 0) => {
+    return new Promise((resolve, reject) => {
+        var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
+        connection.query(query, (err, result) => {
+            if(err) reject(err);
+                if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                else{
+                    var query = `INSERT INTO \`Users\`(\`SUID\`, \`UID\`, \`Username\`, \`PermissionsLevel\`) VALUES ('${ServerID}', '${UserID}', '${UserName}', '${IsOwner}')`;
+                    connection.query(query, function(err, result, fields){
+                        if(err) reject(err);
+                        LOGSystem.LOG(`Added User: ${UserName}`, undefined, "GetUser");
+                        var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
+                        connection.query(query, (err, result) => {
+                            if(err) reject(err);
+                                console.log(result)
+                                if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                                reject("Error");
+                            });
+                    });
+                }
+            });
+    });
+}
+
+exports.SetUserValue = (ServerID, UserID, Setting, Value) => {
+    return new Promise((resolve, reject) => {
+        var query = `UPDATE \`Users\` SET \`${Setting}\`='${Value}' WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
+        connection.query(query, (err, result) => {
+            if(err) reject(err);
+            if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+        });
+    });
+}
+
 exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
 
-exports.hasPermissions = (Bot, USERID, LEVEL) => { return (Bot.ServerData.USERS[USERID].PermissionsLevel & Bot.PERMS[LEVEL]); }
+exports.hasPermissions = async (Bot, UserID, LEVEL) => { 
+    var perm = await this.GetUser(Bot.SETTINGS.SUID, UserID);
+    console.log(perm.PermissionsLevel + " == " + LEVEL + " <<-- ");
+    console.log((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]);
+    return ((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]); 
+}
 
 exports.addUsers = (Bot, msg) => {
-    return new Promise(resolve => {
-        var guildId = msg.guild.id;
-        var UsersAdded = [];
-        var err = "";
-        
-        // Check for @Mentions
-
-        msg.mentions.members.forEach(e => {
-            // Check Every Message Author to see if is in database
-            if (!(e.user.id in Bot.ServerData.USERS)){
-                Bot.ServerData.USERS[e.user.id] = {
-                    "Username":e.user.tag,
-                    "PermissionsLevel":0, // Default to EVERYONE
-                    "EXP":1,
-                    "Warnings":0
-                }
-                if(msg.guild.ownerID == e.user.id) Bot.ServerData.USERS[e.user.id].PermissionsLevel = 15 // Make Owner
-                UsersAdded.push(e.user.tag);
-            }
+    return new Promise(async resolve => {
+        msg.mentions.members.forEach(async e => { 
+            var owner = 0;
+            if(e.user.id == msg.guild.ownerID) owner = 15;
+            await this.GetUser(Bot.SETTINGS.SUID, e.user.id, e.user.username+"#"+e.user.discriminator , owner); 
         });
-    
-        // Check Every Message Author to see if is in database
-        if (!(msg.author.id in Bot.ServerData.USERS)){
-            Bot.ServerData.USERS[msg.author.id] = {
-                "Username":msg.author.tag,
-                "PermissionsLevel":0, // Default to EVERYONE
-                "EXP":1,
-                "Warnings":0
-            }
-            if(msg.guild.ownerID == msg.author.id) Bot.ServerData.USERS[msg.author.id].PermissionsLevel = 15 // Make Owner
-            UsersAdded.push(msg.author.tag);
-        }else Bot.ServerData.USERS[msg.author.id].EXP += 1;
-
-        if(UsersAdded.length) resolve("Added Users: " + JSON.stringify(UsersAdded));
-        else if(err == '') resolve()
+        var owner = 0;
+        if(msg.author.id == msg.guild.ownerID) owner = 15;
+        await this.GetUser(Bot.SETTINGS.SUID, msg.author.id, msg.author.tag, owner).then(e=> {resolve('');})
     });
 };
-
-var base = 36;
-
-exports.getServerData = (guild) => {
-    var loc = ServerDirectory+guild.id+"_server.json"
-    var toReturn = null;
-    if(fs.existsSync(loc)){
-        toReturn = fs.readFileSync(loc, 'utf8', function(err, contents){
-            if(!err) {
-                return contents;
-            }else {
-                LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'getServerData');
-                return false;
-            }
-        });
-    }else{
-        this.SetServerData(guild.id, { "ServerName": guild.name, "SETTINGS": config.BasicSettings, "USERS": {} } );
-        toReturn = this.getServerData(guild);
-    }
-    return toReturn;
-}
-
-exports.SetServerData = (guildId, NewData) => {
-    success = true;
-    fs.writeFileSync(ServerDirectory+guildId+"_server.json", JSON.stringify(NewData, null, "\t"), function(err){
-        if(err) {
-            LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'getServerData');
-            success = false;
-        }
-    });
-    return success;
-}
 
 exports.getArgs = (msg) => {
     var RETURN = false
@@ -199,13 +197,11 @@ exports.PFFilter = (Bot, msg, pFilter) => {
                 LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString');
                 
                 this.embedMessage(Bot, msg, undefined, "Original Message Deleted", `${msg.author.tag}: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.name, false);
-
-                USERS = Bot.ServerData.USERS;
-                SETTINGS = Bot.ServerData.SETTINGS;
-                if(Bot.ServerData.SETTINGS.ProfanityFilterKickBan) {
+                
+                if(Bot.SETTINGS.ProfanityFilterKickBan) {
                     msg.channel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`)
                     
-                    if(USERS[msg.author.id].Warnings >= SETTINGS.WarningsBeforeKick && USERS[msg.author.id].Warnings < SETTINGS.WarningsBeforeBan ){
+                    if(Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id).Warnings >= Bot.SETTINGS.WarningsBeforeKick && Utilities.GetUser(Bot.SETTINGS.SUID, mg.author.id).Warnings < Bot.SETTINGS.WarningsBeforeBan ){
                         this.embedMessage(Bot, msg, undefined, "Kicked User For Profanity", `Kicked ${msg.author} (${msg.author.id})`, "#ff6600", `Kicked by ${Bot.user.name}`, false)
                         msg.guild.members.fetch(msg.author.id)
                             .then(user => {
@@ -213,8 +209,9 @@ exports.PFFilter = (Bot, msg, pFilter) => {
                                     .then(dmChannel => { dmChannel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`); });
                                 user.kick();
                             });
-                        USERS[msg.author.id].Warnings += 1
-                    }else if(USERS[msg.author.id].Warnings >= SETTINGS.WarningsBeforeBan){
+                            // Increment
+                            Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "Warnings", (Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id).Warnings+1));
+                    }else if(Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id).Warnings >= Bot.SETTINGS.WarningsBeforeBan){
                         this.embedMessage(Bot, msg, undefined, "Banned User For Profanity", `Banned ${msg.author} (${msg.author.id})`, "#ff0000", `Banned by ${Bot.user.name}`, false)
                         msg.guild.members.fetch(msg.author.id)
                             .then(user => {
@@ -222,13 +219,10 @@ exports.PFFilter = (Bot, msg, pFilter) => {
                                     .then(dmChannel => { dmChannel.send(`${msg.author}, Racism will not be tolerated in this server. You have been **BANNED**.`); });
                                 user.ban();
                             });
-                        USERS[msg.author.id].Warnings += 1
-                    }else USERS[msg.author.id].Warnings += 1
+                            // Increment Warnings
+                            Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "Warnings", (Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id).Warnings+1));
+                    }else Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "Warnings", (Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id).Warnings+1));
                 }
-                Bot.ServerData.USERS = USERS;
-                Bot.ServerData.SETTINGS = SETTINGS;
-
-                this.SetServerData(msg.guild.id, Bot.ServerData)
 
                 msg.delete();
             }

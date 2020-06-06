@@ -94,11 +94,9 @@ async function parseMessage(msg) {
                 .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, `Execute: ${commandOBJ.name}`); })
                 .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, `Execute: ${commandOBJ.name}`); });
 
-            if(msg.guild && Bot.ServerData.SETTINGS.DeleteCommandsAfterSent) msg.delete();
+            if(msg.guild && Bot.SETTINGS.DeleteCommandsAfterSent) msg.delete();
 
         });
-
-        if(msg.guild) Utilities.SetServerData(msg.guild.id, Bot.ServerData);
 
         if(err) reject(err);
         else resolve();
@@ -107,71 +105,65 @@ async function parseMessage(msg) {
 
 Bot.once('ready', () => {
     LOGSystem.LOG("Bot READY", undefined, 'BotReady');
-    pFilter.filterType(0, 1);
+    pFilter.filterType(1, 1);
 });
 
 Bot.on('message', async msg => {
     // Ignore messages sent by the bot
     if(msg.author.bot) return;
 
+    if(msg.guild) {
+        await Utilities.GetServer(msg.guild.id, msg.guild.name)
+            .then(async e => { Bot.SETTINGS = e; });
+        await Utilities.addUsers(Bot, msg)
+            .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
+    }
+
     // get data for current server: Settings / Users
     if(msg.channel.type === 'text') {
-
-        await Utilities.GetServer(msg.guild.id, msg.guild.name)
-            .then(e => {console.log(e)});
-
-        Bot.ServerData = JSON.parse(Utilities.getServerData(msg.guild));
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
-        pFilter.filterType(!Bot.ServerData.SETTINGS.ProfanityFilterType, Bot.ServerData.SETTINGS.ProfanityFilterFullWords);
+        pFilter.filterType(!Bot.SETTINGS.ProfanityFilterType, Bot.SETTINGS.ProfanityFilterFullWords);
 
     }
     else {
-        Bot.ServerData = null;
+        Bot.SETTINGS = null;
         LOGSystem.logChannel = null;
     }
-
-    if(msg.guild)Utilities.addUsers(Bot, msg)
-        .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'Add Users'); })
-        .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
 
     // See if message was in welcome channel
     if(msg.channel.name == "welcome"){
         // see if GENERAL_USER role set in settings
         
         if(msg.content.includes(":rules:")) {
-            var tmpData = Bot.ServerData;
-            var USERS = tmpData.USERS;
             
-            if(!Bot.ServerData.SETTINGS.ServerRole_GENERAL_USER) {
+            msg.delete();
+
+            if(!Bot.SETTINGS.ServerRole_GENERAL_USER) {
                 msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
                 return false; }
 
+            var GENERAL_USER = JSON.parse(Bot.SETTINGS.ServerRole_GENERAL_USER);
+            GENERAL_USER = msg.guild.roles.cache.filter(role => role.id == GENERAL_USER.id);
             var userRoles = msg.guild.member(msg.author).roles
-            if((userRoles.cache && userRoles.cache.has(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)) || Utilities.hasPermissions(Bot, msg.author.id, "GENERAL_USER") ){
-                msg.delete();
+            if((userRoles.cache && userRoles.cache.has(GENERAL_USER)) || await Utilities.hasPermissions(Bot, msg.author.id, "GENERAL_USER") ){
                 LOGSystem.LOG("User already has role, or has permissions", LOGSystem.LEVEL.ERROR, 'Welcome/:rules:')
                 return false; }
 
-            await msg.guild.member(msg.author).roles.add(tmpData.SETTINGS.ServerRole_GENERAL_USER.id)
-                .then(e => {
+            await msg.guild.member(msg.author).roles.add(GENERAL_USER)
+                .then(async e => {
                     //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
-                    if(USERS[msg.author.id].PermissionsLevel == 0){ // Only set permissions if set to 0 already
-                        console.log(USERS[msg.author.id].PermissionsLevel)
-                        USERS[msg.author.id].PermissionsLevel = 1; 
-                        console.log(USERS[msg.author.id].PermissionsLevel); } // Set to general user instead of EVERYONE
-                    tmpData.USERS = USERS;
+                    if((await Utilities.GetUser(msg.guild.id, msg.author.id)).PermissionsLevel == 0){ // Only set permissions if set to 0 already
+                        await Utilities.SetUserValue(msg.guild.id, msg.author.id, "PermissionsLevel", 1);
+                    }
                     LOGSystem.LOG(`${msg.author.tag} Added as GENERAL_USER of ${msg.guild.name}`);
-                    Utilities.SetServerData(msg.guild.id, tmpData)
                 })
                 .catch(console.error);
-            msg.delete();
             // Don't run regular code in welcome
             return true;
         }
-        else{
-            msg.delete();
-            return false;
-        }
+
+        msg.delete();
+        return false;
     }
 
     // For Testing log every message to the console

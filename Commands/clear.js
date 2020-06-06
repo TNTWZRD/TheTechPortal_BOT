@@ -12,7 +12,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
-            const USERS = Bot.ServerData.USERS
 
             if(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
                 if (!args[0]) {
