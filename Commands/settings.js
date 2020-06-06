@@ -30,48 +30,57 @@ module.exports = {
                 case "WarningsBeforeKick":
                     Utilities.SetServerValue(msg.guild.id, "WarningsBeforeKick", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "WarningsBeforeBan":
                     Utilities.SetServerValue(msg.guild.id, "WarningsBeforeBan", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "ProfanityFilterCustom":
                     Utilities.SetServerValue(msg.guild.id, "ProfanityFilterCustom", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "ProfanityFilterFullWords":
                     Utilities.SetServerValue(msg.guild.id, "ProfanityFilterFullWords", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "ProfanityFilterKickBan":
                     Utilities.SetServerValue(msg.guild.id, "ProfanityFilterKickBan", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "DeleteCommandsAfterSent":
                     Utilities.SetServerValue(msg.guild.id, "DeleteCommandsAfterSent", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "MaxChainedCommands":
                     Utilities.SetServerValue(msg.guild.id, "MaxChainedCommands", parseInt(data))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "ServerRole_GENERAL_USER":
                     var role = msg.mentions.roles.first();
                     Utilities.SetServerValue(msg.guild.id, "ServerRole_GENERAL_USER", JSON.stringify(role))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
                 
                 case "ServerRole_MUTED":
                     var role = msg.mentions.roles.first();
                     Utilities.SetServerValue(msg.guild.id, "ServerRole_MUTED", JSON.stringify(role))
                         .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
                     break;
 
                 case "CURRENT":
@@ -84,8 +93,6 @@ module.exports = {
                     Utilities.embedMessage(Bot, msg, args, "Current Bot Settings", JSON.stringify(newSettings, null, `\t`), "#660", Bot.user.name, !OPTIONS.STAY)
                     break;
             }
-
-            msg.reply("Settings Updated!!");
 
             resolve("!Settings Executed, No Errors");
         });

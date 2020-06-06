@@ -26,19 +26,25 @@
 		"290685395509837827": {
 			"Username": "TNTWZRD#5338",
 			"PermissionsLevel": 15,
-			"EXP": 82,
+			"EXP": 110,
 			"Warnings": 0
 		},
 		"709453324054954133": {
 			"Username": "TNTWZRD_TEST#8671",
 			"PermissionsLevel": 1,
-			"EXP": 24,
+			"EXP": 28,
 			"Warnings": 0
 		},
 		"276907099085340673": {
 			"Username": "Macenstine#4989",
 			"PermissionsLevel": 0,
-			"EXP": 4,
+			"EXP": 13,
+			"Warnings": 0
+		},
+		"709411700734165072": {
+			"Username": "The Guru#1403",
+			"PermissionsLevel": 0,
+			"EXP": 1,
 			"Warnings": 0
 		}
 	}
