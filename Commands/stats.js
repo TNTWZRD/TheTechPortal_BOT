@@ -21,7 +21,7 @@ module.exports = {
             }
 
             if(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR") || target == msg.author.id){ // Must at least be a general user
-                Utilities.embedMessage(Bot, msg, args, `Stats For: ${await Utilities.GetUser(Bot.SETTINGS.SUID, target).Username}`, `${JSON.stringify(await Utilities.GetUser(Bot.SETTINGS.SUID, target), null, `\t`)}`, "#3cc900", `Requested by ${msg.author.username}`, !OPTIONS.STAY);
+                Utilities.embedMessage(Bot, msg, args, `Stats For: ${(await Utilities.GetUser(Bot.SETTINGS.SUID, target)).Username}`, `${JSON.stringify(await Utilities.GetUser(Bot.SETTINGS.SUID, target), null, `\t`)}`, "#3cc900", `Requested by ${msg.author.username}`, !OPTIONS.STAY);
             }else if(!target){
                 msg.reply("invalid argument, please mention a player")
                 return reject("invalid argument")
