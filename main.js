@@ -26,7 +26,7 @@ for (const file of commandFiles) {
 }
 
 async function parseMessage(msg) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const err = null;
         var commandsArray = Utilities.splitCommands(msg.content);
 
