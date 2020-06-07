@@ -17,11 +17,19 @@ module.exports = {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
-            const URL = "https://api.github.com/repos/TNTWZRD/TheTechPortal_BOT/issues";
-
+            if(!Bot.Config.github_oauth) {
+                msg.reply("There is no Git OAuth Code Specified");
+                reject("No OAUTH Specified"); }
+            
+            if(!Bot.Config.github_repository) {
+                msg.reply("There is no Git Repo Specified");
+                reject("No Repo Specified"); }
+            
             if(!args[0] || !args[1]){
                 msg.reply("Not Enough Arguments use: ``!gitissue -h`` to see how to use.");
                 reject("Not enough args"); }
+                
+            const URL = Bot.Config.github_repository;
 
             var GitHub = await fetch(`${URL}`, {
                 headers: {
