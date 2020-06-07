@@ -21,7 +21,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err){
     if(err) throw err;
-    console.log("Connected!!");
+    console.log("Mysql Connected!!");
 });
 
 exports.GetServer = (ServerID, ServerName) => {
@@ -73,7 +73,6 @@ exports.GetUser = (ServerID, UserID, UserName = null, IsOwner = 0) => {
                         var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
                         connection.query(query, (err, result) => {
                             if(err) reject(err);
-                                console.log(result)
                                 if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
                                 reject("Error");
                             });
@@ -91,7 +90,6 @@ exports.SetUserValue = (ServerID, UserID, Setting, Value) => {
             var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
             connection.query(query, (err, result) => {
                 if(err) reject(err);
-                    console.log(result)
                     if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
                     reject("Error");
                 });

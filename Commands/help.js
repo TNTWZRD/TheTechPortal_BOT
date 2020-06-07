@@ -14,7 +14,7 @@ module.exports = {
             const data = [];
             const { commands } = msg.client;
 
-            var usr = await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id);
+            if(msg.guild) var usr = await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id);
 
             commands.each(e => { 
                 if(!e.usage) e.usage = ''; 
