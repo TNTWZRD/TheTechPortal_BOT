@@ -1,0 +1,20 @@
+{
+    "prefix":"!",
+    "token":"You'r_Token",
+    "github_oauth":"[Your GithubOAUTH TOKEN]",
+    "github_repository":"https://api.github.com/repos/<USER>/<REPOS>/issues",
+    "PERMISSIONS":{
+      "EVERYONE": 0,
+      "GENERAL_USER": 1,
+      "MODERATOR": 2,
+      "ADMIN": 4,
+      "OWNER": 8
+    },
+    "MYSQL":{
+      "HOST":"MYSQLHOST",
+      "DB":"MYSQL DATABASE",
+      "USER":"MYSQL USER",
+      "PASSWORD":"MYSQL PASSWORD"
+    },
+    "DEBUG":true
+}
