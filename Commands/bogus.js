@@ -19,7 +19,7 @@ module.exports = {
                 msg.reply("MESSAGE");
                 return reject("MESSAGE") }
             
-                msg.channel.send("Bogus Reply");
+            msg.channel.send(`Bogus Reply ${args.join(' ')}`);
 
             resolve("!Bogus Executed, No Errors");
         });
