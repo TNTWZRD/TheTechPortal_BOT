@@ -3,10 +3,10 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'dice',
-    aliases: ['d', 'roll', 'shake'],
+    aliases: ['d', 'r', 'roll', 'shake'],
     description: 'Roll Dice',
-    help: '!dice <DICE> (COUNT): Roll dice, D2-D5000, 1-200 Roll Count',
-    usage: `<DICE> (COUNT)`,
+    help: '!dice <COUNT>d<FACECOUNT>: Roll dice, D2-D5000, 1-200 Roll Count: 2ds6',
+    usage: `<COUNT>d<FACECOUNT>`,
     args: true,
     guildOnly: false,
     minPermissions: "GENERAL_USER",
@@ -16,12 +16,12 @@ module.exports = {
             const args = _args.ARGS;
 
             // Remove D From String
-            args[0] = args[0].replace(/d/i, '');
-            if(!parseInt(args[0])){
+            var dice = args[0].split('d');
+            if(!parseInt(dice[1])){
                 msg.reply(`Dice unreadable, Range: D2-D5000`);
                 return reject(`Dice out of range.`); }
             
-            var DICE = parseInt(args[0]);
+            var DICE = parseInt(dice[1]);
 
             if(DICE < 2 || DICE > 5000){
                 msg.reply(`Dice Range: D2-D5000`);
@@ -32,11 +32,11 @@ module.exports = {
                 msg.reply(`Numbers only for count, Roll Range: 1-200`);
                 return reject(`Roll Count out of range.`); }
                 
-            if(parseInt(args[1]) < 1 || parseInt(args[1]) > 200){
+            if(parseInt(dice[0]) < 1 || parseInt(dice[0]) > 200){
                 msg.reply(`Roll Range: 1-200`);
                 return reject(`Roll Count out of range.`); }
             
-            if(args[1]) ROLLCOUNT = parseInt(args[1]);
+            if(dice[0]) ROLLCOUNT = parseInt(dice[0]);
 
             var ROLLS = [];
             var MIN = 5000;
@@ -67,7 +67,7 @@ module.exports = {
                   });    
             }else {
                 var embedCode = new Discord.MessageEmbed({
-                    "title": `Roll the Dice!! D${DICE}X${ROLLCOUNT}`,
+                    "title": `Roll the Dice!! ${ROLLCOUNT}D${DICE}`,
                     "description": `**Total**: ${TOTAL}, **Average**: ${TOTAL/ROLLCOUNT},\n**Minimum**: ${MIN}, **Maximum**: ${MAX},\n \n**Actual Rolls**: \n [ ${Utilities.trim(ROLLS.join(', '), 1024)} ]`,
                     "color": 6526,
                     "footer": {
