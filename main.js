@@ -30,6 +30,15 @@ async function parseMessage(msg) {
         const err = null;
         var commandsArray = Utilities.splitCommands(msg.content);
 
+        if(commandsArray.length > 3){
+            if(msg.guild && commandsArray.length<=Bot.SETTINGS.MaxChainedCommands+1 && (await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
+                msg.reply("You do not have permissions to run more than 3 commands at a time.");
+                return reject("To many commands"); }
+            else {
+                msg.reply("You may not run more than 3 commands at a time.");
+                return reject("To many commands"); }
+        }
+
         if(msg.guild) Utilities.PFFilter(Bot, msg, pFilter);
 
         // Handle each command seperately
@@ -171,6 +180,7 @@ Bot.on('message', async msg => {
     parseMessage(msg)
         .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
+
     if(msg.guild) Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "EXP", ((await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id)).EXP + 1));
 
 });
