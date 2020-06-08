@@ -18,14 +18,19 @@ module.exports = {
             // Remove D From String
             var dice = args[0].split('d');
             var dicePlus = dice[1].split('+');
+            var diceMinus = dice[1].split('-');
             if(!parseInt(dicePlus[0])){
                 msg.reply(`Dice unreadable, Range: D2-D5000`);
                 return reject(`Dice out of range.`); }
             
             var DICE = parseInt(dicePlus[0]);
             var add = 0;
+            var subtract = 0;
             if(dicePlus[1]){
                 add = parseInt(dicePlus[1]);
+            }
+            if(diceMinus[1]){
+                subtract = 0-(parseInt(diceMinus[1]));
             }
 
             if(DICE < 2 || DICE > 5000){
@@ -59,7 +64,12 @@ module.exports = {
             }
             
             data = [];
-            data.push(`**SUM**: ${TOTAL}+${add} = ${(TOTAL+add)}\n`);
+            if(add>=0 && subtract==0){
+                data.push(`**SUM**: ${TOTAL}+${add} = ${(TOTAL+add)}\n`);
+            }
+            else if(subtract<0){
+                data.push(`**SUM**: ${TOTAL}${subtract} = ${(TOTAL+subtract)}\n`);
+            }
             ROLLS.forEach((element, index) => { data.push(`**Roll #${(index+1)}** : \n${element}`); });
 
             var embedCode = new Discord.MessageEmbed({
