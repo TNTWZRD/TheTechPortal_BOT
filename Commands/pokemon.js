@@ -7,7 +7,7 @@ module.exports = {
     name: 'pokemon',
     aliases: [],
     description: 'Lookup a Pokemon, Ability, Type, Item, Move, or Berry',
-    help: '!pokemon <TERM>: Lookup a Pokemon, Ability, Type, Item, Move, or Berry',
+    help: '!pokemon <TERM>: Lookup a Pokemon, Ability, Type, Item, Move, or Berry, Poekemon with forms: (POKEMON-FORM)',
     usage: `<TERM>`,
     args: true,
     guildOnly: false,

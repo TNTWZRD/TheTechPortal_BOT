@@ -61,6 +61,7 @@ exports.SetServerValue = (ServerID, Setting, Value) => {
 
 exports.GetUser = (ServerID, UserID, UserName = null, IsOwner = 0) => {
     return new Promise((resolve, reject) => {
+        console.log(UserName);
         var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
         connection.query(query, (err, result) => {
             if(err) reject(err);
@@ -73,7 +74,9 @@ exports.GetUser = (ServerID, UserID, UserName = null, IsOwner = 0) => {
                         var query = `SELECT * FROM \`Users\` WHERE \`SUID\` = '${ServerID}' AND \`UID\` = '${UserID}'`;
                         connection.query(query, (err, result) => {
                             if(err) reject(err);
-                                if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0])));
+                                var newResult = JSON.parse(JSON.stringify(result[0]));
+                                newResult.UserName = decodeURI(newResult.UserName)
+                                if(result.length > 0) return resolve(newResult);
                                 reject("Error");
                             });
                     });
