@@ -51,7 +51,7 @@ async function parseMessage(msg) {
 
             var regex = new RegExp(`^(${Utilities.escapeRegex(Bot.Prefix)})`);
             // remove Prefix if is command
-            console.log(regex)
+            //console.log(regex)
             if(commandName.replace(regex, '') != commandName) commandName = commandName.replace(regex, '');
             else return resolve();
 
@@ -117,6 +117,15 @@ Bot.once('ready', () => {
     LOGSystem.LOG("Bot READY", undefined, 'BotReady');
     pFilter.filterType(1, 1);
 });
+
+Bot.on('warn', async info => {
+    LOGSystem.LOG(info, LOGSystem.LEVEL.WARNING, 'Client-WARN');
+});
+
+// SUPER DEBUG
+// Bot.on('debug', async info => {
+//     if(DEBUG)LOGSystem.LOG(info, LOGSystem.LEVEL.DEBUG, 'Client-DEBUG');
+// });
 
 Bot.on('message', async msg => {
     // Ignore messages sent by the bot

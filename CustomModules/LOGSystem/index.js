@@ -5,6 +5,7 @@
 */
 
 exports.LEVEL = {
+    DEBUG: 'debug',
     INFO: 'info',
     WARNING: 'warning',
     ERROR: 'error',
@@ -19,6 +20,9 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
         var LOGCONTENTS = "";
 
         switch(LVL) {
+            case this.LEVEL.DEBUG:
+                LOGCONTENTS += "[DEBUG----]";
+            break;
             case this.LEVEL.INFO:
                 LOGCONTENTS += "[INFO-----]";
             break;
