@@ -16,7 +16,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 
 ## Built With
-
+ "@discordjs/opus": "^0.3.2",
+  "discord.js": "^12.2.0",
+  "eslint": "^7.0.0",
+  "ffmpeg": "0.0.4",
+  "ffmpeg-static": "^4.2.2",
+  "mysql": "^2.18.1",
+  "node-fetch": "^2.6.0",
+  "node-pre-gyp": "^0.14.0",
+  "ytdl-core": "^2.1.2"
 
 ## Authors
 
