@@ -7,7 +7,7 @@ module.exports = {
     name: 'aboutbot',
     aliases: ['bot'],
     description: 'Get Information About This Bot!',
-    help: '!about',
+    help: `!about`,
     usage: ``,
     args: false,
     guildOnly: false,

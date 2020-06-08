@@ -82,6 +82,13 @@ module.exports = {
                         .catch(e => reject(e) );
                     msg.reply("Settings Updated!!");
                     break;
+                        
+                case "Prefix":
+                    console.log(data.replace(/^"(.+)"$/gim, '$1'))
+                    Utilities.SetServerValue(msg.guild.id, "Prefix", data.replace(/^"(.+)"$/gim, '$1'))
+                        .catch(e => reject(e) );
+                    msg.reply("Settings Updated!!");
+                    break;
 
                 case "CURRENT":
                     keys = Object.keys(SETTINGS)

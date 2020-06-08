@@ -49,8 +49,9 @@ async function parseMessage(msg) {
             // Get First Command
             var commandName = args.ARGS.shift().toLowerCase();
 
+            var regex = new RegExp(`^(${Bot.Prefix})`);
             // remove Prefix if is command
-            if(commandName[0] == prefix) commandName = commandName.replace('!', '');
+            if(commandName.replace(regex, '') != commandName) commandName = commandName.replace(regex, '');
             else return resolve();
 
             // Run command
@@ -131,10 +132,12 @@ Bot.on('message', async msg => {
     if(msg.channel.type === 'text') {
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
         pFilter.filterType(!Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
-
+        Bot.Prefix = Bot.SETTINGS.Prefix;
     }
     else {
         Bot.SETTINGS = null;
+        // Set Default Prefix
+        Bot.Prefix = prefix;
         LOGSystem.logChannel = null;
     }
 
