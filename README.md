@@ -16,10 +16,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 
 ## Built With
- [@Discordjs/opus](https://www.npmjs.com/package/@discordjs/opus)
- [Discord.js](https://www.npmjs.com/package/discord.js)
- [eslint](https://www.npmjs.com/package/eslint)
- [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static)
+ [@Discordjs/opus](https://www.npmjs.com/package/@discordjs/opus)\n
+ [Discord.js](https://www.npmjs.com/package/discord.js)\n
+ [eslint](https://www.npmjs.com/package/eslint)\n
+ [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static)\n
  [ytdl-core](https://www.npmjs.com/package/ytdl-core)
 
 ## Authors
