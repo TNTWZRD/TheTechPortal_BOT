@@ -27,8 +27,8 @@ module.exports = {
                 if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\n\`\``);
                 else data.push('Here\'s a list of all my commands:\n\`\`');
 
-                data.push(commands.map(command => `${Bot.Prefix}${command.name} ${command.usage} :: ${command.description}`).join(',\n'));
-                data.push(`\`\`\nYou can send \`${Bot.Prefix}help <COMMAND>\` to get info on a specific command!`);
+                data.push(commands.map(command => `${Utilities.escapeRegex(Bot.Prefix)}${command.name} ${command.usage} :: ${command.description}`).join(',\n'));
+                data.push(`\`\`\nYou can send \`${Utilities.escapeRegex(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!`);
 
                 msg.author.send(data, { split: true })
                     .then(() => {

@@ -49,8 +49,9 @@ async function parseMessage(msg) {
             // Get First Command
             var commandName = args.ARGS.shift().toLowerCase();
 
-            var regex = new RegExp(`^(${Bot.Prefix})`);
+            var regex = new RegExp(`^(${Utilities.escapeRegex(Bot.Prefix)})`);
             // remove Prefix if is command
+            console.log(regex)
             if(commandName.replace(regex, '') != commandName) commandName = commandName.replace(regex, '');
             else return resolve();
 

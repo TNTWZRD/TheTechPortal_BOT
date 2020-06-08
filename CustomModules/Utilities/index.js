@@ -265,3 +265,7 @@ exports.randomString = (length) => {
     }
     return result;
 }
+
+exports.escapeRegex = (string) => {
+    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
