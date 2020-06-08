@@ -43,9 +43,19 @@ module.exports = {
                     "projects":["TNTWZRD/TheTechPortal_BOT"],
                 }),
             }).then(response => {
-                if(response.status !== 201) msg.reply("There was an issue with your request.");
-                else msg.reply("Issue Submitted, Thank you!");
-                response.json();
+                if(response.status !== 201) {
+                    console.log(response)
+                    msg.reply("There was an issue with your request.");
+                    reject("Error");
+                }
+                else {
+                    embed = new Discord.MessageEmbed();
+                    embed.setTitle(`New Issue: ${(args[0]).replace(/^"|"$/g, '')}`);
+                    embed.setURL((response.headers.get('location')).replace('https://api.github.com/repos/', 'https://github.com/'));
+                    embed.setColor("#00ff00");
+                    embed.setDescription((args[1]).replace(/^"|"$/g, ''));
+                    msg.channel.send(embed);
+                }
             });
 
             resolve("!GitIssue Executed, No Errors");
