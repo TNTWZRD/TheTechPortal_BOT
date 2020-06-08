@@ -235,3 +235,20 @@ exports.PFFilter = (Bot, msg, pFilter) => {
         resolve();
     });
 }
+
+exports.getFile = (FILE) => {
+    var toReturn = null;
+    if(fs.existsSync(FILE)){
+        toReturn = fs.readFileSync(FILE, 'utf8', function(err, contents){
+            if(!err) {
+                return contents;
+            }else {
+                LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'getFile');
+                return false;
+            }
+        });
+    }else{
+        toReturn = false;
+    }
+    return toReturn;
+}
