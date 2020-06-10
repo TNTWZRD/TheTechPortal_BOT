@@ -1,6 +1,6 @@
 const fs = require('fs');
 // Get all commands from ./Commands/
-const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('/').filter(file => file.endsWith('.js'));
 const Utilities = require('Utilities');
 
 module.exports = {

@@ -27,17 +27,29 @@ module.exports = {
             if(!list.length){
                 msg.reply(`No results for **${args.join(' ')}**.`);
                 return reject("Fetch Returned NULL") }
+                
+            if(list.length > 1){
+                list = list[0];
+            }
+                
+            console.log(list);
+            var answer = list;
+            answer.definition = Utilities.trim(answer.definition, 1024);
+            answer.example = Utilities.trim(answer.example, 1024);
 
-            const [answer] = list;
+            var data = [];
+            data.push(`**Definition: **\n${answer.definition}`);
+            data.push(`**Example: **\n${answer.example}`);
+            data.push(`**Rating: ** ${answer.thumbs_up} thumbs up. ${answer.thumbs_down} thumbs down.`);
+
             const embed = new Discord.MessageEmbed()
                 .setColor('#EFFF00')
                 .setTitle(answer.word)
                 .setURL(answer.permalink)
-                .addFields(
-                    { name: 'Definition', value: Utilities.trim(answer.definition, 1024) },
-                    { name: 'Example', value: Utilities.trim(answer.example, 1024) },
-                    { name: 'Rating', value: `${answer.thumbs_up} thumbs up. ${answer.thumbs_down} thumbs down.` }
-                );
+            
+            embed.setDescription(data);
+
+            console.log(embed);
 
             msg.channel.send(embed);
 
