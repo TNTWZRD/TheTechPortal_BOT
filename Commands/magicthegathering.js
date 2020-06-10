@@ -2,6 +2,7 @@ const Utilities = require('Utilities')
 const fetch = require('node-fetch')
 const querystring = require('querystring')
 const Discord = require('discord.js')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'magicthegathering',
@@ -12,6 +13,7 @@ module.exports = {
     args: true,
     guildOnly: false,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.FUN,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

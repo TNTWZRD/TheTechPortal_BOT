@@ -1,4 +1,5 @@
 const Utilities = require('Utilities')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'ban',
@@ -7,6 +8,7 @@ module.exports = {
     help: '!Ban <@USER> <REASON>: Ban user',
     usage: `<@USER> <REASON>`,
     minPermissions: "ADMIN",
+    module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

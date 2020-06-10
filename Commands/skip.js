@@ -1,6 +1,7 @@
 const Utilities = require('Utilities')
 const YTDL = require('ytdl-core')
 const LOGSystem = require('LOGSystem')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'skip',
@@ -8,6 +9,7 @@ module.exports = {
     description: 'Skip currently playing song',
     help: '!skip : Skip Song',
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.MUSIC,
     execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

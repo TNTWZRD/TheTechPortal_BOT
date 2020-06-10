@@ -7,7 +7,7 @@
 const Discord = require('discord.js');
 const LOGSystem = require('LOGSystem')
 var fs = require('fs');
-var config = require('../../config.json');
+var config = require(process.cwd() + '/config.json');
 const mysql = require('mysql');
 
 const ServerDirectory = "./Servers/";

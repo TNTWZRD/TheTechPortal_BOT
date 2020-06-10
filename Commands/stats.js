@@ -1,4 +1,5 @@
 const Utilities = require('Utilities')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'stats',
@@ -9,6 +10,7 @@ module.exports = {
     minPermissions: "GENERAL_USER",
     args: false,
     guildOnly: true,
+    module: Config.MODULES.FUN,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

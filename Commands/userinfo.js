@@ -1,5 +1,6 @@
 const Utilities = require('Utilities')
 const Discord = require('discord.js');
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'userinfo',
@@ -10,6 +11,7 @@ module.exports = {
     args: false,
     guildOnly: true,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

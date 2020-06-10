@@ -1,4 +1,5 @@
 const Utilities = require('Utilities')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'clear',
@@ -8,6 +9,7 @@ module.exports = {
     args: true,
     usage: `<NUMBER>`,
     minPermissions: "MODERATOR",
+    module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, _args) {
         return new Promise((resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

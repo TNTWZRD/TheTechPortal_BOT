@@ -1,6 +1,6 @@
-const { prefix } = require('../config.json');
+const { prefix } = require(process.cwd() + '/config.json');
 const Utilities = require('Utilities');
-
+const Config = require(process.cwd() + '/config.json');
 
 module.exports = {
 	name: 'help',
@@ -10,17 +10,22 @@ module.exports = {
 	usage: '<COMMAND>',
 	cooldown: 0,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, args) {
         return new Promise(async (resolve, reject) => {
             const data = [];
-            const { commands } = msg.client;
+            // Apparently making a new variable with a collection just mirrors it, commands run on new collection still affect original, Using clone fixes that.
+            var commands = msg.client.commands.clone();
 
             if(msg.guild) var usr = await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id);
 
             commands.each(e => { 
                 if(!e.usage) e.usage = ''; 
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
-                if(msg.guild) if(!( usr.PermissionsLevel & Bot.PERMS[e.minPermissions] )) commands.delete(e.name);
+                if(msg.guild) {
+                    if(!( usr.PermissionsLevel & Bot.PERMS[e.minPermissions] )) commands.delete(e.name); 
+                    if(!((e.module & Bot.SETTINGS.ModulesEnabled)? true : false) && e.module!=0) commands.delete(e.name);
+                }
             });
 
             if(!args.ARGS.length){

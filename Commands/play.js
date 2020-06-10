@@ -1,6 +1,7 @@
 const Utilities = require('Utilities')
 const YTDL = require('ytdl-core')
 const LOGSystem = require('LOGSystem')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'play',
@@ -9,6 +10,7 @@ module.exports = {
     help: '!play <URL> (OPTIONS): Used to play audio streams',
     usage: `<URL>`,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.MUSIC,
     execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

@@ -1,3 +1,5 @@
+const Config = require(process.cwd() + '/config.json')
+
 module.exports = {
     name: 'ping',
     description: 'Ping!',
@@ -5,6 +7,7 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.SYSTEM,
     execute(Bot, msg, args) {
         return new Promise((resolve) => {
             msg.channel.send('Pong.');

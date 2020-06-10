@@ -3,14 +3,14 @@ const Bot = new Discord.Client();
 Bot.commands = new Discord.Collection();
 Bot.MusicQueue = new Map();
 Bot.MusicStreams = new Map();
-Bot.Config = require('./config.json');
+Bot.Config = require(process.cwd() + '/config.json');
 
 const fs = require('fs');
 
 // Get all commands from ./Commands/
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
-const { PERMISSIONS, prefix, token, DEBUG } = require('./config.json');
+const { PERMISSIONS, prefix, token, DEBUG } = require(process.cwd() + '/config.json');
 Bot.PERMS = PERMISSIONS;                // << Permissions Visible Anywhere
 const LOGSystem = require('LOGSystem'); // << Custom Log Module
 const Utilities = require('Utilities'); // << Custom Utilities Module
@@ -95,6 +95,13 @@ async function parseMessage(msg) {
                 msg.reply('I can\'t execute that command inside of DMs!');
                 return reject('Tried to run inside of a DM.');
             }
+
+            // Set Module Default if NULL
+            if(!commandOBJ.module) commandOBJ.module = Bot.Config.MODULES.SYSTEM;
+            // Check if module is loaded for server, if so run command, else exit
+            if(!((commandOBJ.module & Bot.SETTINGS.ModulesEnabled)? true : false) && commandOBJ.module!=0){
+                msg.reply('That Module is not enabled.')
+                return reject('Module Not Enabled.'); }
 
             // Convert options into { "LIST":false, "HELP": false, "STAY":false }
             args.OPTIONS = Utilities.readOptions(Bot, msg, args, args.OPTIONS, commandOBJ.name, commandOBJ.help);

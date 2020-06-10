@@ -1,4 +1,5 @@
 const Utilities = require('Utilities')
+const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'removeroles',
@@ -8,6 +9,7 @@ module.exports = {
     usage: `(@USER) <@ROLE>`,
     args: true,
     minPermissions: "GENERAL_USER",
+    module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

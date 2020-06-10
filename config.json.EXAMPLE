@@ -1,8 +1,12 @@
 {
+    # Default Prefix when none specified
     "prefix":"!",
-    "token":"You'r_Token",
+    # Your Bot's TOKEN
+    "token":"Your_Token",
+    # Your Github Personal Auth Token and Repoitory if you would like users to use `!gitissue`
     "github_oauth":"[Your GithubOAUTH TOKEN]",
     "github_repository":"https://api.github.com/repos/<USER>/<REPOS>/issues",
+    # Permission Bits for all servers, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING
     "PERMISSIONS":{
       "EVERYONE": 0,
       "GENERAL_USER": 1,
@@ -10,11 +14,22 @@
       "ADMIN": 4,
       "OWNER": 8
     },
+    # Your MYSQL Information for server data storage. .sql files provided: `./DiscordBot_TheGuru.sql/`
     "MYSQL":{
       "HOST":"MYSQLHOST",
       "DB":"MYSQL DATABASE",
       "USER":"MYSQL USER",
       "PASSWORD":"MYSQL PASSWORD"
     },
+    # Module Bit For all servers, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING
+    "MODULES":{
+      "SYSTEM": 0,
+      "MODERATION": 1,
+      "GITHUB": 2,
+      "FUN": 4,
+      "DND": 8,
+      "MUSIC": 16
+    },
+    # See Debug Messages?
     "DEBUG":true
 }
