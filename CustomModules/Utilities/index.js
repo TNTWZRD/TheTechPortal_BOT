@@ -104,8 +104,9 @@ exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...`
 
 exports.hasPermissions = async (Bot, UserID, LEVEL) => { 
     var perm = await this.GetUser(Bot.SETTINGS.SUID, UserID);
-    // console.log(perm.PermissionsLevel + " == " + LEVEL + " <<-- ");
-    // console.log((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]);
+    console.log(`SUID = ${Bot.SETTINGS.SUID} AND UID = ${UserID}`)
+    console.log(perm.PermissionsLevel + " == " + LEVEL + " <<-- ");
+    console.log((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]);
     return ((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]); 
 }
 

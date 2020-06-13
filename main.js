@@ -144,7 +144,7 @@ Bot.on('raw', async event => {
     if (!events.hasOwnProperty(event.t)) return;
 
     const { d: data } = event;
-    const user = Bot.users.fetch(data.user_id);
+    const user = await Bot.users.fetch(data.user_id);
     const channel = await Bot.channels.fetch(data.channel_id) || await user.createDM();
 
     const message = await channel.messages.fetch(data.message_id);
@@ -156,8 +156,45 @@ Bot.on('raw', async event => {
     Bot.emit(events[event.t], reaction, user);
 })
 
-Bot.on('messageReactionAdd', (reaction, user) => {
-    console.log(`${user} reacted with "${reaction.emoji.name}".`);
+Bot.on('messageReactionAdd', async (reaction, user) => {
+    //console.log(`${user} reacted with "${reaction.emoji.name}".`);
+    msg = reaction.message;
+
+    if(msg.guild) {
+        await Utilities.GetServer(msg.guild.id, msg.guild.name)
+            .then(async e => { Bot.SETTINGS = e; });
+        await Utilities.addUsers(Bot, msg)
+            .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'Add Users'); });
+    }
+
+    if(reaction.emoji.name == "rules"){
+        if(!Bot.SETTINGS.ServerRole_GENERAL_USER) {
+            msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
+            return false; }
+    
+        var GENERAL_USER = JSON.parse(Bot.SETTINGS.ServerRole_GENERAL_USER);
+        GENERAL_USER = msg.guild.roles.cache.filter(role => role.id == GENERAL_USER.id);
+        var userRoles = await msg.guild.members.fetch(user.id);
+        var roles = userRoles.roles;
+        var test1 = (roles.cache && roles.cache.has(GENERAL_USER));
+        var test2 = await Utilities.hasPermissions(Bot, user.id, "GENERAL_USER");
+        if(test1 || test2){
+            LOGSystem.LOG("User already has role, or has permissions", LOGSystem.LEVEL.ERROR, 'Welcome/:rules:')
+            return false; }
+    
+        var tmpUser = await msg.guild.members.fetch(user.id);
+        await tmpUser.roles.add(GENERAL_USER)
+            .then(async e => {
+                //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
+                if((await Utilities.GetUser(msg.guild.id, user.id)).PermissionsLevel == 0){ // Only set permissions if set to 0 already
+                    await Utilities.SetUserValue(msg.guild.id, user.id, "PermissionsLevel", 1);
+                }
+                LOGSystem.LOG(`${user.tag} Added as GENERAL_USER of ${msg.guild.name}`);
+            })
+            .catch(console.error);
+        // Don't run regular code in welcome
+        return true;
+    }
 });
 
 Bot.on('messageReactionRemove', (reaction, user) => {
@@ -197,6 +234,18 @@ Bot.on('message', async msg => {
         LOGSystem.logChannel = null;
     }
 
+    // For Testing log every message to the console
+    if(DEBUG) LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')
+
+    parseMessage(msg)
+        .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
+        .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
+
+    if(msg.guild) Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "EXP", ((await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id)).EXP + 1));
+
+});
+
+async function welcome(Bot, msg){
     // See if message was in welcome channel
     if(msg.channel.name == "welcome"){
         // see if GENERAL_USER role set in settings
@@ -230,16 +279,6 @@ Bot.on('message', async msg => {
         msg.delete();
         return false;
     }
-
-    // For Testing log every message to the console
-    if(DEBUG) LOGSystem.LOG(`Message Received: ${msg.content}`, undefined, 'BotOnMessage')
-
-    parseMessage(msg)
-        .then(value => { if(value && DEBUG) LOGSystem.LOG(value, undefined, 'ParseMessage'); })
-        .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
-
-    if(msg.guild) Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "EXP", ((await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id)).EXP + 1));
-
-});
+}
 
 Bot.login(token);
