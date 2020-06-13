@@ -134,6 +134,36 @@ Bot.on('warn', async info => {
 // Bot.on('debug', async info => {
 //     if(DEBUG) LOGSystem.LOG(info, LOGSystem.LEVEL.DEBUG, 'Client-DEBUG');
 // });
+    
+const events = {
+	MESSAGE_REACTION_ADD: 'messageReactionAdd',
+	MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
+
+Bot.on('raw', async event => {
+    if (!events.hasOwnProperty(event.t)) return;
+
+    const { d: data } = event;
+    const user = Bot.users.fetch(data.user_id);
+    const channel = await Bot.channels.fetch(data.channel_id) || await user.createDM();
+
+    const message = await channel.messages.fetch(data.message_id);
+    var reaction = message.reactions.add({
+       emoji: data.emoji,
+       count: event? null : 0,
+       me: Bot.user.id,
+    });
+    Bot.emit(events[event.t], reaction, user);
+})
+
+Bot.on('messageReactionAdd', (reaction, user) => {
+    console.log(`${user} reacted with "${reaction.emoji.name}".`);
+});
+
+Bot.on('messageReactionRemove', (reaction, user) => {
+    console.log(`${user} removed their "${reaction.emoji.name}" reaction.`);
+});
+
 
 Bot.on('message', async msg => {
     // Ignore messages sent by the bot
