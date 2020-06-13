@@ -1,7 +1,6 @@
-/*
-    Written By Daniel Jajliardo @ TheTechSphere 2020
+/*  Written By Daniel Jajliardo @ TheTechSphere 2020
     Used To Log Data to console for my Discord.JS Bot
-    Currently returns a priomise in order to make it Async
+    Currently returns a promise in order to make it Async
 */
 
 exports.LEVEL = {
@@ -64,8 +63,8 @@ function getDate() {
     var d = new Date();
     var date = d.getFullYear().toString().slice(2, 4) + "W" + ("00" + ISO8601_week_no(d)).slice(-2) + "B" + ("00" + d.getDay().toString()).slice(-2);
     var time = (d.getHours() % 12) + ":" + (d.getMinutes()) + " " + ((d.getHours > 12) ? 'AM' : 'PM');
-    return date + " -- " + time;
-}
+    return date + " -- " + time + " UTC";
+};
 
 function ISO8601_week_no(dt) {
     var tdt = new Date(dt.valueOf());
@@ -77,4 +76,4 @@ function ISO8601_week_no(dt) {
     tdt.setMonth(0, 1 + ((4 - tdt.getDay()) + 7) % 7);
     }
     return 1 + Math.ceil((firstThursday - tdt) / 604800000);
-}
+};

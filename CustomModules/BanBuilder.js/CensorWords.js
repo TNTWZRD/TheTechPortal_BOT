@@ -2,10 +2,20 @@ var badwords = [];
 var censorChecks = null;
 var whiteList = [];
 var fs = require('fs');
+var externalWords = false;
+var externaWordsList = [];
 
 var files = {
     "ALL" : __dirname + "/Resources/BanWords_All.json",
     "RACIST" : __dirname + "/Resources/RacistWordList.json"
+}
+
+exports.importBadWords = (NewBadwords) => {
+    if(NewBadwords.length <= 0){
+        return false; }
+    externalWords = true;
+    externalWordsList = NewBadwords;
+    return true;
 }
 
 exports.filterType = (All, fullWords = true) => {
@@ -22,18 +32,25 @@ exports.filterType = (All, fullWords = true) => {
             generateCensorChecks(fullWords)
             return true
         }
-    } else { 
-        var tmp = fs.readFileSync(files.RACIST, 'utf-8', function(err, contents){
-            if(!err) {
-                return contents;
-            }else {
-                console.log(err);
-                return false; }
-        });
-        badwords = JSON.parse(tmp).WORDS
-        if(badwords) {
-            generateCensorChecks(fullWords)
-            return true
+    } else { // Custom Words
+        if(!externalWords){
+            var tmp = fs.readFileSync(files.RACIST, 'utf-8', function(err, contents){
+                if(!err) {
+                    return contents;
+                }else {
+                    console.log(err);
+                    return false; }
+            });
+            badwords = JSON.parse(tmp).WORDS
+            if(badwords) {
+                generateCensorChecks(fullWords)
+                return true
+        }}
+        else{ // Use External Words
+            badwords = externalWordsList;
+            if(badwords){
+                generateCensorChecks(fullWords)
+                return true; }
         }
     }
 }

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Bot = new Discord.Client();
+const fetch = require('node-fetch');
 Bot.commands = new Discord.Collection();
 Bot.MusicQueue = new Map();
 Bot.MusicStreams = new Map();
@@ -95,7 +96,7 @@ async function parseMessage(msg) {
                 msg.reply('I can\'t execute that command inside of DMs!');
                 return reject('Tried to run inside of a DM.');
             }
-
+ 
             // Set Module Default if NULL
             if(!commandOBJ.module) commandOBJ.module = Bot.Config.MODULES.SYSTEM;
             // Check if module is loaded for server, if so run command, else exit
@@ -131,7 +132,7 @@ Bot.on('warn', async info => {
 
 // SUPER DEBUG
 // Bot.on('debug', async info => {
-//     if(DEBUG)LOGSystem.LOG(info, LOGSystem.LEVEL.DEBUG, 'Client-DEBUG');
+//     if(DEBUG) LOGSystem.LOG(info, LOGSystem.LEVEL.DEBUG, 'Client-DEBUG');
 // });
 
 Bot.on('message', async msg => {
@@ -148,7 +149,15 @@ Bot.on('message', async msg => {
     // get data for current server: Settings / Users
     if(msg.channel.type === 'text') {
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
-        pFilter.filterType(!Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
+        var tmp = Bot.SETTINGS.ProfanityFilterCustomWordList
+        tmp = tmp.match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i);
+        if(tmp) { // ProfanityCustomWordList = URL
+            var Words = await fetch(tmp[0]).then(e => e.json());
+            pFilter.importBadWords(Words); }
+        else if(tmp != []){
+            var Words = JSON.parse(Bot.SETTINGS.ProfanityFilterCustomWordList);
+            pFilter.importBadWords(Words); }
+        if(Bot.SETTINGS.ProfanityFilterCustom != -1) pFilter.filterType(!Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
         Bot.Prefix = Bot.SETTINGS.Prefix;
     }
     else {
@@ -161,7 +170,6 @@ Bot.on('message', async msg => {
     // See if message was in welcome channel
     if(msg.channel.name == "welcome"){
         // see if GENERAL_USER role set in settings
-        
         if(msg.content.includes(":rules:")) {
             
             msg.delete();
@@ -189,7 +197,6 @@ Bot.on('message', async msg => {
             // Don't run regular code in welcome
             return true;
         }
-
         msg.delete();
         return false;
     }
