@@ -30,7 +30,7 @@ module.exports = {
             if(target.id == msg.author.id){
                 msg.reply("You Cant Mute Yourself")
                 return reject("Tried to mute self"); }
-            // Make sure target isnt OP
+            // Make sure target isn't OP
             if(await Utilities.hasPermissions(Bot, target.id, "MODERATOR")){
                 msg.reply("You Cant Mute MODERATORS")
                 return reject("Tried to mute a moderator"); }
@@ -46,14 +46,12 @@ module.exports = {
             if(!(userRoles.get(muteRole.firstKey()))){
                 msg.guild.member(target).roles.add(muteRole)
                     .catch(err => reject(err))
-                if(msg.guild.member(target).voice.connection && !msg.guild.member(target).voice.mute) msg.guild.member(target).voice.setMute(true, "You have been unmuted")
-                    .catch(err => reject(err))
+                if(msg.guild.member(target).voice.channel.type == "voice") msg.guild.member(target).voice.setMute(true, "You have been muted");
                 msg.channel.send(`${target}, YOU HAVE BEEN MUTED!`)
             }else{
                 msg.guild.member(target).roles.remove(muteRole)
                     .catch(err => reject(err))
-                if(msg.guild.member(target).voice.connection && msg.guild.member(target).voice.mute) msg.guild.member(target).voice.setMute(false, "You have been unmuted")
-                    .catch(err => reject(err))
+                if(msg.guild.member(target).voice.channel.type == "voice") msg.guild.member(target).voice.setMute(false, "You have been unmuted");
                 msg.channel.send(`${target}, YOU HAVE BEEN UNMUTED!`)
             }
 

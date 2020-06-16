@@ -51,7 +51,7 @@ USER : {
 CONFIG.json
 {
     "prefix":"!",
-    "token":"NzEyODY5MzgyMjc1MDcyMDUx.XsYM5Q.REl6mkV14lVWLFxgiyWy6Pyu1VI", 	// Bot Token
+    "token":"", 	// Bot Token
     "PERMISSIONS":{  														// PERMISSIONS SCHEME
       "EVERYONE": 0,
       "GENERAL_USER": 1,

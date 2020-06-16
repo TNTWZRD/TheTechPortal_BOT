@@ -12,10 +12,10 @@ const fs = require('fs');
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
 const { PERMISSIONS, prefix, token, DEBUG } = require(process.cwd() + '/config.json');
-Bot.PERMS = PERMISSIONS;                // << Permissions Visible Anywhere
-const LOGSystem = require('LOGSystem'); // << Custom Log Module
-const Utilities = require('Utilities'); // << Custom Utilities Module
-const pFilter = require('banbuilder');  // << Custom Profanity FIlter Module
+Bot.PERMS = PERMISSIONS;                 // << Permissions Visible Anywhere
+const LOGSystem = require('LOGSystem');  // << Custom Log Module
+const Utilities = require('Utilities');  // << Custom Utilities Module
+const pFilter   = require('banbuilder'); // << Custom Profanity FIlter Module
 
 const cooldowns = new Discord.Collection();
 
@@ -242,43 +242,18 @@ Bot.on('message', async msg => {
         .catch(err => { LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'ParseMessage'); });
 
     if(msg.guild) Utilities.SetUserValue(Bot.SETTINGS.SUID, msg.author.id, "EXP", ((await Utilities.GetUser(Bot.SETTINGS.SUID, msg.author.id)).EXP + 1));
-
 });
 
-async function welcome(Bot, msg){
-    // See if message was in welcome channel
-    if(msg.channel.name == "welcome"){
-        // see if GENERAL_USER role set in settings
-        if(msg.content.includes(":rules:")) {
-            
-            msg.delete();
+// Make sure permissions are cleared when user Banned
+Bot.on('guildBanAdd', async (guild, user) => {
+    await Utilities.SetUserValue(guild.id, user.id, "PermissionsLevel", 0)
+        .then(LOGSystem.LOG(`User ${user.tag}, BANNED, Cleared All Permissions`, LOGSystem.LEVEL.INFO, "guildBanAdd"));
+});
 
-            if(!Bot.SETTINGS.ServerRole_GENERAL_USER) {
-                msg.guild.owner.send("No GENERAL_USER Role set, please run: !settings GENERAL_USER <@ROLE> in order to use this feature.");
-                return false; }
-
-            var GENERAL_USER = JSON.parse(Bot.SETTINGS.ServerRole_GENERAL_USER);
-            GENERAL_USER = msg.guild.roles.cache.filter(role => role.id == GENERAL_USER.id);
-            var userRoles = msg.guild.member(msg.author).roles
-            if((userRoles.cache && userRoles.cache.has(GENERAL_USER)) || await Utilities.hasPermissions(Bot, msg.author.id, "GENERAL_USER") ){
-                LOGSystem.LOG("User already has role, or has permissions", LOGSystem.LEVEL.ERROR, 'Welcome/:rules:')
-                return false; }
-
-            await msg.guild.member(msg.author).roles.add(GENERAL_USER)
-                .then(async e => {
-                    //msg.guild.channels.cache.find(ch => ch.name === 'general').send(`Welcome, ${msg.author} to ${msg.guild.name}!!`);
-                    if((await Utilities.GetUser(msg.guild.id, msg.author.id)).PermissionsLevel == 0){ // Only set permissions if set to 0 already
-                        await Utilities.SetUserValue(msg.guild.id, msg.author.id, "PermissionsLevel", 1);
-                    }
-                    LOGSystem.LOG(`${msg.author.tag} Added as GENERAL_USER of ${msg.guild.name}`);
-                })
-                .catch(console.error);
-            // Don't run regular code in welcome
-            return true;
-        }
-        msg.delete();
-        return false;
-    }
-}
+// Make sure permissions are cleared when user Kicked
+Bot.on('guildMemberRemove', async (guildMember) => {
+    await Utilities.SetUserValue(guildMember.guild.id, guildMember.user.id, "PermissionsLevel", 0)
+        .then(LOGSystem.LOG(`User ${guildMember.user.tag}, REMOVED, Cleared All Permissions`, LOGSystem.LEVEL.INFO, "guildMemberRemove"));
+});
 
 Bot.login(token);

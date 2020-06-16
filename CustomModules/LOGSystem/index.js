@@ -38,7 +38,7 @@ exports.LOG = (CONTENTS, LVL = this.LEVEL.INFO, funcName) => {
                 LOGCONTENTS += "[MUSIC----]";
             break;
             default:
-                LOGCONTENTS += "[NULL-----]";
+                LOGCONTENTS += `[${LVL}]`;
             break;
         }
         if(funcName){
