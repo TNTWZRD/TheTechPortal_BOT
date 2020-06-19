@@ -1,4 +1,6 @@
 const Utilities = require('Utilities')
+const fetch = require('node-fetch')
+const querystring = require('querystring')
 const YTDL = require('ytdl-core')
 const LOGSystem = require('LOGSystem')
 const Config = require(process.cwd() + '/config.json')
@@ -6,8 +8,8 @@ const Config = require(process.cwd() + '/config.json')
 module.exports = {
     name: 'play',
     aliases: ['p'],
-    description: 'Play music or YT Audio',
-    help: '!play <URL> (OPTIONS): Used to play audio streams',
+    description: 'Play YouTube Video, Playlist, Or Search for song',
+    help: '!play <URL> || <SEARCH STRING>: Play YouTube Video, Playlist, Or Search for song',
     usage: `<URL>`,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.MUSIC,
@@ -24,11 +26,27 @@ module.exports = {
 };
 
 async function getSong(Bot, msg, args, options, serverQueue){
-    YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
-        if(err) throw err;
-        song = { title: info.title, url: info.video_url }
-        execute(Bot, msg, args, options, serverQueue, song)
-    });
+    if(args[0].match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/)){
+        // Is URL Try Get Song
+        YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
+            if(err) throw err;
+            song = { title: info.title, url: info.video_url }
+            execute(Bot, msg, args, options, serverQueue, song);
+        });
+    }else{
+        // Not URL Search UTube
+
+        var querry = querystring.stringify({
+            q:args.join(' '),
+            key:Config.youtubeAPIKey
+        });
+        var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/search?${querry}`).then(r => r.json());
+        YTDL.getInfo(`https://www.youtube.com/watch?v=${searchResults.items[0].id.videoId}`, {filter: 'audioonly'}, (err, info) => {
+            if(err) throw err;
+            song = { title: info.title, url: info.video_url }
+            execute(Bot, msg, args, options, serverQueue, song);
+        });
+    }
 }
 
 async function execute(Bot, msg, args, options, serverQueue, song){

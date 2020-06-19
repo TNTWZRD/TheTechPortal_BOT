@@ -1,0 +1,8 @@
+{
+    "ERRORS":{
+        "ToManyCommands":{
+            "reply":"You May not run more than ${args:0} commands at a time.",
+            "reject":"To Many Commands"
+        }
+    }
+}
