@@ -2,6 +2,7 @@ const Utilities = require('Utilities')
 const fetch = require('node-fetch')
 const querystring = require('querystring')
 const YTDL = require('ytdl-core')
+const Discord = require('discord.js')
 const LOGSystem = require('LOGSystem')
 const Config = require(process.cwd() + '/config.json')
 
@@ -18,21 +19,63 @@ module.exports = {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
-            getSong(Bot, msg, args, OPTIONS, Bot.MusicQueue.get(msg.guild.id));
+            getSong(Bot, msg, args, OPTIONS, Bot.MusicQueue.get(msg.guild.id), _args);
 
             resolve("!Play Executed, No Errors");
         });
     },
 };
 
-async function getSong(Bot, msg, args, options, serverQueue){
+async function getSong(Bot, msg, args, options, serverQueue, _args){
     if(args[0].match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/)){
         // Is URL Try Get Song
-        YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
-            if(err) throw err;
-            song = { title: info.title, url: info.video_url }
-            execute(Bot, msg, args, options, serverQueue, song);
-        });
+        if(args[0].match('playlist') || args[0].match('list')){ // Is Playlist
+            var songsToAdd = [];
+            var playlistID = querystring.parse(args[0].replace(/^.*\?/, ''))
+            var querry = querystring.stringify({
+                part:"snippet",
+                playlistId:playlistID.list,
+                key:Config.youtubeAPIKey, 
+                maxResults: 50
+            });
+            var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
+            searchResults.items.forEach(item => { 
+                songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
+            });
+
+            while(searchResults.nextPageToken != null){
+                var querry = querystring.stringify({
+                    part:"snippet",
+                    playlistId:playlistID.list,
+                    key:Config.youtubeAPIKey, 
+                    maxResults: 50,
+                    pageToken:searchResults.nextPageToken
+                });
+                var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
+                console.log(searchResults.nextPageToken)
+                searchResults.items.forEach(item => { 
+                    songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
+                });
+            }
+
+            // NEED CODE IF MULTIPLE PAGES OF SONGS
+
+            songsToAdd.forEach(e => {
+                YTDL.getInfo(e, {filter: 'audioonly'}, (err, info) => {
+                    if(!err){
+                        song = { title: info.title, url: info.video_url }
+                        execute(Bot, msg, args, options, serverQueue, song, true);
+                    }
+                });
+            });
+            msg.channel.send(`Queued ${songsToAdd.length} Songs!`)
+
+        }else{ // Indiviual Song URL
+            YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
+                song = { title: info.title, url: info.video_url }
+                execute(Bot, msg, args, options, serverQueue, song);
+            });
+        }
     }else{
         // Not URL Search UTube
 
@@ -49,7 +92,7 @@ async function getSong(Bot, msg, args, options, serverQueue){
     }
 }
 
-async function execute(Bot, msg, args, options, serverQueue, song){
+async function execute(Bot, msg, args, options, serverQueue, song, PLAYLIST = false){
     const voiceChannel = msg.member.voice.channel;
     if (!voiceChannel) {
         msg.channel.send("You need to be in a voice channel to play music!");
@@ -83,8 +126,9 @@ async function execute(Bot, msg, args, options, serverQueue, song){
            }
     }else{
         Bot.MusicQueue.get(msg.guild.id).songs.push(song)
-        LOGSystem.LOG(JSON.stringify(Bot.MusicQueue.get(msg.guild.id).songs), LOGSystem.LEVEL.MUSIC, 'execute play')
-        return msg.channel.send(`${song.title} has been added to the queue!`);
+        LOGSystem.LOG('Added: '+JSON.stringify(song)+' To the Queue!', LOGSystem.LEVEL.MUSIC, 'execute play')
+        if(!PLAYLIST) msg.channel.send(`${song.title} has been added to the queue!`);
+        return;
     }
 }
 
@@ -101,7 +145,18 @@ function play(Bot, guild, song){
             play(Bot, guild, Bot.MusicQueue.get(guild.id).songs[0]);
         })
         .on("error", error => console.error(error));
-    dispatcher.setVolumeLogarithmic(Bot.MusicQueue.get(guild.id).volume / 5);
-    Bot.MusicQueue.get(guild.id).textChannel.send(`Start playing: **${song.title}**`);
-    LOGSystem.LOG(JSON.stringify(Bot.MusicQueue.get(guild.id).songs), LOGSystem.LEVEL.MUSIC, 'PLAY')
+        dispatcher.setVolumeLogarithmic(Bot.MusicQueue.get(guild.id).volume / 5);
+        if(!Bot.MusicQueue.get(guild.id).playingMsgId || Bot.MusicQueue.get(guild.id).textChannel.lastMessageID != Bot.MusicQueue.get(guild.id).playingMsgId){ 
+            const embed = new Discord.MessageEmbed()
+                .setColor('#EFFF00')
+                .setTitle('Now Playing:')
+                .setDescription(Bot.MusicQueue.get(guild.id).songs[0].title);
+            Bot.MusicQueue.get(guild.id).textChannel.send(embed).then(value => Bot.MusicQueue.get(guild.id).playingMsgId = value.id);
+        }else{
+            const embed = new Discord.MessageEmbed()
+                .setColor('#EFFF00')
+                .setTitle('Now Playing:')
+                .setDescription(Bot.MusicQueue.get(guild.id).songs[0].title);
+            Bot.MusicQueue.get(guild.id).textChannel.messages.resolve(Bot.MusicQueue.get(guild.id).playingMsgId).edit(embed);
+        }
 }

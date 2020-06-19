@@ -16,9 +16,7 @@ module.exports = {
             const args = _args.ARGS;
 
             if (!msg.member.voice.channel)
-                return msg.channel.send(
-                "You have to be in a voice channel to stop the music!"
-                );
+                return msg.channel.send("You have to be in a voice channel to stop the music!");
             if (!Bot.MusicQueue.get(msg.guild.id))
                 return msg.channel.send("There is no song that I could skip!");
             Bot.MusicQueue.get(msg.guild.id).connection.dispatcher.end();
