@@ -147,6 +147,7 @@ Bot.on('raw', async event => {
     const user = await Bot.users.fetch(data.user_id);
     const channel = await Bot.channels.fetch(data.channel_id) || await user.createDM();
 
+    if(channel.messages.cache.get(data.message_id)) return false;
     const message = await channel.messages.fetch(data.message_id);
     var reaction = message.reactions.add({
        emoji: data.emoji,
@@ -198,7 +199,7 @@ Bot.on('messageReactionAdd', async (reaction, user) => {
 });
 
 Bot.on('messageReactionRemove', (reaction, user) => {
-    console.log(`${user} removed their "${reaction.emoji.name}" reaction.`);
+    //console.log(`${user} removed their "${reaction.emoji.name}" reaction.`);
 });
 
 

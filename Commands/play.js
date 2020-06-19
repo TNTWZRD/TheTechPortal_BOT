@@ -30,45 +30,7 @@ async function getSong(Bot, msg, args, options, serverQueue, _args){
     if(args[0].match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/)){
         // Is URL Try Get Song
         if(args[0].match('playlist') || args[0].match('list')){ // Is Playlist
-            var songsToAdd = [];
-            var playlistID = querystring.parse(args[0].replace(/^.*\?/, ''))
-            var querry = querystring.stringify({
-                part:"snippet",
-                playlistId:playlistID.list,
-                key:Config.youtubeAPIKey, 
-                maxResults: 50
-            });
-            var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
-            searchResults.items.forEach(item => { 
-                songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
-            });
-
-            while(searchResults.nextPageToken != null){
-                var querry = querystring.stringify({
-                    part:"snippet",
-                    playlistId:playlistID.list,
-                    key:Config.youtubeAPIKey, 
-                    maxResults: 50,
-                    pageToken:searchResults.nextPageToken
-                });
-                var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
-                console.log(searchResults.nextPageToken)
-                searchResults.items.forEach(item => { 
-                    songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
-                });
-            }
-
-            // NEED CODE IF MULTIPLE PAGES OF SONGS
-
-            songsToAdd.forEach(e => {
-                YTDL.getInfo(e, {filter: 'audioonly'}, (err, info) => {
-                    if(!err){
-                        song = { title: info.title, url: info.video_url }
-                        execute(Bot, msg, args, options, serverQueue, song, true);
-                    }
-                });
-            });
-            msg.channel.send(`Queued ${songsToAdd.length} Songs!`)
+            getPlaylist(Bot, msg, args, options, serverQueue);
 
         }else{ // Indiviual Song URL
             YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
@@ -90,6 +52,51 @@ async function getSong(Bot, msg, args, options, serverQueue, _args){
             execute(Bot, msg, args, options, serverQueue, song);
         });
     }
+}
+
+async function getPlaylist(Bot, msg, args, options, serverQueue){
+    return new Promise(async (resolve, reject) => {
+        var songsToAdd = [];
+        var playlistID = querystring.parse(args[0].replace(/^.*\?/, ''))
+        var querry = querystring.stringify({
+            part:"snippet",
+            playlistId:playlistID.list,
+            key:Config.youtubeAPIKey, 
+            maxResults: 50
+        });
+        var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
+        searchResults.items.forEach(item => { 
+            songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
+        });
+
+        while(searchResults.nextPageToken != null){
+            var querry = querystring.stringify({
+                part:"snippet",
+                playlistId:playlistID.list,
+                key:Config.youtubeAPIKey, 
+                maxResults: 50,
+                pageToken:searchResults.nextPageToken
+            });
+            var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?${querry}`).then(r => r.json());
+            console.log(searchResults.nextPageToken)
+            searchResults.items.forEach(item => { 
+                songsToAdd.push(`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`); 
+            });
+        }
+
+        // NEED CODE IF MULTIPLE PAGES OF SONGS
+
+        songsToAdd.forEach(e => {
+            YTDL.getInfo(e, {filter: 'audioonly'}, (err, info) => {
+                if(!err){
+                    song = { title: info.title, url: info.video_url }
+                    execute(Bot, msg, args, options, serverQueue, song, true);
+                }
+            });
+        });
+        msg.channel.send(`Queued ${songsToAdd.length} Songs!`)
+        resolve();
+    });
 }
 
 async function execute(Bot, msg, args, options, serverQueue, song, PLAYLIST = false){
