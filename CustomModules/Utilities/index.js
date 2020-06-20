@@ -278,3 +278,10 @@ exports.shuffleArray = (array) => {
     }
     return array;
 }
+
+exports.camelCaseWord = (str) => {
+    str = str.split(''); 
+    str[0] = str[0].toLocaleUpperCase(); 
+    str = str.join('');
+    return str;
+}

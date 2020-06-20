@@ -9,7 +9,7 @@ const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'queue',
-    aliases: ['q'],
+    aliases: ['q', 'songs'],
     description: 'View The Queue',
     help: '!Queue: View The queue',
     usage: ``,

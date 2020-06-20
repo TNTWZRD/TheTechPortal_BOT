@@ -2,8 +2,8 @@ const Utilities = require('Utilities')
 const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
-    name: 'clear',
-    aliases: ['delete'],
+    name: 'ticket',
+    aliases: [],
     description: 'Clear messages in channel',
     help: '!clear <NUMBER>: clear number of messages',
     usage: `<NUMBER>`,
@@ -21,7 +21,7 @@ module.exports = {
                 msg.reply("MESSAGE");
                 return reject("MESSAGE") }
 
-            resolve("!${Utilities.camelCaseWord(module.exports.name)} Executed, No Errors");
+            resolve(`!${Utilities.camelCaseWord(module.exports.name)} Executed, No Errors`);
         });
 	},
 };
