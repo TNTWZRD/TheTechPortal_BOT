@@ -24,7 +24,7 @@ module.exports = {
             embed.setTitle(`About ${msg.client.user.username}`);
             embed.setURL("https://github.com/TNTWZRD/TheTechPortal_BOT/blob/master/README.md");
             embed.setColor("#00ff00");
-            embed.setDescription(await Utilities.getFile('./README.min.md'));
+            embed.setDescription(await Utilities.getFile('README.min.md'));
             msg.channel.send(embed);
 
             resolve("!AboutBot Executed, No Errors");

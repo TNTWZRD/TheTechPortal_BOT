@@ -10,8 +10,6 @@ var fs = require('fs');
 var config = require(process.cwd() + '/config.json');
 const mysql = require('mysql');
 
-const ServerDirectory = "./Servers/";
-
 var connection = mysql.createConnection({
     host: config.MYSQL.HOST,
     user: config.MYSQL.USER,
@@ -242,6 +240,7 @@ exports.PFFilter = (Bot, msg, pFilter) => {
 
 exports.getFile = (FILE) => {
     var toReturn = null;
+    FILE = process.cwd()+FILE;
     if(fs.existsSync(FILE)){
         toReturn = fs.readFileSync(FILE, 'utf8', function(err, contents){
             if(!err) {
@@ -255,6 +254,18 @@ exports.getFile = (FILE) => {
         toReturn = false;
     }
     return toReturn;
+}
+
+exports.setFileData = (FILE, NewData) => {
+    success = true;
+    FILE = process.cwd()+FILE;
+    fs.writeFileSync(FILE, JSON.stringify(NewData, null, "\t"), function(err){
+        if(err) {
+            LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'setFileData');
+            success = false;
+        }
+    });
+    return success;
 }
 
 exports.randomString = (length) => {

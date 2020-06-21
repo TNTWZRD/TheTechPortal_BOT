@@ -1,10 +1,14 @@
-const Utilities = require('Utilities')
-const fetch = require('node-fetch')
-const querystring = require('querystring')
-const YTDL = require('ytdl-core')
-const Discord = require('discord.js')
-const LOGSystem = require('LOGSystem')
-const Config = require(process.cwd() + '/config.json')
+const Utilities = require('Utilities');
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+const YTDL = require('ytdl-core');
+const Discord = require('discord.js');
+const LOGSystem = require('LOGSystem');
+const Config = require(process.cwd() + '/config.json');
+const HttpsProxyAgent = require('https-proxy-agent');
+
+var ProxySettings = null;
+var agent = null;
 
 module.exports = {
     name: 'play',
@@ -14,8 +18,17 @@ module.exports = {
     usage: `<URL>`,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.MUSIC,
+
     execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
+
+            ProxySettings = require(process.cwd() + '/proxySettings.json');
+            
+            agent = HttpsProxyAgent(`http://${ProxySettings.CurrentProxy[0]}:${ProxySettings.CurrentProxy[0]}`);
+            //     ip: ProxySettings.CurrentProxy[0],   // IP
+            //     port: ProxySettings.CurrentProxy[1], // PORT
+            // });
+
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
@@ -33,10 +46,7 @@ async function getSong(Bot, msg, args, options, serverQueue, _args){
             getPlaylist(Bot, msg, args, options, serverQueue);
 
         }else{ // Indiviual Song URL
-            YTDL.getInfo(args[0], {filter: 'audioonly'}, (err, info) => {
-                song = { title: info.title, url: info.video_url }
-                execute(Bot, msg, args, options, serverQueue, song);
-            });
+            ytdl_proxied(args[0], Bot, msg, args, options, serverQueue)
         }
     }else{
         // Not URL Search UTube
@@ -46,11 +56,7 @@ async function getSong(Bot, msg, args, options, serverQueue, _args){
             key:Config.youtubeAPIKey
         });
         var searchResults = await fetch(`https://www.googleapis.com/youtube/v3/search?${querry}`).then(r => r.json());
-        YTDL.getInfo(`https://www.youtube.com/watch?v=${searchResults.items[0].id.videoId}`, {filter: 'audioonly'}, (err, info) => {
-            if(err) throw err;
-            song = { title: info.title, url: info.video_url }
-            execute(Bot, msg, args, options, serverQueue, song);
-        });
+        ytdl_proxied(`https://www.youtube.com/watch?v=${searchResults.items[0].id.videoId}`, Bot, msg, args, options, serverQueue);
     }
 }
 
@@ -87,16 +93,53 @@ async function getPlaylist(Bot, msg, args, options, serverQueue){
         // NEED CODE IF MULTIPLE PAGES OF SONGS
 
         songsToAdd.forEach(e => {
-            YTDL.getInfo(e, {filter: 'audioonly'}, (err, info) => {
-                if(!err){
-                    song = { title: info.title, url: info.video_url }
-                    execute(Bot, msg, args, options, serverQueue, song, true);
-                }
-            });
+            ytdl_proxied(e, Bot, msg, args, options, serverQueue);
         });
         msg.channel.send(`Queued ${songsToAdd.length} Songs!`)
         resolve();
     });
+}
+
+async function ytdl_proxied(URL, Bot, msg, args, options, serverQueue){
+    // Run YTDL, and change proxies every 100 Lookups
+    if(ProxySettings.CurrentProxySongCount >= ProxySettings.SongsBeforeChangeProxy){
+        ProxySettings.CurrentProxySongCount = 0;
+        if(ProxySettings.ProxyIndex > Config.ProxyList.length) ProxySettings.ProxyIndex = 0;
+        
+        var results = await fetch(`https://api.getproxylist.com/proxy?protocol[]=http`)
+            .then(response => response.json());
+            
+        ProxySettings.CurrentProxy[0] = results.ip;
+        ProxySettings.CurrentProxy[1] = results.port;
+
+        agent = HttpsProxyAgent(`http://${ProxySettings.CurrentProxy[0]}:${ProxySettings.CurrentProxy[0]}`);
+        Utilities.setFileData("proxySettings.json", ProxySettings);
+    }
+
+    var success = false;
+    await YTDL.getInfo(URL, {filter: 'audioonly', requestOptions: { agent }}, (err, info) => {
+        if(!err){
+            song = { title: info.title, url: info.video_url }
+            success = true;
+            execute(Bot, msg, args, options, serverQueue, song, true);
+        }
+        else LOGSystem.LOG(err, LOGSystem.LEVEL.ERROR, 'YTDL_Proxied');
+    });
+    if(success == false) {
+        console.log('Failed');
+        // ProxySettings.CurrentProxySongCount = 0;
+        // var results = await fetch(`https://api.getproxylist.com/proxy?protocol[]=http`)
+        //     .then(response => response.json());
+            
+        // ProxySettings.CurrentProxy[0] = results.ip;
+        // ProxySettings.CurrentProxy[1] = results.port;
+        // agent = HttpsProxyAgent({
+        //     ip: ProxySettings.CurrentProxy[0],   // IP
+        //     port: ProxySettings.CurrentProxy[1], // PORT
+        // });
+        // Utilities.setFileData("proxySettings.json", ProxySettings);
+        // ytdl_proxied(URL); // Try Again
+    }
 }
 
 async function execute(Bot, msg, args, options, serverQueue, song, PLAYLIST = false){
@@ -145,8 +188,11 @@ function play(Bot, guild, song){
         Bot.MusicQueue.delete(guild.id);
         return;
     }
+    ProxySettings.CurrentProxySongCount += 0;
+    Utilities.setFileData("proxySettings.json", ProxySettings);
+
     const dispatcher = Bot.MusicQueue.get(guild.id).connection
-        .play(YTDL(song.url))
+        .play(YTDL(song.url, { requestOptions: { agent } }))
         .on("finish", () => {
             Bot.MusicQueue.get(guild.id).songs.shift();
             play(Bot, guild, Bot.MusicQueue.get(guild.id).songs[0]);
@@ -166,4 +212,5 @@ function play(Bot, guild, song){
                 .setDescription(Bot.MusicQueue.get(guild.id).songs[0].title);
             Bot.MusicQueue.get(guild.id).textChannel.messages.resolve(Bot.MusicQueue.get(guild.id).playingMsgId).edit(embed);
         }
+    
 }
