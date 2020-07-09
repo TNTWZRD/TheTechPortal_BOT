@@ -32,7 +32,7 @@ exports.filterType = (All, fullWords = true) => {
             generateCensorChecks(fullWords)
             return true
         }
-    } else if (ALL == 1) { // Custom Words
+    } else if (All == 1) { // Custom Words
         if(!externalWords){
             var tmp = fs.readFileSync(files.RACIST, 'utf-8', function(err, contents){
                 if(!err) {

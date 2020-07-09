@@ -202,7 +202,7 @@ exports.PFFilter = (Bot, msg, pFilter) => {
             if(value.CurseCount > 0){
                 LOGSystem.LOG(JSON.stringify(value), LOGSystem.LEVEL.PROFANITY, 'censorString');
                 
-                this.embedMessage(Bot, msg, undefined, "Original Message Deleted", `${msg.author.tag}: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.name, false);
+                this.embedMessage(Bot, msg, undefined, `Slapped The Shit out of ${msg.author.tag} for Profanity`, `Original Message: \`\` ${value.NewString}.\`\``, "#ff0000", Bot.user.tag, false);
                 
                 if(Bot.SETTINGS.ProfanityFilterKickBan) {
                     msg.channel.send(`${msg.author}, Racism will not be tolerated in this server, repeated offences will result in a **BAN**.`)
