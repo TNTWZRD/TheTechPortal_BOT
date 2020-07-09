@@ -5,7 +5,7 @@ const Config = require(process.cwd() + '/config.json');
 module.exports = {
 	name: 'help',
 	description: 'List all of my commands or info about a specific command',
-    aliases: ['commands'],
+    aliases: ['commands', '?'],
     help: '!help : List all commands',
 	usage: '<COMMAND>',
 	cooldown: 0,
@@ -23,7 +23,6 @@ module.exports = {
                 if(!e.usage) e.usage = ''; 
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
                 if(msg.guild) {
-                    if(!( usr.PermissionsLevel & Bot.PERMS[e.minPermissions] )) commands.delete(e.name); 
                     if(!((e.module & Bot.SETTINGS.ModulesEnabled)? true : false) && e.module!=0) commands.delete(e.name);
                 }
             });
@@ -32,8 +31,12 @@ module.exports = {
                 if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\n\`\``);
                 else data.push('Here\'s a list of all my commands:\n\`\`');
 
+                commands.each(e => {
+                    if(!(msg.guild && usr.PermissionsLevel & Bot.PERMS[e.minPermissions])) commands.delete(e.name);
+                });
+
                 data.push(commands.map(command => `${(Bot.Prefix)}${command.name} ${command.usage} :: ${command.description}`).join(',\n'));
-                data.push(`\`\`\nYou can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!`);
+                data.push(`\`\`\You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!`);
 
                 msg.author.send(data, { split: true })
                     .then(() => {
@@ -51,17 +54,18 @@ module.exports = {
             const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
             if (!command) {
-                msg.reply('that\'s not a valid command!');
+                msg.reply('that\'s not a valid command.');
                 return reject("!Help Executed, Invalid Command")
             }
-
+            
+            if(msg.guild && !(usr.PermissionsLevel & Bot.PERMS[command.minPermissions])) data.push('** --- INSUFFICENT PERMISSIONS --- **')
             data.push(`**Name:** ${command.name}`);
 
-            if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+            if (command.aliases && command.aliases.length > 0) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
             if (command.description) data.push(`**Description:** ${command.description}`);
             if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
 
-            data.push(`**Cooldown:** ${(command.cooldown) ? 3 : command.cooldown } second(s)`);
+            if( command.cooldown ) data.push(`**Cooldown:** ${(command.cooldown) ? 3 : command.cooldown } second(s)`);
 
             msg.channel.send(data, { split: true });
 

@@ -9,6 +9,7 @@ const commandFiles = fs.readdirSync(commandDir).filter(file => file.endsWith('.j
 module.exports = {
 	name: 'reload',
     description: 'Reloads all commands',
+    guildOnly: true,
     minPermissions: "MODERATOR",
     module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, args) {

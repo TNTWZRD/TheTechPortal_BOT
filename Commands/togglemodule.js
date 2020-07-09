@@ -3,14 +3,14 @@ const Config = require(process.cwd() + '/config.json')
 
 module.exports = {
     name: 'togglemodule',
-    aliases: [''],
+    aliases: ['togglemodules', 'tm'],
     description: 'Change Module States',
     help: '!toggleModule <MODULE> <NEWSTATE(BOOL)>: Change Module States',
     usage: `<MODULE> <NEWSTATE(BOOL)>`,
     args: true,
     guildOnly: true,
     module: Config.MODULES.SYSTEM,
-    minPermissions: "ADMIN",
+    minPermissions: "OWNER",
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
@@ -29,7 +29,7 @@ module.exports = {
             }
 
             // Not Enough Permissions
-            if(!(await Utilities.hasPermissions(Bot, msg.author.id, "ADMIN"))){
+            if(!(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
                 msg.reply("Insufficent Permissions");
                 return reject("Insufficent Permissions") }
                 

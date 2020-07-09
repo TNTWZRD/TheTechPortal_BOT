@@ -117,7 +117,7 @@ async function ytdl_proxied(URL, Bot, msg, args, options, serverQueue){
     }
 
     var success = false;
-    await YTDL.getInfo(URL, {filter: 'audioonly', requestOptions: { agent }}, (err, info) => {
+    await YTDL.getInfo(URL, {filter: 'audioonly' /*, requestOptions: { agent } */}, (err, info) => {
         if(!err){
             song = { title: info.title, url: info.video_url }
             success = true;
@@ -127,18 +127,18 @@ async function ytdl_proxied(URL, Bot, msg, args, options, serverQueue){
     });
     if(success == false) {
         console.log('Failed');
-        // ProxySettings.CurrentProxySongCount = 0;
-        // var results = await fetch(`https://api.getproxylist.com/proxy?protocol[]=http`)
-        //     .then(response => response.json());
+        ProxySettings.CurrentProxySongCount = 0;
+        var results = await fetch(`https://api.getproxylist.com/proxy?protocol[]=http`)
+            .then(response => response.json());
             
-        // ProxySettings.CurrentProxy[0] = results.ip;
-        // ProxySettings.CurrentProxy[1] = results.port;
-        // agent = HttpsProxyAgent({
-        //     ip: ProxySettings.CurrentProxy[0],   // IP
-        //     port: ProxySettings.CurrentProxy[1], // PORT
-        // });
-        // Utilities.setFileData("proxySettings.json", ProxySettings);
-        // ytdl_proxied(URL); // Try Again
+        ProxySettings.CurrentProxy[0] = results.ip;
+        ProxySettings.CurrentProxy[1] = results.port;
+        agent = HttpsProxyAgent({
+            ip: ProxySettings.CurrentProxy[0],   // IP
+            port: ProxySettings.CurrentProxy[1], // PORT
+        });
+        Utilities.setFileData("proxySettings.json", ProxySettings);
+        ytdl_proxied(URL); // Try Again
     }
 }
 
@@ -192,7 +192,7 @@ function play(Bot, guild, song){
     Utilities.setFileData("proxySettings.json", ProxySettings);
 
     const dispatcher = Bot.MusicQueue.get(guild.id).connection
-        .play(YTDL(song.url, { requestOptions: { agent } }))
+        .play(YTDL(song.url, /*{ requestOptions: { agent } }*/))
         .on("finish", () => {
             Bot.MusicQueue.get(guild.id).songs.shift();
             play(Bot, guild, Bot.MusicQueue.get(guild.id).songs[0]);
@@ -211,6 +211,5 @@ function play(Bot, guild, song){
                 .setTitle('Now Playing:')
                 .setDescription(Bot.MusicQueue.get(guild.id).songs[0].title);
             Bot.MusicQueue.get(guild.id).textChannel.messages.resolve(Bot.MusicQueue.get(guild.id).playingMsgId).edit(embed);
-        }
-    
+        }   
 }

@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 Bot.commands = new Discord.Collection();
 Bot.MusicQueue = new Map();
 Bot.MusicStreams = new Map();
-Bot.Config = require(process.cwd() + '/config.json');
+Bot.Config = require('./config.json');
 
 const fs = require('fs');
 
