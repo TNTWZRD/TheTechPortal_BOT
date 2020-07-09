@@ -10,7 +10,7 @@ module.exports = {
     minPermissions: "GENERAL_USER",
     args: false,
     guildOnly: true,
-    module: Config.MODULES.FUN,
+    module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;

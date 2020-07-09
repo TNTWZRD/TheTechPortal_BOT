@@ -225,7 +225,7 @@ Bot.on('message', async msg => {
         else if(tmp != []){
             var Words = JSON.parse(Bot.SETTINGS.ProfanityFilterCustomWordList);
             pFilter.importBadWords(Words); }
-        if(Bot.SETTINGS.ProfanityFilterCustom != -1) pFilter.filterType(!Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
+        if(Bot.SETTINGS.ProfanityFilterCustom != -1) pFilter.filterType(Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
         Bot.Prefix = Bot.SETTINGS.Prefix;
     }
     else {

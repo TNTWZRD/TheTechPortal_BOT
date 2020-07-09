@@ -19,7 +19,7 @@ exports.importBadWords = (NewBadwords) => {
 }
 
 exports.filterType = (All, fullWords = true) => {
-    if(All){
+    if(All == 0){
         var tmp = fs.readFileSync(files.ALL, 'utf-8', function(err, contents){
             if(!err) {
                 return contents;
@@ -32,7 +32,7 @@ exports.filterType = (All, fullWords = true) => {
             generateCensorChecks(fullWords)
             return true
         }
-    } else { // Custom Words
+    } else if (ALL == 1) { // Custom Words
         if(!externalWords){
             var tmp = fs.readFileSync(files.RACIST, 'utf-8', function(err, contents){
                 if(!err) {
