@@ -127,7 +127,7 @@ exports.getArgs = (msg) => {
     var str = msg;
 
     // Get Options
-    var options = str.match(/(\s[-]+.)/g)
+    var options = str.match(/(\s[-]+[^0-9])/g)
     // Remove spaces
     if(options) options.forEach((val, index) => { options[index] = val.replace(' ', ''); });
     // Remove Options from str

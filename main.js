@@ -39,8 +39,8 @@ async function parseMessage(msg) {
                 msg.reply("You may not run more than 3 commands at a time.");
                 return reject("To many commands"); }
         }
-
-        if(msg.guild) Utilities.PFFilter(Bot, msg, pFilter);
+        
+        if(msg.guild && Bot.SETTINGS.ProfanityFilterCustom != -1) Utilities.PFFilter(Bot, msg, pFilter);
 
         // Handle each command seperately
         commandsArray.forEach(commandsArrayObj => {
