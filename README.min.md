@@ -1,13 +1,3 @@
-# TheTechPortal_BOT
-
-Discord Bot written in Node.JS
-Commonly found in servers as : The Guru
-
-## Authors
-
-* **Daniel Jajliardo** - *All Coding* - https://github.com/TNTWZRD
-* **Daniel Fitzpatric** - *Ideas / Project Manager* - https://github.com/Chaos-incarnate
-
-## License
-
-This project is licensed under the AGPL-3.0 License - see the [LICENSE.md] file for details
+version https://git-lfs.github.com/spec/v1
+oid sha256:59c7780fa58cf602cacd0ef3b93ef1bcc6ee7b99feaddf7cb987f1a7e7b71499
+size 365

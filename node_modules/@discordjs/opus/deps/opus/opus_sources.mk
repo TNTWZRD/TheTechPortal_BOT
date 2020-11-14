@@ -1,16 +1,3 @@
-OPUS_SOURCES = \
-src/opus.c \
-src/opus_decoder.c \
-src/opus_encoder.c \
-src/opus_multistream.c \
-src/opus_multistream_encoder.c \
-src/opus_multistream_decoder.c \
-src/repacketizer.c \
-src/opus_projection_encoder.c \
-src/opus_projection_decoder.c \
-src/mapping_matrix.c
-
-OPUS_SOURCES_FLOAT = \
-src/analysis.c \
-src/mlp.c \
-src/mlp_data.c
+version https://git-lfs.github.com/spec/v1
+oid sha256:860d8650b668cff46d303f1e2b854244d4acf3a7379a2d63079b5c3bbec9eea5
+size 337

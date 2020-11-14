@@ -1,29 +1,3 @@
-const Utilities = require('Utilities')
-const Config = require(process.cwd() + '/config.json')
-
-module.exports = {
-    name: 'bogus',
-    aliases: [''],
-    description: '',
-    help: '!bogus (NUM): A random Command',
-    usage: `(NUM)`,
-    args: false,
-    guildOnly: false,
-    minPermissions: "GENERAL_USER",
-    module: Config.MODULES.FUN,
-	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
-            const OPTIONS = _args.OPTIONS;
-            const args = _args.ARGS;
-
-            // Condition
-            if(false){
-                msg.reply("MESSAGE");
-                return reject("MESSAGE") }
-            
-            msg.channel.send(`Bogus Reply ${args.join(' ')}`);
-
-            resolve("!Bogus Executed, No Errors");
-        });
-	},
-};
+version https://git-lfs.github.com/spec/v1
+oid sha256:bfb95f42edf7aeb85ccd5eaf47eb3b14ae534b7f4120bd6f2cfa51cdda16a827
+size 778

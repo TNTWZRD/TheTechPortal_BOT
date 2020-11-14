@@ -1,8 +1,3 @@
-{
-    "ERRORS":{
-        "ToManyCommands":{
-            "reply":"You May not run more than ${args:0} commands at a time.",
-            "reject":"To Many Commands"
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7255c6549ab79f6e796777bc5377afb2b8dbfe5f3725ae2e9ece697a90bb9880
+size 180

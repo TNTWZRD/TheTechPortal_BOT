@@ -1,12 +1,3 @@
-{
-  "name": "LOGSystem",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "TNTWZRD",
-  "license": "ISC"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fb1b4834c15e37a886181dc41f56046812a3731bb7da61a4193f2aaebff72350
+size 230

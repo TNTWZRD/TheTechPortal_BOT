@@ -1,9 +1,3 @@
-OPUS_HEAD = \
-include/opus.h \
-include/opus_multistream.h \
-include/opus_projection.h \
-src/opus_private.h \
-src/analysis.h \
-src/mapping_matrix.h \
-src/mlp.h \
-src/tansig_table.h
+version https://git-lfs.github.com/spec/v1
+oid sha256:706dda3d7e42c79cb66aff2c18db5da48de08bfea357eb690b9b4b0d7d532177
+size 180

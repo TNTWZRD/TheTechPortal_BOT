@@ -1,16 +1,3 @@
-# Opus codec reference implementation pkg-config file
-
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-includedir=@includedir@
-
-Name: Opus
-Description: Opus IETF audio codec (@PC_BUILD@ build)
-URL: https://opus-codec.org/
-Version: @VERSION@
-Requires:
-Conflicts:
-Libs: -L${libdir} -lopus
-Libs.private: @LIBM@
-Cflags: -I${includedir}/opus
+version https://git-lfs.github.com/spec/v1
+oid sha256:33529e32f3c32ceb16a52b115de03c83d0256a9cc194c0fe80b125c56987354d
+size 347

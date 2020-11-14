@@ -1,19 +1,3 @@
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `Servers`
---
-ALTER TABLE `Servers`
-  ADD PRIMARY KEY (`SUID`),
-  ADD UNIQUE KEY `SUID` (`SUID`);
-
---
--- Indexes for table `Users`
---
-ALTER TABLE `Users`
-  ADD PRIMARY KEY (`SUID`,`UID`),
-  ADD KEY `SUID` (`SUID`),
-  ADD KEY `UID` (`UID`);
+version https://git-lfs.github.com/spec/v1
+oid sha256:efca26b6f4aa63070393015f5484eb70f4d47fd3d3af9597e5880d60c568d148
+size 300

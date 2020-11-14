@@ -1,13 +1,3 @@
-{
-    "cSpell.ignoreWords": [
-        "banbuilder",
-        "cmds",
-        "dayn",
-        "logcontents"
-    ],
-    "cSpell.words": [
-        "cooldowns",
-        "keyv"
-    ],
-    "git.ignoreLimitWarning": true
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fd8ce7212cf22da4ae390576a221c21de51a3e3ba805a262ca99d6ccaa52876f
+size 214
