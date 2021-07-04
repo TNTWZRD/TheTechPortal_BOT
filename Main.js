@@ -1,30 +1,34 @@
 const Discord = require('discord.js');
 const Bot = new Discord.Client();
 const fetch = require('node-fetch');
+const fs = require('fs');
+
 Bot.commands = new Discord.Collection();
 Bot.MusicQueue = new Map();
 Bot.MusicStreams = new Map();
 Bot.Config = require('./config.json');
-
-const fs = require('fs');
-
-// Get all commands from ./Commands/
-const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
 const { PERMISSIONS, prefix, token, DEBUG } = require(process.cwd() + '/config.json');
 Bot.PERMS = PERMISSIONS;                 // << Permissions Visible Anywhere
 const LOGSystem = require('LOGSystem');  // << Custom Log Module
 const Utilities = require('Utilities');  // << Custom Utilities Module
 const pFilter   = require('banbuilder'); // << Custom Profanity FIlter Module
-
 const cooldowns = new Discord.Collection();
 
-// Load All Commands:
-for (const file of commandFiles) {
-    const command = require(`./Commands/${file}`);
-    // Add command to collection as name:command()
-    Bot.commands.set(command.name, command);
+
+function init(){
+    // Get all commands from ./Commands/
+    commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
+    // Load All Commands:
+    for (file of commandFiles) {
+        command = require(`./Commands/${file}`);
+        // Add command to collection as name:command()
+        Bot.commands.set(command.name, command);
+    }
 }
+
+Bot.init = init
+Bot.init()
 
 async function parseMessage(msg) {
     return new Promise(async (resolve, reject) => {

@@ -20,17 +20,9 @@ module.exports = {
                     return reject("Insufficient Permissions") }
             }
 
-            // Maybe?
-            // process.exit(1);
+            console.log(Bot.commands.sweep(command => command.name != null))
+            Bot.init()
 
-            Bot.commands.each(obj => {
-                delete require.cache[require.resolve(commandDir+`/${obj.name}.js`)];
-            });
-            for (const file of commandFiles) {
-                const command = require(commandDir+`/${file}`);
-                // Add command to collection as name:command()
-                msg.client.commands.set(command.name, command);
-            }
             msg.reply("Command modules reloaded!");
             return resolve("!Reload Executed, No Errors")
         });
