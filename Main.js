@@ -142,6 +142,7 @@ async function parseMessage(msg) {
 Bot.once('ready', () => {
     LOGSystem.LOG("Bot READY", undefined, 'BotReady');
     pFilter.filterType(1, 1);
+    LOGSystem.test() // Just for fun but nice to know its working right?
 });
 
 // Log all Bot Warnings
