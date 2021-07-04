@@ -1,0 +1,37 @@
+{
+  "name": "thetechportal_bot",
+  "version": "1.0.0",
+  "description": "TheTechPortal Bot",
+  "main": "Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TNTWZRD/TheTechPortal_BOT.git"
+  },
+  "author": "TNTWZRD, Lunar_Chaos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TNTWZRD/TheTechPortal_BOT/issues"
+  },
+  "homepage": "https://github.com/TNTWZRD/TheTechPortal_BOT#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "LOGSystem": "file:CustomModules/LOGSystem",
+    "Utilities": "file:CustomModules/Utilities",
+    "banbuilder": "file:CustomModules/BanBuilder.js",
+    "canvas": "^2.6.1",
+    "discord.js": "^12.5.3",
+    "eslint": "^7.13.0",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.7",
+    "https-proxy-agent": "^5.0.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
+    "node-html-to-image": "^3.1.0",
+    "node-pre-gyp": "^0.14.0",
+    "wordwrap": "^1.0.0",
+    "ytdl-core": "^2.1.7"
+  }
+}

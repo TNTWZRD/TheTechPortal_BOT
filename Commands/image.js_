@@ -1,0 +1,64 @@
+const Utilities = require('Utilities')
+const Config = require(process.cwd() + '/config.json')
+const wrap = require('wordwrap')(30)
+const { createCanvas, loadImage } = require('canvas')
+
+const cards_response = require(process.cwd() + '/Resources/Card_Response.json')
+const cards_prompts  = require(process.cwd() + '/Resources/Card_Prompts.json')
+
+module.exports = {
+    name: 'image',
+    aliases: ['img'],
+    description: 'Generate Image from text',
+    help: '!image <TEXT>: Generate image with text',
+    usage: `<TEXT>`,
+    args: false,
+    guildOnly: false,
+    module: Config.MODULES.FUN,
+    minPermissions: "GENERAL_USER",
+	execute(Bot, msg, _args) {
+        return new Promise(async (resolve, reject) => {
+            const OPTIONS = _args.OPTIONS;
+            const args = _args.ARGS;
+
+            console.log(OPTIONS)
+
+            text = "";
+            deck = false
+            if(args[0]){
+                text = wrap(args.join(' '))
+                deck = "Custom Discord Card"
+            }
+            else{
+                Deck = Object.keys(cards_response)[Math.floor(Math.random()*Object.keys(cards_response).length)];
+                Card = cards_response[Deck][Math.floor(Math.random()*cards_response[Deck].length)];
+                console.log(Card)
+                text = wrap(Card.card);
+
+                deck = wrap(Deck);
+            }
+
+            size = [702, 1136]
+            canvas = createCanvas(size[0], size[1])
+
+            ctx = canvas.getContext("2d")
+
+            await loadImage(process.cwd() + '/Resources/cardBackground.png').then((image) => {
+                ctx.drawImage(image, 0, 0, size[0], size[1])
+            })
+
+            ctx.font = "32px Impact";
+            ctx.fillText(text, 150, 175, 400);
+            if(deck) ctx.fillText(deck, 150, 1000, 400);
+            
+
+            const buffer = canvas.toBuffer("image/png");
+
+            msg.channel.send({
+                files: [buffer]
+            })
+
+            resolve(`!${Utilities.camelCaseWord(module.exports.name)} Executed, No Errors`);
+        });
+	},
+};
