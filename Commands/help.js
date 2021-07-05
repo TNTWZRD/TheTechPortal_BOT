@@ -35,7 +35,7 @@ module.exports = {
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
                 if(!e.guildOnly) e.guildOnly = false;
                 if(msg.guild) {
-                    if(!((e.module & Bot.SETTINGS.ModulesEnabled)? true : false) && e.module!=0) commands.delete(e.name); }
+                    if(!(((e.module & Bot.SETTINGS.ModulesEnabled)==e.module)? true : false) && e.module!=0) commands.delete(e.name); }
                 
                 // Skip command sorting if we have arguments
                 if(!args.ARGS.length){
@@ -65,7 +65,7 @@ module.exports = {
                 var CommandsDataForPushing = "";
                 // Loop over each MODULE
                 Object.keys(moduleSortedCommands).forEach(MODULE => {
-                    CommandsDataForPushing += `\n**Module: ${MODULE}**\n`;
+                    CommandsDataForPushing += `\n**Module: ${MODULE}** ${!((((e.module & Bot.SETTINGS.ModulesEnabled)==e.module)? true : false) && e.module!=0)? " -DISABLED- \n" : "\n"}`;
                     // Loop over each command in Module
                     Object.keys(moduleSortedCommands[MODULE]).forEach(CMD => {
                         CMD = moduleSortedCommands[MODULE][CMD];
@@ -76,7 +76,7 @@ module.exports = {
 
                 // Add all above data to Data for sending to user
                 data.push(CommandsDataForPushing);
-                data.push(`You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!\nCommands marked with **S** Are Server Only Commands`);
+                data.push(`You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!${(msg.guild)? `\nCommands marked with **S** Are Server Only Commands`: ""}`);
                 
                 // Send Data to user with splitting
                 msg.author.send(data, { split: true })
