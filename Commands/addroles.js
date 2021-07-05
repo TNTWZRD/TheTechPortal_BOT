@@ -37,7 +37,7 @@ module.exports = {
             test = [8, 32, 268435456, 16, 2, 4, 536870912, 8162, 128]; // ADMIN PRIVILEGES
             test.forEach(i => { if(role.permissions.has(i)) isAdmin = true; });
 
-            if(isAdmin && !(Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
+            if(isAdmin && !(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
                 msg.reply("You do not have permissions to add ADMIN roles");
                 return reject("Tried to add admin role."); }
 

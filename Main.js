@@ -49,17 +49,19 @@ async function parseMessage(msg) {
             if(msg.guild && commandsArray.length<=Bot.SETTINGS.MaxChainedCommands+1 && !(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
                 msg.reply("You do not have permissions to run more than 3 commands at a time.");
                 return reject("To many commands"); }
-            // Check if not Server OWNER
-            else if(await !Utilities.hasPermissions(Bot, msg.author.id, "OWNER")){
-                msg.reply("You may not run more than 3 commands at a time.");
-                return reject("To many commands"); }
+            // Check if not Bot OWNER
+            else if(msg.author.id != Config.botOwner){
+                // Make sure not server owner
+                if(!(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
+                    msg.reply("You may not run more than 3 commands at a time.");
+                    return reject("To many commands"); }}
         }
         
         // Enable Profanity Filter if Aplicable
         if(msg.guild && Bot.SETTINGS.ProfanityFilterCustom != -1) Utilities.PFFilter(Bot, msg, pFilter);
 
         // Handle each command seperately
-        commandsArray.forEach(commandsArrayObj => {
+        commandsArray.forEach(async commandsArrayObj => {
             // Get CMD Args
             const args = Utilities.getArgs(commandsArrayObj);
 
@@ -78,6 +80,11 @@ async function parseMessage(msg) {
 
             // Make sure commandOBJ is Valid
             if(!commandOBJ) return reject(`${commandName}: Not a valid command`);
+
+            // Check command perms levels and see what Author has
+            if(msg.guild) if(!(await Utilities.hasPermissions(Bot, msg.author.id, commandOBJ.minPermissions))) { 
+                msg.channel.send(`**${msg.author.username}**, You do not have enough permission to use this command`);
+                return reject("Insufficient Permissions"); }
 
             // Check Cooldown if command is applicable
             if(!cooldowns.has(commandOBJ.name)) cooldowns.set(commandOBJ.name, new Discord.Collection());
@@ -114,7 +121,7 @@ async function parseMessage(msg) {
             }}
 
             // Check if command is guild only and message was sent from DM
-            if(commandOBJ.guildOnly && msg.channel.type !== 'text'){
+            if(commandOBJ.guildOnly && msg.channel.type !== 'text' && commandOBJ.name != 'reload'){
                 msg.reply('I can\'t execute that command inside of DMs!');
                 return reject(`Tried to run ${commandOBJ.name} inside of a DM.`);
             }

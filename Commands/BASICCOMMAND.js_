@@ -21,7 +21,7 @@ module.exports = {
                 msg.reply("MESSAGE");
                 return reject("MESSAGE") }
 
-            resolve("!${Utilities.camelCaseWord(module.exports.name)} Executed, No Errors");
+            resolve(`!${Utilities.camelCaseWord(module.exports.name)} Executed, No Errors`);
         });
 	},
 };
