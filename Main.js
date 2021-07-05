@@ -19,8 +19,14 @@ const cooldowns = new Discord.Collection();
 
 
 function init(){
+    commandFiles = null;
     // Get all commands from ./Commands/
     commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
+
+    Bot.commands.each(obj => {
+        delete require.cache[require.resolve(`${process.cwd()}/Commands/${obj.name}.js`)];
+    });
+
     // Load All Commands:
     for (file of commandFiles) {
         command = require(`./Commands/${file}`);
@@ -110,14 +116,14 @@ async function parseMessage(msg) {
             // Check if command is guild only and message was sent from DM
             if(commandOBJ.guildOnly && msg.channel.type !== 'text'){
                 msg.reply('I can\'t execute that command inside of DMs!');
-                return reject('Tried to run inside of a DM.');
+                return reject(`Tried to run ${commandOBJ.name} inside of a DM.`);
             }
  
             // Set Module Default if NULL
             if(!commandOBJ.module) commandOBJ.module = Bot.Config.MODULES.SYSTEM;
 
             // Check if module command belongs to is loaded for server, if so run command, else exit
-            if(!((commandOBJ.module & Bot.SETTINGS.ModulesEnabled)? true : false) && commandOBJ.module!=0){
+            if(msg.guild && !((commandOBJ.module & Bot.SETTINGS.ModulesEnabled)? true : false) && commandOBJ.module!=0){
                 msg.reply('That Module is not enabled.')
                 return reject('Module Not Enabled.'); }
 

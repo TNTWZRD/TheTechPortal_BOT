@@ -6,6 +6,7 @@ const Config = require(process.cwd() + '/config.json')
 module.exports = {
     name: 'skip',
     aliases: ['s', '>'],
+    guildOnly: true,
     description: 'Skip currently playing song',
     help: '!skip : Skip Song',
     minPermissions: "GENERAL_USER",

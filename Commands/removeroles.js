@@ -8,6 +8,7 @@ module.exports = {
     help: '!+role (@USER) <@ROLE>: Remove role to user/self',
     usage: `(@USER) <@ROLE>`,
     args: true,
+    guildOnly: true,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {

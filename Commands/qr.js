@@ -11,7 +11,7 @@ module.exports = {
     help: '!qr <"Code Data">: Generate a QR Code',
     usage: `<"Code Data">`,
     args: true,
-    guildOnly: true,
+    guildOnly: false,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.FUN,
 	execute(Bot, msg, _args) {

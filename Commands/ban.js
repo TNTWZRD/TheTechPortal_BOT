@@ -7,6 +7,7 @@ module.exports = {
     description: 'Ban User From Server',
     help: '!Ban <@USER> <REASON>: Ban user',
     usage: `<@USER> <REASON>`,
+    guildOnly: true,
     minPermissions: "ADMIN",
     module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {

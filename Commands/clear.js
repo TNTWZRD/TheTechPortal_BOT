@@ -7,6 +7,7 @@ module.exports = {
     description: 'Clear messages in channel',
     help: '!clear <NUMBER>: clear number of messages',
     args: true,
+    guildOnly: true,
     usage: `<NUMBER>`,
     minPermissions: "MODERATOR",
     module: Config.MODULES.SYSTEM,

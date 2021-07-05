@@ -6,6 +6,7 @@ const Config = require(process.cwd() + '/config.json')
 module.exports = {
     name: 'stop',
     aliases: ['x'],
+    guildOnly: true,
     description: 'Stop currently playing song',
     help: '!Stop : Stop Song',
     minPermissions: "GENERAL_USER",

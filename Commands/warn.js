@@ -8,6 +8,7 @@ module.exports = {
     help: '!Warn <@USER> <WARNING> (WarningCounter(bool) = 0): Warn user, Warning counter will add to their server warnings(Default false)',
     usage: `<@USER> <WARNING> <WarningCounter(bool)>`,
     args: true,
+    guildOnly: true,
     minPermissions: "MODERATOR",
     module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {

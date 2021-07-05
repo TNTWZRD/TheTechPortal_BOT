@@ -16,6 +16,7 @@ module.exports = {
     description: 'Play YouTube Video, Playlist, Or Search for song',
     help: '!play <URL> || <SEARCH STRING>: Play YouTube Video, Playlist, Or Search for song',
     usage: `<URL>`,
+    guildOnly: true,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.MUSIC,
 

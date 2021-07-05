@@ -22,6 +22,7 @@ module.exports = {
             commands.each(e => { 
                 if(!e.usage) e.usage = ''; 
                 if(!e.minPermissions) e.minPermissions = "GENERAL_USER";
+                if(!e.guildOnly) e.guildOnly = false;
                 if(msg.guild) {
                     if(!((e.module & Bot.SETTINGS.ModulesEnabled)? true : false) && e.module!=0) commands.delete(e.name);
                 }
@@ -31,12 +32,15 @@ module.exports = {
                 if(msg.guild) data.push(`Here's a list of all commands you have access to in ${msg.guild.name}:\n`);
                 else data.push('Here\'s a list of all my commands:\n');
 
-                commands.each(e => {
+                // only delete commands if run in Guild
+                if(msg.guild) commands.each(e => {
                     if(!(msg.guild && usr.PermissionsLevel & Bot.PERMS[e.minPermissions])) commands.delete(e.name);
                 });
 
-                data.push(commands.map(command => `\`${Utilities.lengthen(`${(Bot.Prefix)}${command.name} ${command.usage}`, 50, char = ' ')}\` :: ${command.description}`).join(', \n'));
-                data.push(`You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!`);
+                if(msg.guild) data.push(commands.map(command => `\`${Utilities.lengthen(`${(Bot.Prefix)}${command.name} ${command.usage}`, 50, char = ' ')}\` :: ${command.description}`).join(', \n'));
+                else data.push(commands.map(command => `\`${Utilities.lengthen(`${(Bot.Prefix)}${command.name} ${command.usage}`, 50, char = ' ')}\` :: ${(command.guildOnly == true)? "**S**": "**-**"} :: ${command.description}`).join(', \n'));
+                
+                data.push(`\nYou can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!\nCommands marked with **S** Are Server Only Commands`);
                 msg.author.send(data, { split: true })
                     .then(() => {
                         if (msg.channel.type === 'dm') return;

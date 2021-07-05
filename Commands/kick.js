@@ -8,6 +8,7 @@ module.exports = {
     help: '!Kick <@USER> <REASON>: Kick user',
     usage: `<@USER> <REASON>`,
     minPermissions: "MODERATOR",
+    guildOnly: true,
     module: Config.MODULES.MODERATION,
 	execute(Bot, msg, _args) {
         return new Promise(async (resolve, reject) => {
