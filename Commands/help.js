@@ -65,7 +65,7 @@ module.exports = {
                 var CommandsDataForPushing = "";
                 // Loop over each MODULE
                 Object.keys(moduleSortedCommands).forEach(MODULE => {
-                    CommandsDataForPushing += `\n**Module: ${MODULE}** ${!((((e.module & Bot.SETTINGS.ModulesEnabled)==e.module)? true : false) && e.module!=0)? " -DISABLED- \n" : "\n"}`;
+                    CommandsDataForPushing += `\n**Module: ${MODULE}** ${(msg.guild)?!((((Bot.Config.MODULES[MODULE] & Bot.SETTINGS.ModulesEnabled)==Bot.Config.MODULES[MODULE])? true : false))? " -DISABLED- \n" : "\n" : "\n"}`;
                     // Loop over each command in Module
                     Object.keys(moduleSortedCommands[MODULE]).forEach(CMD => {
                         CMD = moduleSortedCommands[MODULE][CMD];
@@ -76,7 +76,7 @@ module.exports = {
 
                 // Add all above data to Data for sending to user
                 data.push(CommandsDataForPushing);
-                data.push(`You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!${(msg.guild)? `\nCommands marked with **S** Are Server Only Commands`: ""}`);
+                data.push(`You can send \`${(Bot.Prefix)}help <COMMAND>\` to get info on a specific command!${(msg.guild)? "" : `\nCommands marked with **S** Are Server Only Commands`}`);
                 
                 // Send Data to user with splitting
                 msg.author.send(data, { split: true })
