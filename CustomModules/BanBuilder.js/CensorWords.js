@@ -1,3 +1,5 @@
+// Not even going to comment, it works, but damn do i not know how it all functions correctly!
+
 var badwords = [];
 var censorChecks = null;
 var whiteList = [];
@@ -10,16 +12,17 @@ var files = {
     "RACIST" : __dirname + "/Resources/RacistWordList.json"
 }
 
+// Get badwords from file
 exports.importBadWords = (NewBadwords) => {
-    if(NewBadwords.length <= 0){
-        return false; }
+    if(NewBadwords.length <= 0){ return false; }
     externalWords = true;
     externalWordsList = NewBadwords;
     return true;
 }
 
-exports.filterType = (All, fullWords = true) => {
-    if(All == 0){
+// Set filter type
+exports.filterType = (CustomWords, fullWords = true) => {
+    if(CustomWords == 0){ // all words
         var tmp = fs.readFileSync(files.ALL, 'utf-8', function(err, contents){
             if(!err) {
                 return contents;
@@ -32,7 +35,7 @@ exports.filterType = (All, fullWords = true) => {
             generateCensorChecks(fullWords)
             return true
         }
-    } else if (All == 1) { // Custom Words
+    } else if (CustomWords == 1) { // Custom Words
         if(!externalWords){
             var tmp = fs.readFileSync(files.RACIST, 'utf-8', function(err, contents){
                 if(!err) {
@@ -55,6 +58,7 @@ exports.filterType = (All, fullWords = true) => {
     }
 }
 
+// Generates a regex for each word, PAIN IN THE ASS for my brain
 function generateCensorChecks(fullWords = false){
 
     leet_replace = [];
@@ -86,6 +90,7 @@ function generateCensorChecks(fullWords = false){
     leet_replace['z'] = new RegExp(/(z|z\.|z\-|Ζ)(-|_|\s|\.)?/).source;
 
     censorChecks = [];
+    // Go through every word and make a dictionary of regexes for each word
     for (x = 0; x < badwords.length; x++){
         keys = [leet_replace.keys()];
         tmpCensor = badwords[x].split(''); //< Array Or Chars
@@ -106,10 +111,12 @@ function generateCensorChecks(fullWords = false){
             censorChecks[x] = new RegExp(tmpRegExp, 'i');
         }
     }
+
     // So longer words first!
     censorChecks.reverse();
 }
 
+// this gets called to check strings for profanity
 exports.censorString = (string) => {
     return new Promise((resolve, reject) => {
         if(!censorChecks) reject("Run filterType first!");
