@@ -263,7 +263,6 @@ Bot.on('messageReactionRemove', (reaction, user) => {
 Bot.on('message', async msg => {
     if(msg.author.bot) return; // Ignore messages sent by the bot
 
-
     // Check if in guild or not
     if(msg.guild) {
         // Get Server Settings
@@ -276,6 +275,7 @@ Bot.on('message', async msg => {
 
     // get data for current server: Settings / Users
     if(msg.channel.type === 'text') {
+
         // see if there is a chaneel for bot logs, if so pass to LOGSystem
         LOGSystem.logChannel = msg.guild.channels.cache.find(ch => ch.name === 'bot_log');
 
@@ -327,7 +327,6 @@ Bot.on('guildMemberRemove', async (guildMember) => {
     await Utilities.SetUserValue(guildMember.guild.id, guildMember.user.id, "PermissionsLevel", 0)
         .then(LOGSystem.LOG(`User ${guildMember.user.tag}, REMOVED, Cleared All Permissions`, LOGSystem.LEVEL.INFO, "guildMemberRemove"));
 });
-
 
 // Tell the bot to login
 Bot.login(token);

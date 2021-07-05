@@ -39,7 +39,7 @@ module.exports = {
                 data.push(`||${answer.delivery}||\n`);
             }
 
-            Utilities.embedMessage(Bot, msg, args, Utilities.camelCaseWord("Joke Category " + answer.category), data, '#efff00', "Joke provided by: https://sv443.net/jokeapi/v2/", false)
+            Utilities.embedMessage(Bot, msg, args, Utilities.camelCaseWord("Joke Category: " + answer.category), data, '#efff00', "Joke provided by: https://sv443.net/jokeapi/v2/", false)
 
             resolve("!Joke Executed, No Errors");
         });
