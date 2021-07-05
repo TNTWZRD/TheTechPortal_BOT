@@ -38,23 +38,23 @@ module.exports = {
                     if(!((e.module & Bot.SETTINGS.ModulesEnabled)? true : false) && e.module!=0) commands.delete(e.name); }
                 
                 // Skip command sorting if we have arguments
-                if(args.ARGS.length) return;
-
-                // Dont add command if in a guild on request and dont have enough perms to use
-                if(msg.guild){
-                    if((msg.guild && (usr.PermissionsLevel & Bot.PERMS[e.minPermissions]))){
+                if(!args.ARGS.length){
+                    // Dont add command if in a guild on request and dont have enough perms to use
+                    if(msg.guild){
+                        if((msg.guild && (usr.PermissionsLevel & Bot.PERMS[e.minPermissions]))){
+                            // Try Sort Commands By Modules:
+                            if(moduleSortedCommands[MODULES_NAMES[e.module]]) moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e;
+                            else { // Module not already in list, add new
+                                moduleSortedCommands[MODULES_NAMES[e.module]] = [];
+                                moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e; } 
+                    }}
+                    else{ // Not in guild asking commands, SEND ALLLLLL
                         // Try Sort Commands By Modules:
                         if(moduleSortedCommands[MODULES_NAMES[e.module]]) moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e;
                         else { // Module not already in list, add new
                             moduleSortedCommands[MODULES_NAMES[e.module]] = [];
-                            moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e; } 
-                }}
-                else{ // Not in guild asking commands, SEND ALLLLLL
-                    // Try Sort Commands By Modules:
-                    if(moduleSortedCommands[MODULES_NAMES[e.module]]) moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e;
-                    else { // Module not already in list, add new
-                        moduleSortedCommands[MODULES_NAMES[e.module]] = [];
-                        moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e; }}
+                            moduleSortedCommands[MODULES_NAMES[e.module]][e.name] = e; }}
+                }
             });
 
             // Run this if there are no arguments
@@ -104,17 +104,16 @@ module.exports = {
                 return reject("!Help Executed, Invalid Command"); }
             
             // Check if User has Guild permissions to run this command, if so we can display help
-            if(msg.guild && !(usr.PermissionsLevel & Bot.PERMS[command.minPermissions])) data.push('** --- INSUFFICENT PERMISSIONS --- **')
-            data.push(`**Name:** ${command.name}`);
-
+            if(msg.guild && !(usr.PermissionsLevel & Bot.PERMS[command.minPermissions])) data.push(' --- INSUFFICENT PERMISSIONS --- \n')
+            
             // Formatting for Command Embeds
-            if (command.aliases && command.aliases.length > 0) data.push(`**Aliases:** ${command.aliases.join(', ')}`); // Add Aliases to Embed
-            if (command.description) data.push(`**Description:** ${command.description}`);                              // Add Description to embed
-            if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);                       // Add Usage text to embed
-            if( command.cooldown ) data.push(`**Cooldown:** ${(command.cooldown) ? 3 : command.cooldown } second(s)`);  // Add Cooldown info to embed
+            if (command.aliases && command.aliases.length > 0) data.push(`**Aliases:** ${command.aliases.join(', ')}\n`); // Add Aliases to Embed
+            if (command.description) data.push(`**Description:** ${command.description}\n`);                              // Add Description to embed
+            if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}\n`);                       // Add Usage text to embed
+            if( command.cooldown ) data.push(`**Cooldown:** ${(command.cooldown) ? 3 : command.cooldown } second(s)\n`);  // Add Cooldown info to embed
 
-            // all done, send embed!
-            msg.channel.send(data, { split: true });
+            //Embed!
+            Utilities.embedMessage(Bot, msg, args, `**Command: ${Bot.Prefix}${Utilities.camelCaseWord(command.name)}**`, data, '#ff6600', "", false)
 
             // FINALY we are done here!
             return resolve("!Help Executed, No Errors");

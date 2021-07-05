@@ -12,11 +12,12 @@ module.exports = {
     minPermissions: "MODERATOR",
     module: Config.MODULES.SYSTEM,
 	execute(Bot, msg, _args) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const OPTIONS = _args.OPTIONS;
             const args = _args.ARGS;
 
-            if(Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
+            console.log(await Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR"))
+            if(await Utilities.hasPermissions(Bot, msg.author.id, "MODERATOR")){
                 if (!args[0]) {
                     msg.reply("Error please define second arg") 
                     return reject("Didn't Supply Enough Arguments") }

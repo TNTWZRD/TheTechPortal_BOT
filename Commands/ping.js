@@ -5,7 +5,7 @@ module.exports = {
     description: 'Ping!',
     help: '!ping : Used to ping the bot',
     guildOnly: false,
-    cooldown: 0,
+    cooldown: 15,
     minPermissions: "GENERAL_USER",
     module: Config.MODULES.SYSTEM,
     execute(Bot, msg, args) {

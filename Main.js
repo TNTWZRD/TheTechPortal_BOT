@@ -94,7 +94,7 @@ async function parseMessage(msg) {
                 const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
                 if(now < expirationTime) {
                     // Author running command to fast time to give a warning
-                    const timeLeft =  (commandOBJ.cooldown || 0) * 1000;
+                    const timeLeft =  (commandOBJ.cooldown || 0);
                     msg.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandOBJ.name}\` command.`)
                     return reject("Tried to run command to fast");
             }}

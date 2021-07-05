@@ -122,10 +122,13 @@ exports.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...`
 exports.lengthen = (str, min, char = '‏‏‎ ') => { while(str.length < min) str += char; return str; }
 
 // Check if user has permissions level
-exports.hasPermissions = async (Bot, UserID, LEVEL) => { 
+exports.hasPermissions = async (Bot, UserID, LEVEL) => {
     // Get user data
     var perm = await this.GetUser(Bot.SETTINGS.SUID, UserID);
-    LOGSystem.LOG(`SUID = ${Bot.SETTINGS.SUID} AND UID = ${UserID}, ${perm.PermissionsLevel} == ${LEVEL} <<-- ${(perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]}`, LOGSystem.LEVEL.DEBUG, 'Modules/Utilities');
+    LOGSystem.LOG(
+        `SUID = ${Bot.SETTINGS.SUID} AND UID = ${UserID}, ${perm.PermissionsLevel} == ${LEVEL} <<-- ${((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL])}`, 
+        LOGSystem.LEVEL.DEBUG, 
+        'Modules/Utilities');
     return ((perm.PermissionsLevel & Bot.PERMS[LEVEL]) == Bot.PERMS[LEVEL]); // Retrun BOOL if Perms match or not
 }
 
