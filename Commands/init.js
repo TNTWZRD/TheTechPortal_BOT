@@ -18,13 +18,13 @@ module.exports = {
 
             // Condition
             if(!(await Utilities.hasPermissions(Bot, msg.author.id, "OWNER"))){
-                msg.reply("You do not have the required priveleges to run this command");
-                return reject("Insufficent Perms"); }
+                msg.reply("You do not have the required privileges to run this command");
+                return reject("Insufficient Perms"); }
             
             var random = Utilities.randomString(50);
             Utilities.SetServerValue(Bot.SETTINGS.SUID, "AuthCode", random);
             msg.author.createDM()
-                .then(dmChannel => { dmChannel.send(`Your AuthCode for Server:'${Bot.SETTINGS.SUID}', Is: '${random}', Register https://gurubot.app/?register To Monitor your bot!`) });
+                .then(dmChannel => { dmChannel.send(`Your AuthCode for Server:'${Bot.SETTINGS.SUID}', Is: '${random}', Register https://gurubot.jajliardo.com/?register To Monitor your bot!`) });
 
             resolve("!Init Executed, No Errors");
         });

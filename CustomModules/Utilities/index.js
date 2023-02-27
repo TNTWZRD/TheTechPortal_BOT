@@ -35,11 +35,13 @@ exports.GetServer = (ServerID, ServerName) => {
             if(err) reject(err);
             if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0]))); // Return Result
             else{ // Create New Entry, server Doesnt Exist
-                var query = `INSERT INTO \`Servers\`(\`SUID\`, \`ServerName\`) VALUES ('${ServerID}','${ServerName}')`;
+                var query = `INSERT INTO \`Servers\`(\`SUID\`, \`ServerName\`) VALUES ('${ServerID}',"${ServerName}")`;
+                LOGSystem.LOG("Query " + query, undefined, 'Modules/Utilities');
                 connection.query(query, function(err, result, fields){
                     if(err) reject(err);
                     // Created server now return defualt settings
                     var query = `SELECT * FROM \`Servers\` WHERE \`SUID\` = '${ServerID}'`;
+                    LOGSystem.LOG("Query " + query, undefined, 'Modules/Utilities');
                     connection.query(query, (err, result) => {
                         if(err) reject(err);
                             if(result.length > 0) return resolve(JSON.parse(JSON.stringify(result[0]))); // return result after creating empty.
