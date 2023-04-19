@@ -290,15 +290,19 @@ Bot.on('message', async msg => {
         var tmp = Bot.SETTINGS.ProfanityFilterCustomWordList
         // Check if list is a url or not
         tmp = tmp.match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i);
-        if(tmp) { // ProfanityCustomWordList = URL
-            // Fetch URL and pass to profanity Filter
-            var Words = await fetch(tmp[0]).then(e => e.json());
-            pFilter.importBadWords(Words); }
-        else if(tmp != []){
-            // Check if json array, if so pass to Profanity filter
-            var Words = JSON.parse(Bot.SETTINGS.ProfanityFilterCustomWordList);
-            pFilter.importBadWords(Words); }
-        
+        if (true) { //Added due to domain expiration
+            if(tmp) { // ProfanityCustomWordList = URL
+                // Fetch URL and pass to profanity Filter
+                var Words = await fetch(tmp[0]).then(e => e.json());
+                pFilter.importBadWords(Words);
+            }
+            else if(tmp != []){
+                // Check if json array, if so pass to Profanity filter
+                var Words = JSON.parse(Bot.SETTINGS.ProfanityFilterCustomWordList);
+                pFilter.importBadWords(Words);
+            }
+        }
+        //Bot.SETTINGS.ProfanityFilterCustom = -1 // Added due to domain expiration
         // Check to see what mode profanity filter should be set to -1 = dissabled
         if(Bot.SETTINGS.ProfanityFilterCustom != -1) pFilter.filterType(Bot.SETTINGS.ProfanityFilterCustom, Bot.SETTINGS.ProfanityFilterFullWords);
         // Tell Bot what our prefix is
